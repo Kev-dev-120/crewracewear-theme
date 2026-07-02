@@ -1,25 +1,71 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
 {
   "sections": {
     "hero": {
       "type": "hero-banner",
       "settings": {
+        "image": "shopify://shop_images/IMG_7991.jpg",
+        "bg_color": "#0a0a0a",
         "eyebrow": "SEASON 2026",
         "heading": "BORN ON THE STARTING LINE",
         "subheading": "Race-tested apparel built for the gate drop and everything after.",
         "text_position": "bottom-left",
         "button_label": "SHOP STRIKE",
-        "button_label_2": "LEARN MORE"
+        "button_url": "",
+        "button_label_2": "LEARN MORE",
+        "button_url_2": ""
       }
     },
     "categories": {
       "type": "category-tiles",
       "blocks": {
-        "strike": { "type": "tile", "settings": { "title": "STRIKE" } },
-        "surge": { "type": "tile", "settings": { "title": "SURGE" } },
-        "rgb": { "type": "tile", "settings": { "title": "RGB COLLECTION" } },
-        "tees": { "type": "tile", "settings": { "title": "TEES" } }
+        "strike": {
+          "type": "tile",
+          "settings": {
+            "image": "shopify://shop_images/IMG_0257.jpg",
+            "title": "STRIKE",
+            "url": ""
+          }
+        },
+        "surge": {
+          "type": "tile",
+          "settings": {
+            "image": "shopify://shop_images/image.jpg",
+            "title": "SURGE",
+            "url": ""
+          }
+        },
+        "rgb": {
+          "type": "tile",
+          "settings": {
+            "image": "shopify://shop_images/Mx_Bikes_Screenshot_2025.12.22_-_23.30.31.29.jpg",
+            "title": "MXBIKES Gear",
+            "url": ""
+          }
+        },
+        "tees": {
+          "type": "tile",
+          "settings": {
+            "image": "shopify://shop_images/789BD257-390D-47AD-BCB6-90CB28BCEF86.jpg",
+            "title": "MERCH",
+            "url": ""
+          }
+        }
       },
-      "block_order": ["strike", "surge", "rgb", "tees"],
+      "block_order": [
+        "strike",
+        "surge",
+        "rgb",
+        "tees"
+      ],
       "settings": {
         "heading": "SHOP BY COLLECTION"
       }
@@ -28,6 +74,7 @@
       "type": "featured-collection",
       "settings": {
         "heading": "NEW ARRIVALS",
+        "collection": "",
         "products_to_show": 4
       }
     },
@@ -38,9 +85,15 @@
         "eyebrow": "OUR STORY",
         "heading": "BUILT BY RACERS, FOR RACERS",
         "text": "<p>Crew Racewear started in the pits, not the boardroom. Every piece is tested at the track before it ever hits the shop.</p>",
-        "button_label": "ABOUT US"
+        "button_label": "ABOUT US",
+        "button_url": ""
       }
     }
   },
-  "order": ["hero", "categories", "featured", "story"]
+  "order": [
+    "hero",
+    "categories",
+    "featured",
+    "story"
+  ]
 }
