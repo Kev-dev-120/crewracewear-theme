@@ -1,0 +1,36 @@
+[
+  {
+    "name": "theme_info",
+    "theme_name": "Crew Racewear",
+    "theme_version": "1.0.0",
+    "theme_author": "Crew Racewear",
+    "theme_documentation_url": "",
+    "theme_support_url": "mailto:crewracewear@gmail.com"
+  },
+  {
+    "name": "Colors",
+    "settings": [
+      { "type": "header", "content": "Brand colors" },
+      { "type": "color", "id": "color_black", "label": "Black", "default": "#0a0a0a" },
+      { "type": "color", "id": "color_accent", "label": "Accent (signature color)", "default": "#d7ff3d" },
+      { "type": "color", "id": "color_sale", "label": "Sale color", "default": "#ff3d3d" }
+    ]
+  },
+  {
+    "name": "Typography",
+    "settings": [
+      { "type": "header", "content": "Headings" },
+      { "type": "font_picker", "id": "font_heading", "label": "Heading font", "default": "archivo_n4" },
+      { "type": "header", "content": "Body" },
+      { "type": "font_picker", "id": "font_body", "label": "Body font", "default": "inter_n4" }
+    ]
+  },
+  {
+    "name": "Social media",
+    "settings": [
+      { "type": "url", "id": "social_instagram_link", "label": "Instagram", "default": "https://instagram.com/thecrewmxb" },
+      { "type": "url", "id": "social_youtube_link", "label": "YouTube", "default": "https://youtube.com/@TheCrewRacingmxb" },
+      { "type": "url", "id": "social_discord_link", "label": "Discord" }
+    ]
+  }
+]

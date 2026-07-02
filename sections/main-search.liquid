@@ -1,0 +1,16 @@
+<section class="search-page">
+  <h1>Search results for "{{ search.terms | escape }}"</h1>
+  <div class="product-grid">
+    {%- for item in search.results -%}
+      {%- if item.object_type == 'product' -%}
+        {% render 'product-card', product: item %}
+      {%- endif -%}
+    {%- else -%}
+      <p class="search-page__empty">No results found.</p>
+    {%- endfor -%}
+  </div>
+</section>
+
+{% schema %}
+{ "name": "Search results", "settings": [] }
+{% endschema %}

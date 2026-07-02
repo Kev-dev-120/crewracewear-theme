@@ -1,0 +1,17 @@
+{
+  "type": "header-group",
+  "name": "Header",
+  "sections": {
+    "announcement-bar": {
+      "type": "announcement-bar",
+      "settings": {
+        "message": "FREE SHIPPING ON ORDERS OVER $150 — JOIN THE CREW"
+      }
+    },
+    "header": {
+      "type": "header",
+      "settings": {}
+    }
+  },
+  "order": ["announcement-bar", "header"]
+}

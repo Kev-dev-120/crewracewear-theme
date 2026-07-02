@@ -1,0 +1,36 @@
+<section class="image-with-text image-with-text--{{ section.settings.layout }}">
+  <div class="image-with-text__media">
+    {%- if section.settings.image != blank -%}
+      <img src="{{ section.settings.image | image_url: width: 1200 }}" alt="{{ section.settings.heading | escape }}" loading="lazy" width="1200" height="{{ 1200 | divided_by: section.settings.image.aspect_ratio }}">
+    {%- endif -%}
+  </div>
+  <div class="image-with-text__content">
+    {%- if section.settings.eyebrow != blank -%}<p class="eyebrow">{{ section.settings.eyebrow }}</p>{%- endif -%}
+    <h2>{{ section.settings.heading }}</h2>
+    <div class="rte">{{ section.settings.text }}</div>
+    {%- if section.settings.button_label != blank -%}
+      <a href="{{ section.settings.button_url }}" class="btn btn--primary">{{ section.settings.button_label }}</a>
+    {%- endif -%}
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Image with text",
+  "settings": [
+    { "type": "image_picker", "id": "image", "label": "Image" },
+    { "type": "select", "id": "layout", "label": "Layout", "options": [
+      { "value": "image-left", "label": "Image left" },
+      { "value": "image-right", "label": "Image right" }
+    ], "default": "image-left" },
+    { "type": "text", "id": "eyebrow", "label": "Eyebrow", "default": "OUR STORY" },
+    { "type": "text", "id": "heading", "label": "Heading", "default": "BUILT BY RACERS, FOR RACERS" },
+    { "type": "richtext", "id": "text", "label": "Text", "default": "<p>Crew Racewear started in the pits, not the boardroom. Every piece is tested at the track before it ever hits the shop.</p>" },
+    { "type": "text", "id": "button_label", "label": "Button label", "default": "ABOUT US" },
+    { "type": "url", "id": "button_url", "label": "Button link" }
+  ],
+  "presets": [
+    { "name": "Image with text" }
+  ]
+}
+{% endschema %}

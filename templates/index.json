@@ -1,0 +1,46 @@
+{
+  "sections": {
+    "hero": {
+      "type": "hero-banner",
+      "settings": {
+        "eyebrow": "SEASON 2026",
+        "heading": "BORN ON THE STARTING LINE",
+        "subheading": "Race-tested apparel built for the gate drop and everything after.",
+        "text_position": "bottom-left",
+        "button_label": "SHOP STRIKE",
+        "button_label_2": "LEARN MORE"
+      }
+    },
+    "categories": {
+      "type": "category-tiles",
+      "blocks": {
+        "strike": { "type": "tile", "settings": { "title": "STRIKE" } },
+        "surge": { "type": "tile", "settings": { "title": "SURGE" } },
+        "rgb": { "type": "tile", "settings": { "title": "RGB COLLECTION" } },
+        "tees": { "type": "tile", "settings": { "title": "TEES" } }
+      },
+      "block_order": ["strike", "surge", "rgb", "tees"],
+      "settings": {
+        "heading": "SHOP BY COLLECTION"
+      }
+    },
+    "featured": {
+      "type": "featured-collection",
+      "settings": {
+        "heading": "NEW ARRIVALS",
+        "products_to_show": 4
+      }
+    },
+    "story": {
+      "type": "image-with-text",
+      "settings": {
+        "layout": "image-left",
+        "eyebrow": "OUR STORY",
+        "heading": "BUILT BY RACERS, FOR RACERS",
+        "text": "<p>Crew Racewear started in the pits, not the boardroom. Every piece is tested at the track before it ever hits the shop.</p>",
+        "button_label": "ABOUT US"
+      }
+    }
+  },
+  "order": ["hero", "categories", "featured", "story"]
+}

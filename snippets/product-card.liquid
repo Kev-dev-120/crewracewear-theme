@@ -1,0 +1,45 @@
+{%- comment -%} Accepts: product {%- endcomment -%}
+<div class="product-card">
+  <a href="{{ product.url }}" class="product-card__media">
+    {%- if product.featured_media -%}
+      <img
+        src="{{ product.featured_media | image_url: width: 600 }}"
+        alt="{{ product.featured_media.alt | escape }}"
+        loading="lazy"
+        width="600"
+        height="{{ 600 | divided_by: product.featured_media.aspect_ratio }}"
+        class="product-card__image product-card__image--primary">
+      {%- if product.media[1] -%}
+        <img
+          src="{{ product.media[1] | image_url: width: 600 }}"
+          alt=""
+          loading="lazy"
+          width="600"
+          height="{{ 600 | divided_by: product.media[1].aspect_ratio }}"
+          class="product-card__image product-card__image--secondary">
+      {%- endif -%}
+    {%- else -%}
+      <div class="product-card__placeholder"></div>
+    {%- endif -%}
+    {%- if product.compare_at_price > product.price -%}
+      <span class="product-card__badge">SALE</span>
+    {%- endif -%}
+  </a>
+  <div class="product-card__info">
+    <h3 class="product-card__title"><a href="{{ product.url }}">{{ product.title }}</a></h3>
+    <div class="product-card__price">
+      {%- if product.compare_at_price > product.price -%}
+        <span class="product-card__price--sale">{{ product.price | money }}</span>
+        <span class="product-card__price--compare">{{ product.compare_at_price | money }}</span>
+      {%- else -%}
+        <span>{{ product.price | money }}</span>
+      {%- endif -%}
+    </div>
+  </div>
+  {%- if product.available -%}
+    {% form 'product', product, class: 'product-card__quick-add' %}
+      <input type="hidden" name="id" value="{{ product.selected_or_first_available_variant.id }}">
+      <button type="submit" class="btn btn--quick-add">QUICK ADD</button>
+    {% endform %}
+  {%- endif -%}
+</div>
