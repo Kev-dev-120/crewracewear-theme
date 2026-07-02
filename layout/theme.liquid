@@ -6,6 +6,12 @@
   <meta name="theme-color" content="#0a0a0a">
   <link rel="canonical" href="{{ canonical_url }}">
 
+  {%- if settings.favicon != blank -%}
+    <link rel="icon" type="image/png" href="{{ settings.favicon | image_url: width: 32 }}">
+  {%- else -%}
+    <link rel="icon" type="image/png" href="{{ 'logo-mark-square.png' | asset_url }}">
+  {%- endif -%}
+
   {%- if page_description -%}
     <meta name="description" content="{{ page_description | escape }}">
   {%- endif -%}

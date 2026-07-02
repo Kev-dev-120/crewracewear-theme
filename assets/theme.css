@@ -135,14 +135,7 @@ h1, h2, h3, h4 {
   align-items: center;
   gap: 32px;
 }
-.site-header__logo-text {
-  font-family: var(--font-display);
-  font-weight: 900;
-  font-size: 22px;
-  letter-spacing: -0.01em;
-  text-transform: uppercase;
-  white-space: nowrap;
-}
+.site-header__logo img { display: block; height: auto; }
 .site-header__menu-toggle {
   display: none;
   flex-direction: column;
@@ -419,7 +412,7 @@ h1, h2, h3, h4 {
   grid-template-columns: 1.4fr repeat(auto-fit, minmax(140px, 1fr));
   gap: 40px;
 }
-.site-footer__logo { font-family: var(--font-display); font-weight: 900; font-size: 20px; text-transform: uppercase; }
+.site-footer__logo-image { margin-bottom: 14px; }
 .site-footer__brand p { color: var(--color-gray-700); font-size: 14px; max-width: 260px; }
 .site-footer__socials { display: flex; gap: 12px; margin-top: 16px; }
 .site-footer__socials a {

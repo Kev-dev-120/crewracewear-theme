@@ -2,7 +2,11 @@
   <div class="site-footer__inner">
 
     <div class="site-footer__brand">
-      <span class="site-footer__logo">{{ shop.name | default: 'CREW RACEWEAR' }}</span>
+      {%- if section.settings.logo != blank -%}
+        <img class="site-footer__logo-image" src="{{ section.settings.logo | image_url: width: 300 }}" alt="{{ shop.name | default: 'Crew Racewear' }}" width="140" loading="lazy">
+      {%- else -%}
+        <img class="site-footer__logo-image" src="{{ 'logo-black.png' | asset_url }}" alt="{{ shop.name | default: 'Crew Racewear' }}" width="140" loading="lazy">
+      {%- endif -%}
       <p>{{ section.settings.tagline }}</p>
       <div class="site-footer__socials">
         {%- if section.settings.instagram_url != blank -%}
@@ -42,6 +46,7 @@
 {
   "name": "Footer",
   "settings": [
+    { "type": "image_picker", "id": "logo", "label": "Logo" },
     { "type": "text", "id": "tagline", "label": "Tagline", "default": "Built by racers, for racers." },
     { "type": "text", "id": "contact_email", "label": "Contact email", "default": "crewracewear@gmail.com" },
     { "type": "url", "id": "instagram_url", "label": "Instagram URL" },

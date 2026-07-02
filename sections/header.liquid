@@ -9,7 +9,7 @@
       {%- if section.settings.logo != blank -%}
         <img src="{{ section.settings.logo | image_url: width: 400 }}" alt="{{ shop.name }}" width="{{ section.settings.logo_width }}" loading="eager">
       {%- else -%}
-        <span class="site-header__logo-text">{{ shop.name | default: 'CREW RACEWEAR' }}</span>
+        <img src="{{ 'logo-black.png' | asset_url }}" alt="{{ shop.name | default: 'Crew Racewear' }}" width="{{ section.settings.logo_width }}" loading="eager">
       {%- endif -%}
     </a>
 
