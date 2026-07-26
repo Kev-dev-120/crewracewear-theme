@@ -4,8 +4,7 @@
       "type": "homepage-shop-tabs",
       "settings": {
         "default_tab": "irl",
-        "irl_eyebrow": "STRIKE · SURGE · RGB",
-        "story_image": "shopify://shop_images/AX1A0206.jpg"
+        "irl_eyebrow": "STRIKE · SURGE · RGB"
       },
       "blocks": {
         "kit-strike": {
@@ -23,7 +22,6 @@
         "cat-1": {
           "type": "digital_category",
           "settings": {
-            "image": "shopify://shop_images/Mx_Bikes_Screenshot_2025.12.22_-_23.30.31.29.jpg",
             "title": "Bike Paints / PSDs",
             "subtitle": "MXBikes Gear",
             "format_label": "PSD + Livery"
