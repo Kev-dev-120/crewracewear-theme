@@ -2,10 +2,10 @@
   {
     "name": "theme_info",
     "theme_name": "Crew Racewear",
-    "theme_version": "1.0.0",
+    "theme_version": "1.0.1",
     "theme_author": "Crew Racewear",
-    "theme_documentation_url": "",
-    "theme_support_url": "mailto:crewracewear@gmail.com"
+    "theme_documentation_url": "https://github.com/Kev-dev-120/crewracewear-theme",
+    "theme_support_email": "crewracewear@gmail.com"
   },
   {
     "name": "Logo",
