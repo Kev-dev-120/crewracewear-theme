@@ -74,13 +74,14 @@
       "type": "featured-collection",
       "settings": {
         "heading": "NEW ARRIVALS",
-        "collection": "",
-        "products_to_show": 4
+        "collection": "surge",
+        "products_to_show": 10
       }
     },
     "story": {
       "type": "image-with-text",
       "settings": {
+        "image": "shopify://shop_images/AX1A0206.jpg",
         "layout": "image-left",
         "eyebrow": "OUR STORY",
         "heading": "BUILT BY RACERS, FOR RACERS",
