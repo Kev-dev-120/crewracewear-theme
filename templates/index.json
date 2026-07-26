@@ -1,100 +1,53 @@
-/*
- * ------------------------------------------------------------
- * IMPORTANT: The contents of this file are auto-generated.
- *
- * This file may be updated by the Shopify admin theme editor
- * or related systems. Please exercise caution as any changes
- * made to this file may be overwritten.
- * ------------------------------------------------------------
- */
 {
   "sections": {
-    "hero": {
-      "type": "hero-banner",
+    "homepage_shop_tabs": {
+      "type": "homepage-shop-tabs",
       "settings": {
-        "image": "shopify://shop_images/IMG_7991.jpg",
-        "bg_color": "#0a0a0a",
-        "eyebrow": "SEASON 2026",
-        "heading": "BORN ON THE STARTING LINE",
-        "subheading": "Race-tested apparel built for the gate drop and everything after.",
-        "text_position": "bottom-left",
-        "button_label": "SHOP STRIKE",
-        "button_url": "",
-        "button_label_2": "LEARN MORE",
-        "button_url_2": ""
-      }
-    },
-    "categories": {
-      "type": "category-tiles",
+        "default_tab": "irl",
+        "irl_eyebrow": "STRIKE · SURGE · RGB",
+        "story_image": "shopify://shop_images/AX1A0206.jpg"
+      },
       "blocks": {
-        "strike": {
-          "type": "tile",
-          "settings": {
-            "image": "shopify://shop_images/IMG_0257.jpg",
-            "title": "STRIKE",
-            "url": ""
-          }
+        "kit-strike": {
+          "type": "kit",
+          "settings": { "title": "STRIKE", "swatch_1": "#15151f", "swatch_2": "#ff4f8b", "swatch_3": "#c9302c" }
         },
-        "surge": {
-          "type": "tile",
-          "settings": {
-            "image": "shopify://shop_images/image.jpg",
-            "title": "SURGE",
-            "url": ""
-          }
+        "kit-surge": {
+          "type": "kit",
+          "settings": { "title": "SURGE", "swatch_1": "#15151f", "swatch_2": "#3a5fcd" }
         },
-        "rgb": {
-          "type": "tile",
+        "kit-rgb": {
+          "type": "kit",
+          "settings": { "title": "RGB", "swatch_1": "#15151f", "swatch_2": "#ffffff", "swatch_3": "#ff4f8b" }
+        },
+        "cat-1": {
+          "type": "digital_category",
           "settings": {
             "image": "shopify://shop_images/Mx_Bikes_Screenshot_2025.12.22_-_23.30.31.29.jpg",
-            "title": "MXBIKES Gear",
-            "url": ""
+            "title": "Bike Paints / PSDs",
+            "subtitle": "MXBikes Gear",
+            "format_label": "PSD + Livery"
           }
         },
-        "tees": {
-          "type": "tile",
-          "settings": {
-            "image": "shopify://shop_images/789BD257-390D-47AD-BCB6-90CB28BCEF86.jpg",
-            "title": "MERCH",
-            "url": ""
-          }
-        }
+        "cat-2": {
+          "type": "digital_category",
+          "settings": { "title": "Helmets", "subtitle": "In-game skins", "format_label": "In-game skin" }
+        },
+        "cat-3": {
+          "type": "digital_category",
+          "settings": { "title": "Gear", "subtitle": "In-game skins", "format_label": "In-game skin" }
+        },
+        "cat-4": {
+          "type": "digital_category",
+          "settings": { "title": "Suspension Setups", "subtitle": "Config files", "format_label": "Config file" }
+        },
+        "dp-1": { "type": "digital_product", "settings": { "format_meta": "Bike Paint / PSD", "show_new_badge": true } },
+        "dp-2": { "type": "digital_product", "settings": { "format_meta": "Helmet skin", "show_new_badge": true } },
+        "dp-3": { "type": "digital_product", "settings": { "format_meta": "Gear skin" } },
+        "dp-4": { "type": "digital_product", "settings": { "format_meta": "Suspension config" } }
       },
-      "block_order": [
-        "strike",
-        "surge",
-        "rgb",
-        "tees"
-      ],
-      "settings": {
-        "heading": "SHOP BY COLLECTION"
-      }
-    },
-    "featured": {
-      "type": "featured-collection",
-      "settings": {
-        "heading": "NEW ARRIVALS",
-        "collection": "surge",
-        "products_to_show": 4
-      }
-    },
-    "story": {
-      "type": "image-with-text",
-      "settings": {
-        "image": "shopify://shop_images/AX1A0206.jpg",
-        "layout": "image-left",
-        "eyebrow": "OUR STORY",
-        "heading": "BUILT BY RACERS, FOR RACERS",
-        "text": "<p>Crew Racewear started in the pits, not the boardroom. Every piece is tested at the track before it ever hits the shop.</p>",
-        "button_label": "ABOUT US",
-        "button_url": ""
-      }
+      "block_order": ["kit-strike", "kit-surge", "kit-rgb", "cat-1", "cat-2", "cat-3", "cat-4", "dp-1", "dp-2", "dp-3", "dp-4"]
     }
   },
-  "order": [
-    "hero",
-    "categories",
-    "featured",
-    "story"
-  ]
+  "order": ["homepage_shop_tabs"]
 }

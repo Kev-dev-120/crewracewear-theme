@@ -1,8 +1,10 @@
 {
   "current": {
-    "color_black": "#0a0a0a",
-    "color_accent": "#d7ff3d",
-    "color_sale": "#ff3d3d",
+    "color_black": "#15151f",
+    "color_accent": "#ff4f8b",
+    "color_accent_b": "#7c5cff",
+    "color_accent_c": "#ff9a3d",
+    "color_sale": "#ff3b30",
     "font_heading": "archivo_n4",
     "font_body": "inter_n4",
     "social_instagram_link": "https://instagram.com/thecrewmxb",

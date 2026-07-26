@@ -32,6 +32,23 @@
   {{ 'theme.css' | asset_url | stylesheet_tag }}
   {{ 'theme-redesign.css' | asset_url | stylesheet_tag }}
 
+  <style>
+    :root {
+      --color-black: {{ settings.color_black | default: '#15151f' }};
+      --crw-black: {{ settings.color_black | default: '#15151f' }};
+      --color-accent: {{ settings.color_accent | default: '#ff4f8b' }};
+      --crw-accent: {{ settings.color_accent | default: '#ff4f8b' }};
+      --color-accent-b: {{ settings.color_accent_b | default: '#7c5cff' }};
+      --crw-accent-b: {{ settings.color_accent_b | default: '#7c5cff' }};
+      --color-accent-c: {{ settings.color_accent_c | default: '#ff9a3d' }};
+      --crw-accent-c: {{ settings.color_accent_c | default: '#ff9a3d' }};
+      --color-sale: {{ settings.color_sale | default: '#ff3b30' }};
+      --crw-sale: {{ settings.color_sale | default: '#ff3b30' }};
+      --color-gradient: linear-gradient(120deg, var(--color-accent-b) 0%, var(--color-accent) 55%, var(--color-accent-c) 100%);
+      --crw-grad: linear-gradient(120deg, var(--crw-accent-b) 0%, var(--crw-accent) 55%, var(--crw-accent-c) 100%);
+    }
+  </style>
+
   <script src="{{ 'theme.js' | asset_url }}" defer="defer"></script>
   <script src="{{ 'theme-redesign.js' | asset_url }}" defer="defer"></script>
 </head>
