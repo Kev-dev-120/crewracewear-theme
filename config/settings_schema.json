@@ -2,10 +2,10 @@
   {
     "name": "theme_info",
     "theme_name": "Crew Racewear",
-    "theme_version": "1.0.1",
+    "theme_version": "1.0.0",
     "theme_author": "Crew Racewear",
-    "theme_documentation_url": "https://github.com/Kev-dev-120/crewracewear-theme",
-    "theme_support_email": "crewracewear@gmail.com"
+    "theme_documentation_url": "",
+    "theme_support_url": "mailto:crewracewear@gmail.com"
   },
   {
     "name": "Logo",
@@ -17,11 +17,9 @@
     "name": "Colors",
     "settings": [
       { "type": "header", "content": "Brand colors" },
-      { "type": "color", "id": "color_black", "label": "Black", "default": "#15151f" },
-      { "type": "color", "id": "color_accent", "label": "Accent (solid, mid gradient stop)", "default": "#ff4f8b" },
-      { "type": "color", "id": "color_accent_b", "label": "Accent gradient stop 1 (violet)", "default": "#7c5cff" },
-      { "type": "color", "id": "color_accent_c", "label": "Accent gradient stop 2 (orange)", "default": "#ff9a3d" },
-      { "type": "color", "id": "color_sale", "label": "Sale color", "default": "#ff3b30" }
+      { "type": "color", "id": "color_black", "label": "Black", "default": "#0a0a0a" },
+      { "type": "color", "id": "color_accent", "label": "Accent (signature color)", "default": "#d7ff3d" },
+      { "type": "color", "id": "color_sale", "label": "Sale color", "default": "#ff3d3d" }
     ]
   },
   {

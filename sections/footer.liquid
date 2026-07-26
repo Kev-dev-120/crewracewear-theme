@@ -3,9 +3,9 @@
 
     <div class="site-footer__brand">
       {%- if section.settings.logo != blank -%}
-        <img class="site-footer__logo-image" src="{{ section.settings.logo | image_url: width: 300 }}" alt="{{ shop.name | default: 'Crew Racewear' }}" width="140" height="{{ 140 | divided_by: section.settings.logo.aspect_ratio }}" loading="lazy">
+        <img class="site-footer__logo-image" src="{{ section.settings.logo | image_url: width: 300 }}" alt="{{ shop.name | default: 'Crew Racewear' }}" width="140" loading="lazy">
       {%- else -%}
-        <img class="site-footer__logo-image" src="{{ 'logo-black.png' | asset_url }}" alt="{{ shop.name | default: 'Crew Racewear' }}" width="140" height="79" loading="lazy">
+        <img class="site-footer__logo-image" src="{{ 'logo-black.png' | asset_url }}" alt="{{ shop.name | default: 'Crew Racewear' }}" width="140" loading="lazy">
       {%- endif -%}
       <p>{{ section.settings.tagline }}</p>
       <div class="site-footer__socials">

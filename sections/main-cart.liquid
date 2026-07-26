@@ -13,7 +13,7 @@
           {%- for item in cart.items -%}
             <tr>
               <td class="cart-page__product">
-                {%- if item.image -%}<img src="{{ item.image | image_url: width: 120 }}" alt="{{ item.title | escape }}" width="120" height="{{ 120 | divided_by: item.image.aspect_ratio }}" loading="lazy">{%- endif -%}
+                {%- if item.image -%}<img src="{{ item.image | image_url: width: 120 }}" alt="{{ item.title | escape }}" width="120" loading="lazy">{%- endif -%}
                 <div>
                   <a href="{{ item.url }}">{{ item.product.title }}</a>
                   {%- unless item.product.has_only_default_variant -%}<p class="cart-page__variant">{{ item.variant.title }}</p>{%- endunless -%}
