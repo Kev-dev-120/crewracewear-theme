@@ -1,0 +1,243 @@
+{%- comment -%}
+  Crew Racewear — Racewear Kit product page.
+  Assign via Online Store 2.0 alternate template: templates/product.kit.json
+
+  REQUIRES the product to have exactly 3 variant options, in this order:
+    1. Jersey Size   2. Pant Size (waist)   3. Glove Size
+  Shopify caps products at 3 options total, which is why colorway (STRIKE /
+  SURGE / RGB) is modeled as separate sibling PRODUCTS rather than a 4th
+  option — see the "colorway swatches" metafields below and INSTALL.md.
+
+  Optional metafields (namespace: custom):
+    - swatch_color          (color)            this product's own accent dot
+    - colorway_siblings     (list of products)  the other kit colorways
+    - jersey_desc / pants_desc / gloves_desc (single line text) — short
+      descriptors shown in the "kit includes" list
+{%- endcomment -%}
+
+<div class="crw-theme">
+  <div class="crw-wrap crw-pdp">
+
+    <div>
+      <div class="crw-gallery-main crw-kit" data-crw-gallery-main>
+        {%- if product.featured_image != blank -%}
+          <img src="{{ product.featured_image | image_url: width: 1000 }}" alt="{{ product.featured_image.alt | escape }}" width="1000" height="1000">
+        {%- endif -%}
+      </div>
+      {%- if product.images.size > 1 -%}
+        <div class="crw-gallery-thumbs crw-kit">
+          {%- for image in product.images limit: 5 -%}
+            <button type="button" data-crw-thumb data-full="{{ image | image_url: width: 1000 }}" class="{% if forloop.first %}crw-active{% endif %}" style="background-image:url('{{ image | image_url: width: 200 }}')" aria-label="View image {{ forloop.index }}"></button>
+          {%- endfor -%}
+        </div>
+      {%- endif -%}
+    </div>
+
+    <div class="crw-pdp-info">
+      <div class="crw-breadcrumb">
+        <a href="/">Home</a> / <a href="/collections/racewear-kits">Racewear Kits</a> / {{ product.title }}
+      </div>
+
+      <div class="crw-bundle-badge">Sold as a complete kit</div>
+      <h1>{{ product.title }}</h1>
+      <div class="crw-pdp-price" data-crw-price>{{ product.selected_or_first_available_variant.price | money }}</div>
+      <div class="crw-pdp-meta">
+        <span class="crw-stars">★★★★★</span>
+        {{ section.settings.review_count | default: 0 }} reviews · Jersey, pants &amp; gloves bundle
+      </div>
+
+      <div class="crw-kit-includes-list">
+        <div class="crw-row">
+          <div class="crw-thumb" {% if product.images[1] %}style="background-image:url('{{ product.images[1] | image_url: width: 100 }}')"{% endif %}></div>
+          <div class="crw-txt"><b>{{ product.title | split: ' Kit' | first }} Jersey</b><span>{{ product.metafields.custom.jersey_desc | default: 'Vented, moisture-wicking' }}</span></div>
+        </div>
+        <div class="crw-row">
+          <div class="crw-thumb" {% if product.images[2] %}style="background-image:url('{{ product.images[2] | image_url: width: 100 }}')"{% endif %}></div>
+          <div class="crw-txt"><b>{{ product.title | split: ' Kit' | first }} Pants</b><span>{{ product.metafields.custom.pants_desc | default: 'Reinforced knee panels' }}</span></div>
+        </div>
+        <div class="crw-row">
+          <div class="crw-thumb" {% if product.images[3] %}style="background-image:url('{{ product.images[3] | image_url: width: 100 }}')"{% endif %}></div>
+          <div class="crw-txt"><b>{{ product.title | split: ' Kit' | first }} Gloves</b><span>{{ product.metafields.custom.gloves_desc | default: 'Race-fit, silicone grip' }}</span></div>
+        </div>
+      </div>
+
+      {%- assign siblings = product.metafields.custom.colorway_siblings.value -%}
+      {%- if siblings != blank or product.metafields.custom.swatch_color != blank -%}
+        <div class="crw-opt-label"><span>Colorway: {{ product.metafields.custom.colorway_name | default: product.title }}</span></div>
+        <div class="crw-color-row">
+          {%- if product.metafields.custom.swatch_color != blank -%}
+            <a href="{{ product.url }}" class="crw-sel" style="background:{{ product.metafields.custom.swatch_color }}" aria-current="true"></a>
+          {%- endif -%}
+          {%- for sib in siblings -%}
+            {%- if sib.metafields.custom.swatch_color != blank -%}
+              <a href="{{ sib.url }}" style="background:{{ sib.metafields.custom.swatch_color }}" title="{{ sib.title }}"></a>
+            {%- endif -%}
+          {%- endfor -%}
+        </div>
+      {%- endif -%}
+
+      {%- form 'product', product, id: 'crw-kit-form' -%}
+        <input type="hidden" name="id" value="{{ product.selected_or_first_available_variant.id }}" data-crw-variant-id>
+
+        {%- for option in product.options_with_values -%}
+          {%- assign opt_idx = forloop.index0 -%}
+          {%- assign current_value = product.selected_or_first_available_variant.options[opt_idx] -%}
+          <div class="crw-size-block" data-crw-option-index="{{ opt_idx }}">
+            <div class="crw-opt-label">
+              <span>{{ option.name }}: <b data-crw-selected-value>{{ current_value }}</b></span>
+              {%- if forloop.first -%}<span class="crw-link">Size Guide</span>{%- endif -%}
+            </div>
+            <div class="crw-size-grid {% if option.name contains 'Glove' %}crw-gloves{% endif %}">
+              {%- for value in option.values -%}
+                {%- assign value_available = false -%}
+                {%- for variant in product.variants -%}
+                  {%- if variant.options[opt_idx] == value and variant.available -%}
+                    {%- assign value_available = true -%}
+                  {%- endif -%}
+                {%- endfor -%}
+                {%- assign input_id = 'crw-opt-' | append: opt_idx | append: '-' | append: forloop.index0 -%}
+                <span class="{% unless value_available %}crw-oos{% endunless %}">
+                  <input
+                    type="radio"
+                    id="{{ input_id }}"
+                    name="crw-option-{{ opt_idx }}"
+                    value="{{ value | escape }}"
+                    data-crw-option-input
+                    data-option-index="{{ opt_idx }}"
+                    {% if value == current_value %}checked{% endif %}
+                    {% unless value_available %}disabled{% endunless %}
+                  >
+                  <label for="{{ input_id }}">{{ value }}</label>
+                </span>
+              {%- endfor -%}
+            </div>
+          </div>
+        {%- endfor -%}
+
+        <div class="crw-add-row">
+          <button type="submit" class="crw-btn crw-btn-accent" data-crw-add-to-cart {% unless product.selected_or_first_available_variant.available %}disabled{% endunless %}>
+            <span data-crw-add-label>Add Kit to Cart — {{ product.selected_or_first_available_variant.price | money }}</span>
+          </button>
+        </div>
+      {%- endform -%}
+
+      <div class="crw-pdp-perks">
+        <div><span class="crw-dot"></span> {{ section.settings.perk_1 | default: 'In stock — ships in 1–2 business days' }}</div>
+        <div><span class="crw-dot"></span> {{ section.settings.perk_2 | default: 'Free shipping on orders $75+' }}</div>
+        <div><span class="crw-dot"></span> {{ section.settings.perk_3 | default: '60-day returns, no questions asked' }}</div>
+      </div>
+
+      <div class="crw-accordion">
+        <details class="crw-accordion-item" open>
+          <summary>What's included <span>−</span></summary>
+          <p>{{ product.metafields.custom.whats_included | default: "One jersey, one pair of pants, and one pair of gloves — sold together as a complete kit. Pieces are not available separately." }}</p>
+        </details>
+        <details class="crw-accordion-item">
+          <summary>Sizing &amp; Fit <span>+</span></summary>
+          <p>{{ product.metafields.custom.sizing_notes | default: "Jersey and gloves run true to size; pants are sized by waist measurement. Mixed sizing across pieces is expected and fully supported." }}</p>
+        </details>
+        <details class="crw-accordion-item">
+          <summary>Shipping &amp; Returns <span>+</span></summary>
+          <p>{{ product.description | strip_html | truncate: 220 | default: "Free shipping on orders over $75. Returns accepted within 60 days, unworn and in original packaging, as a full kit." }}</p>
+        </details>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<div class="crw-sticky-add" data-crw-sticky-add>
+  <div>
+    <div style="font-size:12px;font-weight:700;">{{ product.title }}</div>
+    <div style="font-size:13px;color:var(--crw-gray-600);" data-crw-sticky-price>{{ product.selected_or_first_available_variant.price | money }}</div>
+  </div>
+  <button type="button" class="crw-btn crw-btn-accent" style="padding:12px 22px;" data-crw-sticky-add-btn>Add to Cart</button>
+</div>
+
+<script>
+  (function () {
+    var productJson = {{ product.variants | json }};
+    var form = document.getElementById('crw-kit-form');
+    if (!form) return;
+
+    var variantIdInput = form.querySelector('[data-crw-variant-id]');
+    var priceEl = document.querySelector('[data-crw-price]');
+    var stickyPriceEl = document.querySelector('[data-crw-sticky-price]');
+    var addBtn = form.querySelector('[data-crw-add-to-cart]');
+    var addLabel = form.querySelector('[data-crw-add-label]');
+
+    function currentSelection() {
+      var values = [];
+      form.querySelectorAll('[data-crw-option-input]:checked').forEach(function (input) {
+        values[parseInt(input.dataset.optionIndex, 10)] = input.value;
+      });
+      return values;
+    }
+
+    function findVariant(values) {
+      return productJson.filter(function (v) {
+        return values.every(function (val, i) { return v.options[i] === val; });
+      })[0];
+    }
+
+    function formatMoney(cents) {
+      return '$' + (cents / 100).toFixed(2);
+    }
+
+    function updateUI() {
+      var values = currentSelection();
+      var variant = findVariant(values);
+
+      form.querySelectorAll('[data-crw-option-index]').forEach(function (block) {
+        var idx = parseInt(block.dataset.crwOptionIndex, 10);
+        var checked = block.querySelector('[data-crw-option-input]:checked');
+        var label = block.querySelector('[data-crw-selected-value]');
+        if (checked && label) label.textContent = checked.value;
+      });
+
+      if (variant) {
+        variantIdInput.value = variant.id;
+        if (priceEl) priceEl.textContent = formatMoney(variant.price);
+        if (stickyPriceEl) stickyPriceEl.textContent = formatMoney(variant.price);
+        if (addLabel) addLabel.textContent = 'Add Kit to Cart — ' + formatMoney(variant.price);
+        addBtn.disabled = !variant.available;
+      } else {
+        addBtn.disabled = true;
+      }
+    }
+
+    form.querySelectorAll('[data-crw-option-input]').forEach(function (input) {
+      input.addEventListener('change', updateUI);
+    });
+
+    var stickyBtn = document.querySelector('[data-crw-sticky-add-btn]');
+    if (stickyBtn) {
+      stickyBtn.addEventListener('click', function () {
+        if (typeof form.requestSubmit === 'function') form.requestSubmit();
+        else form.submit();
+      });
+    }
+
+    // Simple gallery thumb swap
+    var mainImg = document.querySelector('[data-crw-gallery-main] img');
+    document.querySelectorAll('[data-crw-thumb]').forEach(function (thumb) {
+      thumb.addEventListener('click', function () {
+        document.querySelectorAll('[data-crw-thumb]').forEach(function (t) { t.classList.remove('crw-active'); });
+        thumb.classList.add('crw-active');
+        if (mainImg) mainImg.src = thumb.dataset.full;
+      });
+    });
+  })();
+</script>
+
+{% schema %}
+{
+  "name": "Kit product page",
+  "settings": [
+    { "type": "number", "id": "review_count", "label": "Review count (static — replace with a reviews app once one is installed)", "default": 96 },
+    { "type": "text", "id": "perk_1", "label": "Perk 1", "default": "In stock — ships in 1–2 business days" },
+    { "type": "text", "id": "perk_2", "label": "Perk 2", "default": "Free shipping on orders $75+" },
+    { "type": "text", "id": "perk_3", "label": "Perk 3", "default": "60-day returns, no questions asked" }
+  ]
+}
+{% endschema %}

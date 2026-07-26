@@ -1,0 +1,374 @@
+{%- comment -%}
+  Crew Racewear — Homepage "two shops in one" section.
+  Renders an IRL Racewear tab (default, visually primary) and an MXBikes
+  Content tab, switched client-side by assets/theme-redesign.js.
+
+  Depends on: assets/theme-redesign.css, assets/theme-redesign.js being
+  included in layout/theme.liquid (see INSTALL.md).
+
+  Block types:
+    - kit               → one Racewear Kit product card (IRL tab)
+    - digital_category  → one "shop by content type" tile (MX tab)
+    - digital_product   → one game-content product card (MX tab)
+{%- endcomment -%}
+
+<div class="crw-theme">
+
+  <div class="crw-tab-bar crw-wrap">
+    <button
+      type="button"
+      class="crw-tab-btn crw-irl {% if section.settings.default_tab == 'irl' %}crw-active{% endif %}"
+      data-crw-tab-btn="irl"
+    >{{ section.settings.irl_tab_label | default: 'IRL Racewear' }}</button>
+    <button
+      type="button"
+      class="crw-tab-btn crw-mx {% if section.settings.default_tab == 'mx' %}crw-active{% endif %}"
+      data-crw-tab-btn="mx"
+    >{{ section.settings.mx_tab_label | default: 'MXBikes Content' }}</button>
+  </div>
+
+  {%- comment -%} ===================== IRL RACEWEAR TAB ===================== {%- endcomment -%}
+  <div
+    id="crw-tab-irl"
+    class="crw-tab-panel {% if section.settings.default_tab == 'irl' %}crw-active{% endif %}"
+    data-crw-tab-panel="irl"
+  >
+
+    <div class="crw-hero">
+      <div class="crw-hero-top">
+        {%- if section.settings.irl_eyebrow != blank -%}
+          <span class="crw-hero-eyebrow">{{ section.settings.irl_eyebrow }}</span>
+        {%- endif -%}
+        <h1>{{ section.settings.irl_heading | default: 'Built for the gate drop.' }}</h1>
+        {%- if section.settings.irl_subheading != blank -%}
+          <p>{{ section.settings.irl_subheading }}</p>
+        {%- endif -%}
+        <div class="crw-hero-ctas">
+          {%- if section.settings.irl_primary_button_label != blank -%}
+            <a href="{{ section.settings.irl_primary_button_link | default: '#' }}" class="crw-btn crw-btn-dark">
+              {{ section.settings.irl_primary_button_label }}
+            </a>
+          {%- endif -%}
+          {%- if section.settings.irl_secondary_button_label != blank -%}
+            <a href="{{ section.settings.irl_secondary_button_link | default: '#' }}" class="crw-btn crw-btn-outline crw-on-light">
+              {{ section.settings.irl_secondary_button_label }}
+            </a>
+          {%- endif -%}
+        </div>
+      </div>
+    </div>
+
+    <div class="crw-trust">
+      <div><span class="crw-dot"></span> {{ section.settings.irl_trust_1 | default: 'Free shipping $75+' }}</div>
+      <div><span class="crw-dot"></span> {{ section.settings.irl_trust_2 | default: '60-day returns' }}</div>
+      <div><span class="crw-dot"></span> {{ section.settings.irl_trust_3 | default: 'Independent jersey/pant/glove sizing' }}</div>
+      <div><span class="crw-dot"></span> {{ section.settings.irl_trust_4 | default: 'Rider support 7 days/week' }}</div>
+    </div>
+
+    <section class="crw-section" style="background:var(--crw-gray-100);">
+      <div class="crw-wrap">
+        <div class="crw-section-head">
+          <div>
+            <span class="crw-eyebrow">Racewear &middot; Physical</span>
+            <h2>{{ section.settings.kits_heading | default: 'Shop Racewear Kits' }}</h2>
+          </div>
+          {%- if section.settings.kits_view_all_link != blank -%}
+            <a href="{{ section.settings.kits_view_all_link }}">View all kits &rarr;</a>
+          {%- endif -%}
+        </div>
+
+        <div class="crw-kit-grid">
+          {%- for block in section.blocks -%}
+            {%- if block.type == 'kit' -%}
+              {%- assign kit_product = block.settings.product -%}
+              <div class="crw-kit-card" {{ block.shopify_attributes }}>
+                <a href="{{ kit_product.url | default: '#' }}" class="crw-kit-media">
+                  {%- if kit_product.featured_image != blank -%}
+                    <img src="{{ kit_product.featured_image | image_url: width: 800 }}" alt="{{ kit_product.featured_image.alt | escape }}" loading="lazy" width="800" height="600">
+                  {%- endif -%}
+                </a>
+                <div class="crw-kit-includes">
+                  <span>Jersey</span><span>Pants</span><span>Gloves</span>
+                </div>
+                <div class="crw-kit-title">{{ block.settings.title | default: kit_product.title | default: 'Kit name' }}</div>
+                <div class="crw-kit-price">
+                  {{ kit_product.price | money | default: '$0.00' }} &middot; Bundle only
+                </div>
+                {%- if block.settings.swatch_1 != blank or block.settings.swatch_2 != blank or block.settings.swatch_3 != blank -%}
+                  <div class="crw-kit-swatches">
+                    {%- if block.settings.swatch_1 != blank -%}<i style="background:{{ block.settings.swatch_1 }}"></i>{%- endif -%}
+                    {%- if block.settings.swatch_2 != blank -%}<i style="background:{{ block.settings.swatch_2 }}"></i>{%- endif -%}
+                    {%- if block.settings.swatch_3 != blank -%}<i style="background:{{ block.settings.swatch_3 }}"></i>{%- endif -%}
+                  </div>
+                {%- endif -%}
+                <a href="{{ kit_product.url | default: '#' }}" class="crw-btn crw-btn-dark" style="width:100%;">Shop Kit</a>
+              </div>
+            {%- endif -%}
+          {%- endfor -%}
+        </div>
+      </div>
+    </section>
+
+    <section class="crw-section">
+      <div class="crw-wrap">
+        <div class="crw-story">
+          <div class="crw-story-media">
+            {%- if section.settings.story_image != blank -%}
+              <img src="{{ section.settings.story_image | image_url: width: 900 }}" alt="{{ section.settings.story_image.alt | escape }}" loading="lazy" width="900" height="1125">
+            {%- endif -%}
+          </div>
+          <div>
+            <h2>{{ section.settings.story_heading | default: 'Race-proven. Track-tested.' }}</h2>
+            <p>{{ section.settings.story_text | default: 'Every kit is developed with amateur and pro riders on real motocross tracks. Jersey, pants and gloves are sized independently within one bundle, so the fit is right piece by piece.' }}</p>
+            <div class="crw-stat-row">
+              <div class="crw-stat"><b>{{ section.settings.stat_1_number | default: '12k+' }}</b><span>{{ section.settings.stat_1_label | default: 'Riders geared up' }}</span></div>
+              <div class="crw-stat"><b>{{ section.settings.stat_2_number | default: '4.8★' }}</b><span>{{ section.settings.stat_2_label | default: 'Avg. review score' }}</span></div>
+              <div class="crw-stat"><b>{{ section.settings.stat_3_number | default: '60-Day' }}</b><span>{{ section.settings.stat_3_label | default: 'Returns, no hassle' }}</span></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="crw-section crw-band">
+      <div class="crw-wrap">
+        <h2>{{ section.settings.newsletter_heading | default: 'Get 10% off your first kit' }}</h2>
+        <p>{{ section.settings.newsletter_text | default: 'New colorways and kit restocks — straight to your inbox.' }}</p>
+        {%- form 'customer', id: 'crw-newsletter-irl' -%}
+          <input type="hidden" name="contact[tags]" value="newsletter">
+          <div class="crw-band-form">
+            <input type="email" name="contact[email]" placeholder="Enter your email" required>
+            <button type="submit">Sign Up</button>
+          </div>
+          {%- if form.posted_successfully? -%}
+            <p style="margin-top:14px;color:var(--crw-accent);font-size:13px;">Thanks — you're on the list.</p>
+          {%- endif -%}
+        {%- endform -%}
+      </div>
+    </section>
+
+  </div>
+
+  {%- comment -%} ===================== MXBIKES CONTENT TAB ===================== {%- endcomment -%}
+  <div
+    id="crw-tab-mx"
+    class="crw-tab-panel {% if section.settings.default_tab == 'mx' %}crw-active{% endif %}"
+    data-crw-tab-panel="mx"
+  >
+
+    <div class="crw-hero" style="padding-bottom:48px;">
+      <div class="crw-hero-top" style="max-width:600px;">
+        <span class="crw-hero-eyebrow">{{ section.settings.mx_eyebrow | default: 'MX Bikes Game Content' }}</span>
+        <h1 style="font-size:clamp(28px,4.5vw,44px);">{{ section.settings.mx_heading | default: 'Paints, helmets, gear & setups.' }}</h1>
+        {%- if section.settings.mx_subheading != blank -%}
+          <p>{{ section.settings.mx_subheading }}</p>
+        {%- endif -%}
+        <div class="crw-hero-ctas">
+          {%- if section.settings.mx_button_label != blank -%}
+            <a href="{{ section.settings.mx_button_link | default: '#' }}" class="crw-btn crw-btn-dark">{{ section.settings.mx_button_label }}</a>
+          {%- endif -%}
+        </div>
+      </div>
+    </div>
+
+    <div class="crw-trust">
+      <div><span class="crw-dot"></span> {{ section.settings.mx_trust_1 | default: 'Instant download, every time' }}</div>
+      <div><span class="crw-dot"></span> {{ section.settings.mx_trust_2 | default: 'MX Bikes v1.13+ compatible' }}</div>
+      <div><span class="crw-dot"></span> {{ section.settings.mx_trust_3 | default: 'Free updates on new game versions' }}</div>
+    </div>
+
+    <section class="crw-section">
+      <div class="crw-wrap">
+        <div class="crw-section-head">
+          <div>
+            <span class="crw-eyebrow">MX Bikes Game Content</span>
+            <h2>{{ section.settings.categories_heading | default: 'Shop by content type' }}</h2>
+          </div>
+          {%- if section.settings.categories_view_all_link != blank -%}
+            <a href="{{ section.settings.categories_view_all_link }}">View all game content &rarr;</a>
+          {%- endif -%}
+        </div>
+        <div class="crw-cat-grid">
+          {%- assign tile_index = 0 -%}
+          {%- for block in section.blocks -%}
+            {%- if block.type == 'digital_category' -%}
+              {%- assign tile_index = tile_index | plus: 1 -%}
+              <a href="{{ block.settings.link | default: '#' }}"
+                 class="crw-cat-tile crw-t{{ tile_index | modulo: 4 | plus: 1 }}"
+                 {{ block.shopify_attributes }}
+                 {% if block.settings.image != blank %}style="--tile-bg:url('{{ block.settings.image | image_url: width: 700 }}')"{% endif %}>
+                {%- if block.settings.format_label != blank -%}
+                  <span class="crw-format-pill">{{ block.settings.format_label }}</span>
+                {%- endif -%}
+                <span class="crw-cat-name">{{ block.settings.title | default: 'Category' }}</span>
+                {%- if block.settings.subtitle != blank -%}
+                  <span class="crw-cat-sub">{{ block.settings.subtitle }}</span>
+                {%- endif -%}
+              </a>
+            {%- endif -%}
+          {%- endfor -%}
+        </div>
+      </div>
+    </section>
+
+    <section class="crw-section">
+      <div class="crw-wrap">
+        <div class="crw-section-head">
+          <div>
+            <span class="crw-eyebrow">New this week</span>
+            <h2>{{ section.settings.digital_products_heading | default: 'Latest Game Content' }}</h2>
+          </div>
+          {%- if section.settings.digital_products_view_all_link != blank -%}
+            <a href="{{ section.settings.digital_products_view_all_link }}">Shop all &rarr;</a>
+          {%- endif -%}
+        </div>
+        <div class="crw-prod-grid">
+          {%- for block in section.blocks -%}
+            {%- if block.type == 'digital_product' -%}
+              {%- assign dp = block.settings.product -%}
+              <div class="crw-card" {{ block.shopify_attributes }}>
+                <a href="{{ dp.url | default: '#' }}" class="crw-card-media">
+                  {%- if dp.featured_image != blank -%}
+                    <img src="{{ dp.featured_image | image_url: width: 700 }}" alt="{{ dp.featured_image.alt | escape }}" loading="lazy" width="700" height="700">
+                  {%- endif -%}
+                  {%- if block.settings.show_new_badge -%}<span class="crw-badge">NEW</span>{%- endif -%}
+                  <span class="crw-quick-add">+ Quick Add</span>
+                </a>
+                <div class="crw-card-title">{{ dp.title | default: 'Content name' }}</div>
+                <div class="crw-card-meta">{{ block.settings.format_meta | default: 'Digital content' }}</div>
+                <div class="crw-card-price">{{ dp.price | money | default: '$0.00' }}</div>
+              </div>
+            {%- endif -%}
+          {%- endfor -%}
+        </div>
+      </div>
+    </section>
+
+  </div>
+
+</div>
+
+<style>
+  /* Per-tile background image override (schema doesn't support inline url() in class, so
+     it's set via the --tile-bg custom property above and consumed here). */
+  .crw-cat-tile[style*="--tile-bg"]::after{
+    background-image: var(--tile-bg);
+  }
+</style>
+
+{% schema %}
+{
+  "name": "Shop tabs (IRL / MXBikes)",
+  "class": "crw-section-shop-tabs",
+  "settings": [
+    { "type": "select", "id": "default_tab", "label": "Default tab", "options": [
+        { "value": "irl", "label": "IRL Racewear" },
+        { "value": "mx", "label": "MXBikes Content" }
+      ], "default": "irl", "info": "Which tab is shown first on page load. Owner focus is IRL, so this defaults to IRL." },
+    { "type": "text", "id": "irl_tab_label", "label": "IRL tab label", "default": "IRL Racewear" },
+    { "type": "text", "id": "mx_tab_label", "label": "MXBikes tab label", "default": "MXBikes Content" },
+
+    { "type": "header", "content": "IRL Racewear hero" },
+    { "type": "text", "id": "irl_eyebrow", "label": "Eyebrow", "default": "STRIKE · SURGE · RGB" },
+    { "type": "text", "id": "irl_heading", "label": "Heading", "default": "Built for the gate drop." },
+    { "type": "textarea", "id": "irl_subheading", "label": "Subheading", "default": "Race-tested jersey, pants and glove kits — engineered for moto, MX and off-road. Pick a colorway, pick your sizes, gear up." },
+    { "type": "text", "id": "irl_primary_button_label", "label": "Primary button label", "default": "Shop Racewear Kits" },
+    { "type": "url", "id": "irl_primary_button_link", "label": "Primary button link" },
+    { "type": "text", "id": "irl_secondary_button_label", "label": "Secondary button label", "default": "Shop Sale" },
+    { "type": "url", "id": "irl_secondary_button_link", "label": "Secondary button link" },
+    { "type": "text", "id": "irl_trust_1", "label": "Trust item 1", "default": "Free shipping $75+" },
+    { "type": "text", "id": "irl_trust_2", "label": "Trust item 2", "default": "60-day returns" },
+    { "type": "text", "id": "irl_trust_3", "label": "Trust item 3", "default": "Independent jersey/pant/glove sizing" },
+    { "type": "text", "id": "irl_trust_4", "label": "Trust item 4", "default": "Rider support 7 days/week" },
+
+    { "type": "header", "content": "Racewear Kits grid" },
+    { "type": "text", "id": "kits_heading", "label": "Heading", "default": "Shop Racewear Kits" },
+    { "type": "url", "id": "kits_view_all_link", "label": "\"View all\" link" },
+
+    { "type": "header", "content": "Brand story" },
+    { "type": "image_picker", "id": "story_image", "label": "Story image" },
+    { "type": "text", "id": "story_heading", "label": "Heading", "default": "Race-proven. Track-tested." },
+    { "type": "textarea", "id": "story_text", "label": "Text", "default": "Every kit is developed with amateur and pro riders on real motocross tracks. Jersey, pants and gloves are sized independently within one bundle, so the fit is right piece by piece." },
+    { "type": "text", "id": "stat_1_number", "label": "Stat 1 number", "default": "12k+" },
+    { "type": "text", "id": "stat_1_label", "label": "Stat 1 label", "default": "Riders geared up" },
+    { "type": "text", "id": "stat_2_number", "label": "Stat 2 number", "default": "4.8★" },
+    { "type": "text", "id": "stat_2_label", "label": "Stat 2 label", "default": "Avg. review score" },
+    { "type": "text", "id": "stat_3_number", "label": "Stat 3 number", "default": "60-Day" },
+    { "type": "text", "id": "stat_3_label", "label": "Stat 3 label", "default": "Returns, no hassle" },
+
+    { "type": "header", "content": "Newsletter" },
+    { "type": "text", "id": "newsletter_heading", "label": "Heading", "default": "Get 10% off your first kit" },
+    { "type": "textarea", "id": "newsletter_text", "label": "Text", "default": "New colorways and kit restocks — straight to your inbox." },
+
+    { "type": "header", "content": "MXBikes hero" },
+    { "type": "text", "id": "mx_eyebrow", "label": "Eyebrow", "default": "MX Bikes Game Content" },
+    { "type": "text", "id": "mx_heading", "label": "Heading", "default": "Paints, helmets, gear & setups." },
+    { "type": "textarea", "id": "mx_subheading", "label": "Subheading", "default": "Instant-download liveries, helmet designs, rider gear skins and suspension setups for MX Bikes." },
+    { "type": "text", "id": "mx_button_label", "label": "Button label", "default": "Shop Game Content" },
+    { "type": "url", "id": "mx_button_link", "label": "Button link" },
+    { "type": "text", "id": "mx_trust_1", "label": "Trust item 1", "default": "Instant download, every time" },
+    { "type": "text", "id": "mx_trust_2", "label": "Trust item 2", "default": "MX Bikes v1.13+ compatible" },
+    { "type": "text", "id": "mx_trust_3", "label": "Trust item 3", "default": "Free updates on new game versions" },
+
+    { "type": "header", "content": "MXBikes categories grid" },
+    { "type": "text", "id": "categories_heading", "label": "Heading", "default": "Shop by content type" },
+    { "type": "url", "id": "categories_view_all_link", "label": "\"View all\" link" },
+
+    { "type": "header", "content": "MXBikes latest content grid" },
+    { "type": "text", "id": "digital_products_heading", "label": "Heading", "default": "Latest Game Content" },
+    { "type": "url", "id": "digital_products_view_all_link", "label": "\"Shop all\" link" }
+  ],
+  "blocks": [
+    {
+      "type": "kit",
+      "name": "Racewear kit",
+      "settings": [
+        { "type": "product", "id": "product", "label": "Kit product" },
+        { "type": "text", "id": "title", "label": "Override title (optional)" },
+        { "type": "color", "id": "swatch_1", "label": "Swatch 1" },
+        { "type": "color", "id": "swatch_2", "label": "Swatch 2" },
+        { "type": "color", "id": "swatch_3", "label": "Swatch 3" }
+      ]
+    },
+    {
+      "type": "digital_category",
+      "name": "Game content category tile",
+      "settings": [
+        { "type": "image_picker", "id": "image", "label": "Tile image (optional — falls back to a gradient tint)" },
+        { "type": "text", "id": "title", "label": "Title", "default": "Bike Paints / PSDs" },
+        { "type": "text", "id": "subtitle", "label": "Subtitle", "default": "42 designs" },
+        { "type": "text", "id": "format_label", "label": "Format pill", "default": "PSD + Livery" },
+        { "type": "url", "id": "link", "label": "Link" }
+      ]
+    },
+    {
+      "type": "digital_product",
+      "name": "Game content product",
+      "settings": [
+        { "type": "product", "id": "product", "label": "Product" },
+        { "type": "text", "id": "format_meta", "label": "Format / compatibility line", "default": "Bike Paint / PSD · v1.13+" },
+        { "type": "checkbox", "id": "show_new_badge", "label": "Show \"NEW\" badge", "default": false }
+      ]
+    }
+  ],
+  "max_blocks": 20,
+  "presets": [
+    {
+      "name": "Shop tabs (IRL / MXBikes)",
+      "blocks": [
+        { "type": "kit" },
+        { "type": "kit" },
+        { "type": "kit" },
+        { "type": "digital_category" },
+        { "type": "digital_category" },
+        { "type": "digital_category" },
+        { "type": "digital_category" },
+        { "type": "digital_product" },
+        { "type": "digital_product" },
+        { "type": "digital_product" },
+        { "type": "digital_product" }
+      ]
+    }
+  ]
+}
+{% endschema %}

@@ -30,8 +30,10 @@
   <link href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;700;800;900&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
 
   {{ 'theme.css' | asset_url | stylesheet_tag }}
+  {{ 'theme-redesign.css' | asset_url | stylesheet_tag }}
 
   <script src="{{ 'theme.js' | asset_url }}" defer="defer"></script>
+  <script src="{{ 'theme-redesign.js' | asset_url }}" defer="defer"></script>
 </head>
 <body class="template-{{ request.page_type }}">
 

@@ -1,0 +1,115 @@
+{%- comment -%}
+  Crew Racewear — MX Bikes game content product page (digital download).
+  Assign via Online Store 2.0 alternate template: templates/product.digital.json
+
+  Optional metafields (namespace: custom):
+    - game_version       (single line text)   e.g. "MX Bikes v1.13+"
+    - file_formats       (list of single line text)  e.g. ["PSD source file", "In-game livery file"]
+    - whats_included     (multi-line text)
+    - installation_steps (multi-line text)
+    - license_text       (multi-line text)
+
+  Fulfillment note: mark this product as a digital / non-shipping product in
+  Shopify (no weight, or use a digital-delivery app) — this section doesn't
+  handle file delivery itself, only the storefront presentation.
+{%- endcomment -%}
+
+<div class="crw-theme">
+  <div class="crw-wrap crw-pdp">
+
+    <div>
+      <div class="crw-gallery-main crw-digital" data-crw-gallery-main>
+        {%- if product.featured_image != blank -%}
+          <img src="{{ product.featured_image | image_url: width: 1000 }}" alt="{{ product.featured_image.alt | escape }}" width="1000" height="1000">
+        {%- endif -%}
+      </div>
+      {%- if product.images.size > 1 -%}
+        <div class="crw-gallery-thumbs crw-digital">
+          {%- for image in product.images limit: 4 -%}
+            <button type="button" data-crw-thumb data-full="{{ image | image_url: width: 1000 }}" class="{% if forloop.first %}crw-active{% endif %}" style="background-image:url('{{ image | image_url: width: 200 }}')" aria-label="View preview {{ forloop.index }}"></button>
+          {%- endfor -%}
+        </div>
+      {%- endif -%}
+    </div>
+
+    <div class="crw-pdp-info">
+      <div class="crw-breadcrumb">
+        <a href="/">Home</a> / <a href="/collections/game-content">Game Content</a> / {{ product.title }}
+      </div>
+
+      <h1>{{ product.title }}</h1>
+      <div class="crw-pdp-price">{{ product.selected_or_first_available_variant.price | money }}</div>
+      <div class="crw-pdp-meta">
+        <span class="crw-stars">★★★★★</span>
+        {{ section.settings.review_count | default: 0 }} reviews · {{ product.type | default: 'Digital content' }}
+      </div>
+
+      <div class="crw-compat-row">
+        {%- if product.metafields.custom.game_version != blank -%}
+          <span class="crw-compat-pill crw-accent">{{ product.metafields.custom.game_version }}</span>
+        {%- endif -%}
+        {%- for format in product.metafields.custom.file_formats.value -%}
+          <span class="crw-compat-pill">{{ format }}</span>
+        {%- endfor -%}
+      </div>
+
+      <div class="crw-download-badge"><span class="crw-dot"></span> Instant download after purchase — no shipping</div>
+
+      {%- form 'product', product, id: 'crw-digital-form' -%}
+        <input type="hidden" name="id" value="{{ product.selected_or_first_available_variant.id }}">
+        <div class="crw-add-row">
+          <button type="submit" class="crw-btn crw-btn-accent" {% unless product.selected_or_first_available_variant.available %}disabled{% endunless %}>
+            Buy Now — {{ product.selected_or_first_available_variant.price | money }}
+          </button>
+        </div>
+      {%- endform -%}
+
+      <div class="crw-pdp-perks">
+        <div><span class="crw-dot"></span> {{ section.settings.perk_1 | default: 'Delivered instantly to your account and email' }}</div>
+        <div><span class="crw-dot"></span> {{ section.settings.perk_2 | default: 'Licensed for personal use on your own installs' }}</div>
+        <div><span class="crw-dot"></span> {{ section.settings.perk_3 | default: 'Free updates if the design is revised for new game versions' }}</div>
+      </div>
+
+      <div class="crw-accordion">
+        <details class="crw-accordion-item" open>
+          <summary>What's included <span>−</span></summary>
+          <p>{{ product.metafields.custom.whats_included | default: product.description | strip_html | truncate: 220 }}</p>
+        </details>
+        <details class="crw-accordion-item">
+          <summary>Installation <span>+</span></summary>
+          <p>{{ product.metafields.custom.installation_steps | default: "Drop the file into your MX Bikes folder and select it in-game. Full step-by-step instructions are included in the download." }}</p>
+        </details>
+        <details class="crw-accordion-item">
+          <summary>License &amp; usage <span>+</span></summary>
+          <p>{{ product.metafields.custom.license_text | default: "For personal use on your own MX Bikes installs. Redistribution or resale of the files is not permitted." }}</p>
+        </details>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<script>
+  (function () {
+    var mainImg = document.querySelector('[data-crw-gallery-main] img');
+    document.querySelectorAll('[data-crw-thumb]').forEach(function (thumb) {
+      thumb.addEventListener('click', function () {
+        document.querySelectorAll('[data-crw-thumb]').forEach(function (t) { t.classList.remove('crw-active'); });
+        thumb.classList.add('crw-active');
+        if (mainImg) mainImg.src = thumb.dataset.full;
+      });
+    });
+  })();
+</script>
+
+{% schema %}
+{
+  "name": "Digital content product page",
+  "settings": [
+    { "type": "number", "id": "review_count", "label": "Review count (static — replace with a reviews app once one is installed)", "default": 64 },
+    { "type": "text", "id": "perk_1", "label": "Perk 1", "default": "Delivered instantly to your account and email" },
+    { "type": "text", "id": "perk_2", "label": "Perk 2", "default": "Licensed for personal use on your own installs" },
+    { "type": "text", "id": "perk_3", "label": "Perk 3", "default": "Free updates if the design is revised for new game versions" }
+  ]
+}
+{% endschema %}
