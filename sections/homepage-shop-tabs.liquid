@@ -92,7 +92,7 @@
                 </div>
                 <div class="crw-kit-title">{{ block.settings.title | default: kit_product.title | default: 'Kit name' }}</div>
                 <div class="crw-kit-price">
-                  {{ kit_product.price | money | default: '$0.00' }} &middot; Bundle only
+                  {{ kit_product.price | default: 0 | money }} &middot; Bundle only
                 </div>
                 {%- if block.settings.swatch_1 != blank or block.settings.swatch_2 != blank or block.settings.swatch_3 != blank -%}
                   <div class="crw-kit-swatches">
@@ -236,7 +236,7 @@
                 </a>
                 <div class="crw-card-title">{{ dp.title | default: 'Content name' }}</div>
                 <div class="crw-card-meta">{{ block.settings.format_meta | default: 'Digital content' }}</div>
-                <div class="crw-card-price">{{ dp.price | money | default: '$0.00' }}</div>
+                <div class="crw-card-price">{{ dp.price | default: 0 | money }}</div>
               </div>
             {%- endif -%}
           {%- endfor -%}
