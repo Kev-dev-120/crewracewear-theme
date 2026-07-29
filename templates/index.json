@@ -18,10 +18,10 @@
         "heading": "BORN ON THE STARTING LINE",
         "subheading": "Race-tested apparel built for the gate drop and everything after.",
         "text_position": "bottom-left",
-        "button_label": "SHOP STRIKE",
-        "button_url": "",
+        "button_label": "SHOP LATEST",
+        "button_url": "shopify://collections/surge",
         "button_label_2": "LEARN MORE",
-        "button_url_2": ""
+        "button_url_2": "shopify://pages/about-us"
       }
     },
     "categories": {
