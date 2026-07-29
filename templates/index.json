@@ -81,6 +81,7 @@
     "story": {
       "type": "image-with-text",
       "settings": {
+        "image": "shopify://shop_images/AX1A9719.jpg",
         "layout": "image-left",
         "eyebrow": "OUR STORY",
         "heading": "BUILT BY RACERS, FOR RACERS",
