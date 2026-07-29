@@ -49,7 +49,7 @@
             "padding": 20,
             "tab_spacing": 15,
             "border_radius": 10,
-            "background_color": "#ffffff",
+            "background_color": "transparent",
             "tab_font_size": 16,
             "tab_padding_vertical": 12,
             "tab_padding_horizontal": 20,

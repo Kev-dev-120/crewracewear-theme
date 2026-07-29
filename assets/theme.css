@@ -291,7 +291,6 @@ h1, h2, h3, h4 {
 .hero__buttons { display: flex; gap: 14px; flex-wrap: wrap; }
 
 /* ---------- White surface panels (float readable content on the gradient) ---------- */
-.featured-collection,
 .collection {
   max-width: var(--container-max);
   margin: 40px auto;
@@ -308,9 +307,6 @@ h1, h2, h3, h4 {
 }
 .section-heading h2 { font-size: clamp(26px, 3vw, 38px); color: inherit; }
 .section-heading--row { display: flex; align-items: baseline; justify-content: space-between; }
-.featured-collection .section-heading {
-  color: var(--color-black);
-}
 .section-heading__link {
   font-family: var(--font-display);
   font-weight: 700;
@@ -398,10 +394,13 @@ h1, h2, h3, h4 {
   letter-spacing: 0.06em; padding: 5px 10px; border-radius: 4px;
 }
 .product-card__info { padding-top: 14px; }
-.product-card__title { font-family: var(--font-body); font-weight: 600; font-size: 14px; text-transform: none; margin: 0 0 4px; }
-.product-card__price { font-size: 14px; font-weight: 500; }
+.product-card__title { font-family: var(--font-body); font-weight: 600; font-size: 14px; text-transform: none; margin: 0 0 4px; color: var(--color-white); }
+.product-card__title a { color: inherit; }
+.product-card__price { font-size: 14px; font-weight: 500; color: var(--color-white); }
 .product-card__price--sale { color: var(--color-sale); font-weight: 700; margin-right: 8px; }
 .product-card__price--compare { text-decoration: line-through; color: var(--color-gray-400); }
+.collection .product-card__title,
+.collection .product-card__price { color: var(--color-black); }
 
 /* ---------- Image with text ---------- */
 .image-with-text {
@@ -411,7 +410,6 @@ h1, h2, h3, h4 {
   min-height: 560px;
   max-width: var(--container-max);
   margin: 40px auto;
-  background: var(--color-white);
   border-radius: var(--radius);
   overflow: hidden;
 }
@@ -425,13 +423,14 @@ h1, h2, h3, h4 {
   justify-content: center;
   padding: var(--gutter);
   max-width: 560px;
+  color: var(--color-white);
 }
 .image-with-text .eyebrow {
   font-family: var(--font-display); font-weight: 800; letter-spacing: 0.14em;
-  text-transform: uppercase; font-size: 12px; color: var(--color-accent-dark); margin: 0 0 12px;
+  text-transform: uppercase; font-size: 12px; color: var(--color-accent); margin: 0 0 12px;
 }
-.image-with-text h2 { font-size: clamp(26px, 3vw, 36px); margin-bottom: 18px; }
-.image-with-text .rte { color: var(--color-gray-700); margin-bottom: 24px; font-size: 16px; line-height: 1.6; }
+.image-with-text h2 { font-size: clamp(26px, 3vw, 36px); margin-bottom: 18px; color: inherit; }
+.image-with-text .rte { color: var(--color-gray-200); margin-bottom: 24px; font-size: 16px; line-height: 1.6; }
 
 /* ---------- Newsletter ---------- */
 .newsletter {
