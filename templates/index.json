@@ -42,7 +42,7 @@
             "discord_tab_label": "Discord",
             "discord_url": "https://discord.gg/crewracewear",
             "contact_tab_label": "Contact Us",
-            "contact_page": "",
+            "contact_page": "contact-us",
             "team_tab_label": "Meet The Team",
             "team_page": "meet-the-team",
             "desktop_width_percent": 100,
