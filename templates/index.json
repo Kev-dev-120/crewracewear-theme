@@ -60,7 +60,7 @@
           "settings": {
             "image": "shopify://shop_images/789BD257-390D-47AD-BCB6-90CB28BCEF86.jpg",
             "title": "MERCH",
-            "url": ""
+            "url": "shopify://collections/merch"
           }
         }
       },
