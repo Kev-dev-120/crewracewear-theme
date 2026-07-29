@@ -13,6 +13,7 @@
       "type": "presale-banner",
       "settings": {
         "text": "// SURGE & STRIKE // PRE-SALE STARTING JULY 21ST TILL AUGUST 12TH //",
+        "link_url": "",
         "speed": 32
       }
     },
@@ -24,65 +25,15 @@
         "eyebrow": "SEASON 2026",
         "heading": "BORN ON THE STARTING LINE",
         "subheading": "Race-tested apparel built for the gate drop and everything after.",
-        "text_position": "bottom-left",
+        "text_position": "left",
         "button_label": "SHOP LATEST",
         "button_url": "shopify://collections/surge",
-        "button_label_2": "SURGE",
+        "button_label_2": "",
         "button_url_2": "shopify://collections/surge"
       }
     },
     "178528455775658d8e": {
       "type": "_blocks",
-      "blocks": {
-        "ai_gen_block_4c565e4_eXkqKr": {
-          "type": "ai_gen_block_4c565e4",
-          "settings": {
-            "about_tab_label": "About",
-            "about_page": "about-us",
-            "products_tab_label": "Products",
-            "product_collections": [
-              "hats",
-              "hoodies",
-              "motocross-gear",
-              "t-shirts"
-            ],
-            "discord_tab_label": "Discord",
-            "discord_url": "https://discord.gg/crewracewear",
-            "contact_tab_label": "Contact Us",
-            "contact_page": "contact-us",
-            "team_tab_label": "Meet The Team",
-            "team_page": "meet-the-team",
-            "desktop_width_percent": 100,
-            "padding": 20,
-            "tab_spacing": 15,
-            "border_radius": 10,
-            "background_color": "transparent",
-            "tab_font_size": 16,
-            "tab_padding_vertical": 12,
-            "tab_padding_horizontal": 20,
-            "tab_border_radius": 8,
-            "tab_background_color": "#f4f4f4",
-            "tab_text_color": "#0a0a0a",
-            "tab_border_color": "#e0e0e0",
-            "tab_hover_background_color": "#dddddd",
-            "tab_hover_text_color": "#0a0a0a",
-            "subtab_font_size": 14,
-            "subtab_padding": 12,
-            "subtab_padding_vertical": 8,
-            "subtab_padding_horizontal": 12,
-            "subtab_border_radius": 8,
-            "subtab_item_border_radius": 4,
-            "subtab_background_color": "#ffffff",
-            "subtab_text_color": "#0a0a0a",
-            "subtab_hover_background_color": "#f4f4f4",
-            "subtab_hover_text_color": "#0a0a0a"
-          },
-          "blocks": {}
-        }
-      },
-      "block_order": [
-        "ai_gen_block_4c565e4_eXkqKr"
-      ],
       "settings": {}
     },
     "categories": {
