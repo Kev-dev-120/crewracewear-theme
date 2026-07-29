@@ -23,9 +23,9 @@
   --radius: 8px;
 
   --bg-gray: #3a3a40;
-  --bg-red: #6e1414;
+  --bg-white: #ffffff;
   --bg-black: #0d0d10;
-  --site-gradient: linear-gradient(160deg, var(--bg-gray) 0%, var(--bg-red) 48%, var(--bg-black) 100%);
+  --site-gradient: linear-gradient(160deg, var(--bg-gray) 0%, var(--bg-white) 48%, var(--bg-black) 100%);
 
   --font-display: 'Archivo', Helvetica, Arial, sans-serif;
   --font-body: 'Inter', Helvetica, Arial, sans-serif;
@@ -304,6 +304,7 @@ h1, h2, h3, h4 {
   margin: 0 auto;
   padding: 64px var(--gutter) 24px;
   color: var(--color-white);
+  text-shadow: 0 1px 6px rgba(0,0,0,.55);
 }
 .section-heading h2 { font-size: clamp(26px, 3vw, 38px); color: inherit; }
 .section-heading--row { display: flex; align-items: baseline; justify-content: space-between; }
@@ -394,13 +395,13 @@ h1, h2, h3, h4 {
   letter-spacing: 0.06em; padding: 5px 10px; border-radius: 4px;
 }
 .product-card__info { padding-top: 14px; }
-.product-card__title { font-family: var(--font-body); font-weight: 600; font-size: 14px; text-transform: none; margin: 0 0 4px; color: var(--color-white); }
+.product-card__title { font-family: var(--font-body); font-weight: 600; font-size: 14px; text-transform: none; margin: 0 0 4px; color: var(--color-white); text-shadow: 0 1px 4px rgba(0,0,0,.5); }
 .product-card__title a { color: inherit; }
-.product-card__price { font-size: 14px; font-weight: 500; color: var(--color-white); }
+.product-card__price { font-size: 14px; font-weight: 500; color: var(--color-white); text-shadow: 0 1px 4px rgba(0,0,0,.5); }
 .product-card__price--sale { color: var(--color-sale); font-weight: 700; margin-right: 8px; }
 .product-card__price--compare { text-decoration: line-through; color: var(--color-gray-400); }
 .collection .product-card__title,
-.collection .product-card__price { color: var(--color-black); }
+.collection .product-card__price { color: var(--color-black); text-shadow: none; }
 
 /* ---------- Image with text ---------- */
 .image-with-text {
@@ -424,6 +425,7 @@ h1, h2, h3, h4 {
   padding: var(--gutter);
   max-width: 560px;
   color: var(--color-white);
+  text-shadow: 0 1px 6px rgba(0,0,0,.55);
 }
 .image-with-text .eyebrow {
   font-family: var(--font-display); font-weight: 800; letter-spacing: 0.14em;
