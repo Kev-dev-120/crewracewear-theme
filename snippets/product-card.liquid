@@ -39,7 +39,9 @@
   {%- if product.available -%}
     {% form 'product', product, class: 'product-card__quick-add' %}
       <input type="hidden" name="id" value="{{ product.selected_or_first_available_variant.id }}">
-      <button type="submit" class="btn btn--quick-add">QUICK ADD</button>
+      <button type="submit" class="btn btn--quick-add">
+        <span data-add-to-cart-label>QUICK ADD</span>
+      </button>
     {% endform %}
   {%- endif -%}
 </div>
