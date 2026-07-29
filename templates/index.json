@@ -40,11 +40,11 @@
               "t-shirts"
             ],
             "discord_tab_label": "Discord",
-            "discord_url": "",
+            "discord_url": "https://discord.gg/crewracewear",
             "contact_tab_label": "Contact Us",
             "contact_page": "",
             "team_tab_label": "Meet The Team",
-            "team_page": "",
+            "team_page": "meet-the-team",
             "desktop_width_percent": 100,
             "padding": 20,
             "tab_spacing": 15,
