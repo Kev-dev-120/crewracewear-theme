@@ -1,0 +1,29 @@
+<section class="list-collections">
+  <div class="list-collections__header">
+    <h1>{{ section.settings.heading | default: 'Shop by Collection' }}</h1>
+  </div>
+  <div class="list-collections__grid">
+    {%- for collection in collections -%}
+      <a href="{{ collection.url }}" class="list-collections__item">
+        <div class="list-collections__media">
+          {%- if collection.featured_image -%}
+            <img src="{{ collection.featured_image | image_url: width: 600 }}" alt="{{ collection.title | escape }}" loading="lazy" width="600" height="{{ 600 | divided_by: collection.featured_image.aspect_ratio }}">
+          {%- else -%}
+            <div class="list-collections__placeholder"></div>
+          {%- endif -%}
+        </div>
+        <h3>{{ collection.title }}</h3>
+        <p>{{ collection.products_count }} product{% unless collection.products_count == 1 %}s{% endunless %}</p>
+      </a>
+    {%- endfor -%}
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Collection list",
+  "settings": [
+    { "type": "text", "id": "heading", "label": "Heading", "default": "Shop by Collection" }
+  ]
+}
+{% endschema %}
