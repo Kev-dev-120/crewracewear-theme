@@ -24,6 +24,56 @@
         "button_url_2": "shopify://pages/about-us"
       }
     },
+    "17852841406cdc8788": {
+      "type": "_blocks",
+      "blocks": {
+        "ai_gen_block_f0972fa_gfqXy9": {
+          "type": "ai_gen_block_f0972fa",
+          "settings": {
+            "desktop_width_percent": 100,
+            "padding": 20,
+            "border_radius": 8,
+            "tab_spacing": 16,
+            "tab_padding": 12,
+            "content_spacing": 20,
+            "background_color": "#ffffff",
+            "border_color": "#e0e0e0",
+            "tab_color": "#666666",
+            "tab_hover_color": "#0a0a0a",
+            "tab_active_color": "#0a0a0a",
+            "tab_active_border_color": "#FF3DFC",
+            "content_color": "#0a0a0a",
+            "link_color": "#0a0a0a",
+            "link_hover_color": "#666666",
+            "tab_font": "archivo_n4",
+            "tab_font_size": 16,
+            "content_font_size": 14,
+            "border_width": 2,
+            "active_border_width": 3,
+            "tab_1_enabled": true,
+            "tab_1_title": "About",
+            "tab_1_content": "<p>Add your content here. You can include links and formatting.</p>",
+            "tab_2_enabled": true,
+            "tab_2_title": "Products",
+            "tab_2_content": "<p>Add your content here. You can include links and formatting.</p>",
+            "tab_3_enabled": true,
+            "tab_3_title": "Contact",
+            "tab_3_content": "<p>Add your content here. You can include links and formatting.</p>",
+            "tab_4_enabled": true,
+            "tab_4_title": "Discord",
+            "tab_4_content": "",
+            "tab_5_enabled": true,
+            "tab_5_title": "Meet The Team!",
+            "tab_5_content": ""
+          },
+          "blocks": {}
+        }
+      },
+      "block_order": [
+        "ai_gen_block_f0972fa_gfqXy9"
+      ],
+      "settings": {}
+    },
     "categories": {
       "type": "category-tiles",
       "blocks": {
@@ -93,6 +143,7 @@
   },
   "order": [
     "hero",
+    "17852841406cdc8788",
     "categories",
     "featured",
     "story"
