@@ -33,7 +33,12 @@
             "about_tab_label": "About",
             "about_page": "about-us",
             "products_tab_label": "Products",
-            "product_collections": [],
+            "product_collections": [
+              "hats",
+              "hoodies",
+              "motocross-gear",
+              "t-shirts"
+            ],
             "discord_tab_label": "Discord",
             "discord_url": "",
             "contact_tab_label": "Contact Us",
