@@ -9,6 +9,13 @@
  */
 {
   "sections": {
+    "presale": {
+      "type": "presale-banner",
+      "settings": {
+        "text": "// SURGE & STRIKE // PRE-SALE STARTING JULY 21ST TILL AUGUST 12TH //",
+        "speed": 18
+      }
+    },
     "hero": {
       "type": "hero-banner",
       "settings": {
@@ -137,6 +144,7 @@
     }
   },
   "order": [
+    "presale",
     "hero",
     "178528455775658d8e",
     "categories",

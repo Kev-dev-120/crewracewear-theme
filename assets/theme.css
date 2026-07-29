@@ -115,6 +115,41 @@ h1, h2, h3, h4 {
 }
 .btn--quick-add:hover { background-image: var(--gradient); background-color: transparent; }
 
+/* ---------- Presale marquee banner ---------- */
+.presale-banner {
+  overflow: hidden;
+  background-image: var(--gradient);
+  border-bottom: 1px solid rgba(0,0,0,.15);
+}
+.presale-banner__link { display: block; }
+.presale-banner__track {
+  display: flex;
+  width: max-content;
+  animation: presale-marquee var(--marquee-duration, 18s) linear infinite;
+}
+.presale-banner__group {
+  display: flex;
+  flex-shrink: 0;
+}
+.presale-banner__text {
+  display: inline-block;
+  white-space: nowrap;
+  padding: 10px 24px;
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-size: 13px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--color-white);
+}
+@keyframes presale-marquee {
+  from { transform: translateX(-50%); }
+  to { transform: translateX(0); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .presale-banner__track { animation: none; }
+}
+
 /* ---------- Announcement bar ---------- */
 .announcement-bar {
   height: var(--announcement-height);

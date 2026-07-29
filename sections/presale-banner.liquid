@@ -1,0 +1,48 @@
+<div class="presale-banner">
+  {%- if section.settings.link_url != blank -%}<a href="{{ section.settings.link_url }}" class="presale-banner__link">{%- endif -%}
+  <div class="presale-banner__track" style="--marquee-duration: {{ section.settings.speed }}s;">
+    <div class="presale-banner__group">
+      {%- for i in (1..6) -%}
+        <span class="presale-banner__text">{{ section.settings.text }}</span>
+      {%- endfor -%}
+    </div>
+    <div class="presale-banner__group" aria-hidden="true">
+      {%- for i in (1..6) -%}
+        <span class="presale-banner__text">{{ section.settings.text }}</span>
+      {%- endfor -%}
+    </div>
+  </div>
+  {%- if section.settings.link_url != blank -%}</a>{%- endif -%}
+</div>
+
+{% schema %}
+{
+  "name": "Presale marquee banner",
+  "settings": [
+    {
+      "type": "text",
+      "id": "text",
+      "label": "Banner text",
+      "default": "// SURGE & STRIKE // PRE-SALE STARTING JULY 21ST TILL AUGUST 12TH //"
+    },
+    {
+      "type": "url",
+      "id": "link_url",
+      "label": "Link (optional)",
+      "info": "If set, the whole banner becomes clickable — e.g. link to the presale collection."
+    },
+    {
+      "type": "range",
+      "id": "speed",
+      "label": "Scroll speed (seconds per loop)",
+      "min": 8,
+      "max": 40,
+      "step": 1,
+      "default": 18
+    }
+  ],
+  "presets": [
+    { "name": "Presale marquee banner" }
+  ]
+}
+{% endschema %}
