@@ -1,6 +1,1091 @@
+{% doc %}
+  @prompt
+    A roster styled page with ability to input each rider with name/image/role and they are clickable for a quick bio page.
+{% enddoc %}
+{% assign ai_gen_id = block.id | replace: '_', '' | downcase %}
+
+{% style %}
+  .ai-roster-{{ ai_gen_id }} {
+    display: block;
+    width: {{ block.settings.desktop_width_percent }}%;
+    max-width: 100%;
+    padding: {{ block.settings.section_padding }}px 20px;
+    background-color: {{ block.settings.background_color }};
+  }
+
+  .ai-roster-header-{{ ai_gen_id }} {
+    text-align: {{ block.settings.header_alignment }};
+    margin-bottom: {{ block.settings.header_spacing }}px;
+  }
+
+  .ai-roster-title-{{ ai_gen_id }} {
+    font-family: {{ block.settings.heading_font.family }}, {{ block.settings.heading_font.fallback_families }};
+    font-weight: {{ block.settings.heading_font.weight }};
+    font-size: {{ block.settings.heading_size }}px;
+    color: {{ block.settings.heading_color }};
+    margin: 0 0 12px;
+  }
+
+  .ai-roster-description-{{ ai_gen_id }} {
+    font-size: {{ block.settings.description_size }}px;
+    color: {{ block.settings.description_color }};
+    max-width: 800px;
+    margin: 0 auto;
+  }
+
+  .ai-roster-grid-{{ ai_gen_id }} {
+    display: grid;
+    grid-template-columns: repeat({{ block.settings.columns_desktop }}, 1fr);
+    gap: {{ block.settings.grid_gap }}px;
+    margin-top: {{ block.settings.grid_spacing }}px;
+  }
+
+  .ai-roster-card-{{ ai_gen_id }} {
+    position: relative;
+    background-color: {{ block.settings.card_background }};
+    border-radius: {{ block.settings.card_border_radius }}px;
+    overflow: hidden;
+    cursor: pointer;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    border: {{ block.settings.card_border_width }}px solid {{ block.settings.card_border_color }};
+  }
+
+  .ai-roster-card-{{ ai_gen_id }}:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
+  }
+
+  .ai-roster-card-image-wrapper-{{ ai_gen_id }} {
+    position: relative;
+    width: 100%;
+    padding-bottom: {{ block.settings.image_aspect_ratio }}%;
+    overflow: hidden;
+    background-color: #f4f4f4;
+  }
+
+  .ai-roster-card-image-{{ ai_gen_id }} {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .ai-roster-card-image-wrapper-{{ ai_gen_id }} svg {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .ai-roster-card-content-{{ ai_gen_id }} {
+    padding: {{ block.settings.card_padding }}px;
+  }
+
+  .ai-roster-card-name-{{ ai_gen_id }} {
+    font-size: {{ block.settings.name_size }}px;
+    font-weight: 600;
+    color: {{ block.settings.name_color }};
+    margin: 0 0 4px;
+  }
+
+  .ai-roster-card-role-{{ ai_gen_id }} {
+    font-size: {{ block.settings.role_size }}px;
+    color: {{ block.settings.role_color }};
+    margin: 0;
+  }
+
+  .ai-roster-modal-{{ ai_gen_id }} {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.8);
+    z-index: 9999;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.3s ease, visibility 0.3s ease;
+    padding: 20px;
+  }
+
+  .ai-roster-modal-{{ ai_gen_id }}.active {
+    opacity: 1;
+    visibility: visible;
+  }
+
+  .ai-roster-modal-content-{{ ai_gen_id }} {
+    background-color: {{ block.settings.modal_background }};
+    border-radius: {{ block.settings.modal_border_radius }}px;
+    max-width: {{ block.settings.modal_max_width }}px;
+    width: 100%;
+    max-height: 90vh;
+    overflow-y: auto;
+    position: relative;
+    transform: scale(0.9);
+    transition: transform 0.3s ease;
+  }
+
+  .ai-roster-modal-{{ ai_gen_id }}.active .ai-roster-modal-content-{{ ai_gen_id }} {
+    transform: scale(1);
+  }
+
+  .ai-roster-modal-close-{{ ai_gen_id }} {
+    position: absolute;
+    top: 16px;
+    right: 16px;
+    background-color: {{ block.settings.close_button_background }};
+    color: {{ block.settings.close_button_color }};
+    border: none;
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 10;
+    transition: background-color 0.2s ease;
+  }
+
+  .ai-roster-modal-close-{{ ai_gen_id }}:hover {
+    background-color: {{ block.settings.close_button_hover }};
+  }
+
+  .ai-roster-modal-image-wrapper-{{ ai_gen_id }} {
+    position: relative;
+    width: 100%;
+    padding-bottom: 60%;
+    overflow: hidden;
+    background-color: #f4f4f4;
+  }
+
+  .ai-roster-modal-image-{{ ai_gen_id }} {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .ai-roster-modal-image-wrapper-{{ ai_gen_id }} svg {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .ai-roster-modal-body-{{ ai_gen_id }} {
+    padding: {{ block.settings.modal_padding }}px;
+  }
+
+  .ai-roster-modal-name-{{ ai_gen_id }} {
+    font-size: {{ block.settings.modal_name_size }}px;
+    font-weight: 700;
+    color: {{ block.settings.modal_text_color }};
+    margin: 0 0 8px;
+  }
+
+  .ai-roster-modal-role-{{ ai_gen_id }} {
+    font-size: {{ block.settings.modal_role_size }}px;
+    color: {{ block.settings.modal_role_color }};
+    margin: 0 0 20px;
+    font-weight: 500;
+  }
+
+  .ai-roster-modal-bio-{{ ai_gen_id }} {
+    font-size: {{ block.settings.modal_bio_size }}px;
+    color: {{ block.settings.modal_text_color }};
+    line-height: 1.6;
+  }
+
+  .ai-roster-empty-state-{{ ai_gen_id }} {
+    text-align: center;
+    padding: 60px 20px;
+    color: #666;
+  }
+
+  .ai-roster-empty-state-{{ ai_gen_id }} p {
+    font-size: 16px;
+    margin: 12px 0 0;
+  }
+
+  @media screen and (max-width: 989px) {
+    .ai-roster-grid-{{ ai_gen_id }} {
+      grid-template-columns: repeat({{ block.settings.columns_tablet }}, 1fr);
+    }
+  }
+
+  @media screen and (max-width: 749px) {
+    .ai-roster-grid-{{ ai_gen_id }} {
+      grid-template-columns: repeat({{ block.settings.columns_mobile }}, 1fr);
+    }
+
+    .ai-roster-title-{{ ai_gen_id }} {
+      font-size: calc({{ block.settings.heading_size }}px * 0.8);
+    }
+
+    .ai-roster-modal-content-{{ ai_gen_id }} {
+      max-height: 95vh;
+    }
+  }
+{% endstyle %}
+
+<rider-roster-{{ ai_gen_id }} class="ai-roster-{{ ai_gen_id }}" {{ block.shopify_attributes }}>
+  {% if block.settings.show_header %}
+    <div class="ai-roster-header-{{ ai_gen_id }}">
+      {% if block.settings.heading != blank %}
+        <h2 class="ai-roster-title-{{ ai_gen_id }}">{{ block.settings.heading }}</h2>
+      {% endif %}
+      {% if block.settings.description != blank %}
+        <div class="ai-roster-description-{{ ai_gen_id }}">{{ block.settings.description }}</div>
+      {% endif %}
+    </div>
+  {% endif %}
+
+  {% assign has_riders = false %}
+  {% for i in (1..12) %}
+    {% assign rider_name_key = 'rider_' | append: i | append: '_name' %}
+    {% if block.settings[rider_name_key] != blank %}
+      {% assign has_riders = true %}
+      {% break %}
+    {% endif %}
+  {% endfor %}
+
+  {% if has_riders %}
+    <div class="ai-roster-grid-{{ ai_gen_id }}">
+      {% for i in (1..12) %}
+        {% assign rider_name_key = 'rider_' | append: i | append: '_name' %}
+        {% assign rider_role_key = 'rider_' | append: i | append: '_role' %}
+        {% assign rider_image_key = 'rider_' | append: i | append: '_image' %}
+        {% assign rider_bio_key = 'rider_' | append: i | append: '_bio' %}
+        
+        {% assign rider_name = block.settings[rider_name_key] %}
+        {% assign rider_role = block.settings[rider_role_key] %}
+        {% assign rider_image = block.settings[rider_image_key] %}
+        {% assign rider_bio = block.settings[rider_bio_key] %}
+
+        {% if rider_name != blank %}
+          <div class="ai-roster-card-{{ ai_gen_id }}" data-rider-index="{{ i }}">
+            <div class="ai-roster-card-image-wrapper-{{ ai_gen_id }}">
+              {% if rider_image %}
+                <img
+                  src="{{ rider_image | image_url: width: 600 }}"
+                  alt="{{ rider_image.alt | default: rider_name | escape }}"
+                  class="ai-roster-card-image-{{ ai_gen_id }}"
+                  loading="lazy"
+                  width="600"
+                  height="{{ 600 | times: block.settings.image_aspect_ratio | divided_by: 100 }}"
+                >
+              {% else %}
+                {{ 'image' | placeholder_svg_tag }}
+              {% endif %}
+            </div>
+            <div class="ai-roster-card-content-{{ ai_gen_id }}">
+              <h3 class="ai-roster-card-name-{{ ai_gen_id }}">{{ rider_name }}</h3>
+              {% if rider_role != blank %}
+                <p class="ai-roster-card-role-{{ ai_gen_id }}">{{ rider_role }}</p>
+              {% endif %}
+            </div>
+          </div>
+        {% endif %}
+      {% endfor %}
+    </div>
+  {% else %}
+    <div class="ai-roster-empty-state-{{ ai_gen_id }}">
+      <svg width="80" height="80" viewBox="0 0 80 80" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <circle cx="40" cy="40" r="38" stroke="#ddd" stroke-width="4"/>
+        <circle cx="40" cy="32" r="12" stroke="#ddd" stroke-width="4"/>
+        <path d="M20 68C20 56 28 48 40 48C52 48 60 56 60 68" stroke="#ddd" stroke-width="4" stroke-linecap="round"/>
+      </svg>
+      <p>Add your first rider to get started</p>
+    </div>
+  {% endif %}
+
+  <div class="ai-roster-modal-{{ ai_gen_id }}" data-modal>
+    <div class="ai-roster-modal-content-{{ ai_gen_id }}">
+      <button class="ai-roster-modal-close-{{ ai_gen_id }}" aria-label="Close">
+        <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M15 5L5 15M5 5L15 15" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+        </svg>
+      </button>
+      <div class="ai-roster-modal-image-wrapper-{{ ai_gen_id }}" data-modal-image-wrapper></div>
+      <div class="ai-roster-modal-body-{{ ai_gen_id }}">
+        <h3 class="ai-roster-modal-name-{{ ai_gen_id }}" data-modal-name></h3>
+        <p class="ai-roster-modal-role-{{ ai_gen_id }}" data-modal-role></p>
+        <div class="ai-roster-modal-bio-{{ ai_gen_id }}" data-modal-bio></div>
+      </div>
+    </div>
+  </div>
+</rider-roster-{{ ai_gen_id }}>
+
+<script>
+  (function() {
+    class RiderRoster{{ ai_gen_id }} extends HTMLElement {
+      constructor() {
+        super();
+        this.riders = [
+          {% for i in (1..12) %}
+            {% assign rider_name_key = 'rider_' | append: i | append: '_name' %}
+            {% assign rider_role_key = 'rider_' | append: i | append: '_role' %}
+            {% assign rider_image_key = 'rider_' | append: i | append: '_image' %}
+            {% assign rider_bio_key = 'rider_' | append: i | append: '_bio' %}
+            
+            {% assign rider_name = block.settings[rider_name_key] %}
+            {% assign rider_role = block.settings[rider_role_key] %}
+            {% assign rider_image = block.settings[rider_image_key] %}
+            {% assign rider_bio = block.settings[rider_bio_key] %}
+
+            {% if rider_name != blank %}
+              {
+                name: {{ rider_name | json }},
+                role: {{ rider_role | default: '' | json }},
+                image: {% if rider_image %}{{ rider_image | image_url: width: 1200 | json }}{% else %}null{% endif %},
+                imageAlt: {{ rider_image.alt | default: rider_name | escape | json }},
+                bio: {{ rider_bio | default: '' | json }}
+              }{% unless forloop.last %},{% endunless %}
+            {% endif %}
+          {% endfor %}
+        ];
+      }
+
+      connectedCallback() {
+        this.modal = this.querySelector('[data-modal]');
+        this.modalName = this.querySelector('[data-modal-name]');
+        this.modalRole = this.querySelector('[data-modal-role]');
+        this.modalBio = this.querySelector('[data-modal-bio]');
+        this.modalImageWrapper = this.querySelector('[data-modal-image-wrapper]');
+        this.closeButton = this.querySelector('.ai-roster-modal-close-{{ ai_gen_id }}');
+        this.cards = this.querySelectorAll('.ai-roster-card-{{ ai_gen_id }}');
+
+        this.setupEventListeners();
+      }
+
+      setupEventListeners() {
+        this.cards.forEach((card) => {
+          card.addEventListener('click', () => {
+            const riderIndex = parseInt(card.getAttribute('data-rider-index')) - 1;
+            this.openModal(this.riders[riderIndex]);
+          });
+
+          card.addEventListener('keydown', (e) => {
+            if (e.key === 'Enter' || e.key === ' ') {
+              e.preventDefault();
+              const riderIndex = parseInt(card.getAttribute('data-rider-index')) - 1;
+              this.openModal(this.riders[riderIndex]);
+            }
+          });
+        });
+
+        this.closeButton.addEventListener('click', () => this.closeModal());
+
+        this.modal.addEventListener('click', (e) => {
+          if (e.target === this.modal) {
+            this.closeModal();
+          }
+        });
+
+        document.addEventListener('keydown', (e) => {
+          if (e.key === 'Escape' && this.modal.classList.contains('active')) {
+            this.closeModal();
+          }
+        });
+      }
+
+      openModal(rider) {
+        if (!rider) return;
+
+        this.modalName.textContent = rider.name;
+        this.modalRole.textContent = rider.role;
+        this.modalBio.innerHTML = rider.bio;
+
+        this.modalImageWrapper.innerHTML = '';
+        if (rider.image) {
+          const img = document.createElement('img');
+          img.src = rider.image;
+          img.alt = rider.imageAlt;
+          img.className = 'ai-roster-modal-image-{{ ai_gen_id }}';
+          this.modalImageWrapper.appendChild(img);
+        } else {
+          this.modalImageWrapper.innerHTML = '{{ 'image' | placeholder_svg_tag }}';
+        }
+
+        this.modal.classList.add('active');
+        document.body.style.overflow = 'hidden';
+      }
+
+      closeModal() {
+        this.modal.classList.remove('active');
+        document.body.style.overflow = '';
+      }
+    }
+
+    customElements.define('rider-roster-{{ ai_gen_id }}', RiderRoster{{ ai_gen_id }});
+  })();
+</script>
+
 {% schema %}
- {
-   "name": "AI_Block",
-   "tag": "shopify-ai-generated-block"
- }
+{
+  "name": "Rider roster",
+  "tag": null,
+  "settings": [
+    {
+      "type": "header",
+      "content": "Section header"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_header",
+      "label": "Show header",
+      "default": true
+    },
+    {
+      "type": "inline_richtext",
+      "id": "heading",
+      "label": "Heading",
+      "default": "Meet the team"
+    },
+    {
+      "type": "richtext",
+      "id": "description",
+      "label": "Description",
+      "default": "<p>Our talented roster of riders competing at the highest level</p>"
+    },
+    {
+      "type": "select",
+      "id": "header_alignment",
+      "label": "Header alignment",
+      "options": [
+        { "value": "left", "label": "Left" },
+        { "value": "center", "label": "Center" },
+        { "value": "right", "label": "Right" }
+      ],
+      "default": "center"
+    },
+    {
+      "type": "range",
+      "id": "heading_size",
+      "label": "Heading size",
+      "min": 20,
+      "max": 60,
+      "step": 2,
+      "unit": "px",
+      "default": 36
+    },
+    {
+      "type": "range",
+      "id": "description_size",
+      "label": "Description size",
+      "min": 12,
+      "max": 24,
+      "step": 1,
+      "unit": "px",
+      "default": 16
+    },
+    {
+      "type": "range",
+      "id": "header_spacing",
+      "label": "Header spacing",
+      "min": 20,
+      "max": 80,
+      "step": 4,
+      "unit": "px",
+      "default": 40
+    },
+    {
+      "type": "header",
+      "content": "Layout"
+    },
+    {
+      "type": "range",
+      "id": "desktop_width_percent",
+      "label": "Desktop width",
+      "min": 50,
+      "max": 100,
+      "step": 5,
+      "unit": "%",
+      "default": 100
+    },
+    {
+      "type": "range",
+      "id": "columns_desktop",
+      "label": "Columns on desktop",
+      "min": 2,
+      "max": 6,
+      "step": 1,
+      "default": 4
+    },
+    {
+      "type": "range",
+      "id": "columns_tablet",
+      "label": "Columns on tablet",
+      "min": 2,
+      "max": 4,
+      "step": 1,
+      "default": 3
+    },
+    {
+      "type": "select",
+      "id": "columns_mobile",
+      "label": "Columns on mobile",
+      "options": [
+        { "value": "1", "label": "1" },
+        { "value": "2", "label": "2" }
+      ],
+      "default": "2"
+    },
+    {
+      "type": "range",
+      "id": "grid_gap",
+      "label": "Grid gap",
+      "min": 10,
+      "max": 50,
+      "step": 2,
+      "unit": "px",
+      "default": 24
+    },
+    {
+      "type": "range",
+      "id": "grid_spacing",
+      "label": "Grid top spacing",
+      "min": 20,
+      "max": 80,
+      "step": 4,
+      "unit": "px",
+      "default": 40
+    },
+    {
+      "type": "range",
+      "id": "section_padding",
+      "label": "Section padding",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "default": 40
+    },
+    {
+      "type": "header",
+      "content": "Card style"
+    },
+    {
+      "type": "range",
+      "id": "image_aspect_ratio",
+      "label": "Image aspect ratio",
+      "min": 50,
+      "max": 150,
+      "step": 5,
+      "unit": "%",
+      "default": 100
+    },
+    {
+      "type": "range",
+      "id": "card_border_radius",
+      "label": "Card border radius",
+      "min": 0,
+      "max": 30,
+      "step": 2,
+      "unit": "px",
+      "default": 8
+    },
+    {
+      "type": "range",
+      "id": "card_padding",
+      "label": "Card padding",
+      "min": 8,
+      "max": 40,
+      "step": 2,
+      "unit": "px",
+      "default": 16
+    },
+    {
+      "type": "range",
+      "id": "card_border_width",
+      "label": "Card border width",
+      "min": 0,
+      "max": 5,
+      "step": 1,
+      "unit": "px",
+      "default": 1
+    },
+    {
+      "type": "range",
+      "id": "name_size",
+      "label": "Name size",
+      "min": 14,
+      "max": 28,
+      "step": 1,
+      "unit": "px",
+      "default": 18
+    },
+    {
+      "type": "range",
+      "id": "role_size",
+      "label": "Role size",
+      "min": 12,
+      "max": 20,
+      "step": 1,
+      "unit": "px",
+      "default": 14
+    },
+    {
+      "type": "header",
+      "content": "Modal style"
+    },
+    {
+      "type": "range",
+      "id": "modal_max_width",
+      "label": "Modal max width",
+      "min": 400,
+      "max": 900,
+      "step": 50,
+      "unit": "px",
+      "default": 700
+    },
+    {
+      "type": "range",
+      "id": "modal_border_radius",
+      "label": "Modal border radius",
+      "min": 0,
+      "max": 30,
+      "step": 2,
+      "unit": "px",
+      "default": 12
+    },
+    {
+      "type": "range",
+      "id": "modal_padding",
+      "label": "Modal padding",
+      "min": 20,
+      "max": 60,
+      "step": 4,
+      "unit": "px",
+      "default": 32
+    },
+    {
+      "type": "range",
+      "id": "modal_name_size",
+      "label": "Modal name size",
+      "min": 20,
+      "max": 40,
+      "step": 2,
+      "unit": "px",
+      "default": 28
+    },
+    {
+      "type": "range",
+      "id": "modal_role_size",
+      "label": "Modal role size",
+      "min": 14,
+      "max": 24,
+      "step": 1,
+      "unit": "px",
+      "default": 18
+    },
+    {
+      "type": "range",
+      "id": "modal_bio_size",
+      "label": "Modal bio size",
+      "min": 14,
+      "max": 20,
+      "step": 1,
+      "unit": "px",
+      "default": 16
+    },
+    {
+      "type": "header",
+      "content": "Colors"
+    },
+    {
+      "type": "color",
+      "id": "background_color",
+      "label": "Background",
+      "default": "#ffffff"
+    },
+    {
+      "type": "color",
+      "id": "heading_color",
+      "label": "Heading",
+      "default": "#0a0a0a"
+    },
+    {
+      "type": "color",
+      "id": "description_color",
+      "label": "Description",
+      "default": "#666666"
+    },
+    {
+      "type": "color",
+      "id": "card_background",
+      "label": "Card background",
+      "default": "#ffffff"
+    },
+    {
+      "type": "color",
+      "id": "card_border_color",
+      "label": "Card border",
+      "default": "#e5e5e5"
+    },
+    {
+      "type": "color",
+      "id": "name_color",
+      "label": "Name",
+      "default": "#0a0a0a"
+    },
+    {
+      "type": "color",
+      "id": "role_color",
+      "label": "Role",
+      "default": "#666666"
+    },
+    {
+      "type": "color",
+      "id": "modal_background",
+      "label": "Modal background",
+      "default": "#ffffff"
+    },
+    {
+      "type": "color",
+      "id": "modal_text_color",
+      "label": "Modal text",
+      "default": "#0a0a0a"
+    },
+    {
+      "type": "color",
+      "id": "modal_role_color",
+      "label": "Modal role",
+      "default": "#d7ff3d"
+    },
+    {
+      "type": "color",
+      "id": "close_button_background",
+      "label": "Close button background",
+      "default": "#f4f4f4"
+    },
+    {
+      "type": "color",
+      "id": "close_button_hover",
+      "label": "Close button hover",
+      "default": "#e5e5e5"
+    },
+    {
+      "type": "color",
+      "id": "close_button_color",
+      "label": "Close button icon",
+      "default": "#0a0a0a"
+    },
+    {
+      "type": "header",
+      "content": "Typography"
+    },
+    {
+      "type": "font_picker",
+      "id": "heading_font",
+      "label": "Heading font",
+      "default": "archivo_n4"
+    },
+    {
+      "type": "header",
+      "content": "Rider 1"
+    },
+    {
+      "type": "text",
+      "id": "rider_1_name",
+      "label": "Name"
+    },
+    {
+      "type": "text",
+      "id": "rider_1_role",
+      "label": "Role"
+    },
+    {
+      "type": "image_picker",
+      "id": "rider_1_image",
+      "label": "Image"
+    },
+    {
+      "type": "richtext",
+      "id": "rider_1_bio",
+      "label": "Bio"
+    },
+    {
+      "type": "header",
+      "content": "Rider 2"
+    },
+    {
+      "type": "text",
+      "id": "rider_2_name",
+      "label": "Name"
+    },
+    {
+      "type": "text",
+      "id": "rider_2_role",
+      "label": "Role"
+    },
+    {
+      "type": "image_picker",
+      "id": "rider_2_image",
+      "label": "Image"
+    },
+    {
+      "type": "richtext",
+      "id": "rider_2_bio",
+      "label": "Bio"
+    },
+    {
+      "type": "header",
+      "content": "Rider 3"
+    },
+    {
+      "type": "text",
+      "id": "rider_3_name",
+      "label": "Name"
+    },
+    {
+      "type": "text",
+      "id": "rider_3_role",
+      "label": "Role"
+    },
+    {
+      "type": "image_picker",
+      "id": "rider_3_image",
+      "label": "Image"
+    },
+    {
+      "type": "richtext",
+      "id": "rider_3_bio",
+      "label": "Bio"
+    },
+    {
+      "type": "header",
+      "content": "Rider 4"
+    },
+    {
+      "type": "text",
+      "id": "rider_4_name",
+      "label": "Name"
+    },
+    {
+      "type": "text",
+      "id": "rider_4_role",
+      "label": "Role"
+    },
+    {
+      "type": "image_picker",
+      "id": "rider_4_image",
+      "label": "Image"
+    },
+    {
+      "type": "richtext",
+      "id": "rider_4_bio",
+      "label": "Bio"
+    },
+    {
+      "type": "header",
+      "content": "Rider 5"
+    },
+    {
+      "type": "text",
+      "id": "rider_5_name",
+      "label": "Name"
+    },
+    {
+      "type": "text",
+      "id": "rider_5_role",
+      "label": "Role"
+    },
+    {
+      "type": "image_picker",
+      "id": "rider_5_image",
+      "label": "Image"
+    },
+    {
+      "type": "richtext",
+      "id": "rider_5_bio",
+      "label": "Bio"
+    },
+    {
+      "type": "header",
+      "content": "Rider 6"
+    },
+    {
+      "type": "text",
+      "id": "rider_6_name",
+      "label": "Name"
+    },
+    {
+      "type": "text",
+      "id": "rider_6_role",
+      "label": "Role"
+    },
+    {
+      "type": "image_picker",
+      "id": "rider_6_image",
+      "label": "Image"
+    },
+    {
+      "type": "richtext",
+      "id": "rider_6_bio",
+      "label": "Bio"
+    },
+    {
+      "type": "header",
+      "content": "Rider 7"
+    },
+    {
+      "type": "text",
+      "id": "rider_7_name",
+      "label": "Name"
+    },
+    {
+      "type": "text",
+      "id": "rider_7_role",
+      "label": "Role"
+    },
+    {
+      "type": "image_picker",
+      "id": "rider_7_image",
+      "label": "Image"
+    },
+    {
+      "type": "richtext",
+      "id": "rider_7_bio",
+      "label": "Bio"
+    },
+    {
+      "type": "header",
+      "content": "Rider 8"
+    },
+    {
+      "type": "text",
+      "id": "rider_8_name",
+      "label": "Name"
+    },
+    {
+      "type": "text",
+      "id": "rider_8_role",
+      "label": "Role"
+    },
+    {
+      "type": "image_picker",
+      "id": "rider_8_image",
+      "label": "Image"
+    },
+    {
+      "type": "richtext",
+      "id": "rider_8_bio",
+      "label": "Bio"
+    },
+    {
+      "type": "header",
+      "content": "Rider 9"
+    },
+    {
+      "type": "text",
+      "id": "rider_9_name",
+      "label": "Name"
+    },
+    {
+      "type": "text",
+      "id": "rider_9_role",
+      "label": "Role"
+    },
+    {
+      "type": "image_picker",
+      "id": "rider_9_image",
+      "label": "Image"
+    },
+    {
+      "type": "richtext",
+      "id": "rider_9_bio",
+      "label": "Bio"
+    },
+    {
+      "type": "header",
+      "content": "Rider 10"
+    },
+    {
+      "type": "text",
+      "id": "rider_10_name",
+      "label": "Name"
+    },
+    {
+      "type": "text",
+      "id": "rider_10_role",
+      "label": "Role"
+    },
+    {
+      "type": "image_picker",
+      "id": "rider_10_image",
+      "label": "Image"
+    },
+    {
+      "type": "richtext",
+      "id": "rider_10_bio",
+      "label": "Bio"
+    },
+    {
+      "type": "header",
+      "content": "Rider 11"
+    },
+    {
+      "type": "text",
+      "id": "rider_11_name",
+      "label": "Name"
+    },
+    {
+      "type": "text",
+      "id": "rider_11_role",
+      "label": "Role"
+    },
+    {
+      "type": "image_picker",
+      "id": "rider_11_image",
+      "label": "Image"
+    },
+    {
+      "type": "richtext",
+      "id": "rider_11_bio",
+      "label": "Bio"
+    },
+    {
+      "type": "header",
+      "content": "Rider 12"
+    },
+    {
+      "type": "text",
+      "id": "rider_12_name",
+      "label": "Name"
+    },
+    {
+      "type": "text",
+      "id": "rider_12_role",
+      "label": "Role"
+    },
+    {
+      "type": "image_picker",
+      "id": "rider_12_image",
+      "label": "Image"
+    },
+    {
+      "type": "richtext",
+      "id": "rider_12_bio",
+      "label": "Bio"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Rider roster"
+    }
+  ]
+}
 {% endschema %}
