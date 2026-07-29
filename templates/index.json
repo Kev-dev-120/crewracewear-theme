@@ -97,14 +97,6 @@
             "url": "shopify://collections/surge"
           }
         },
-        "rgb": {
-          "type": "tile",
-          "settings": {
-            "image": "shopify://shop_images/Mx_Bikes_Screenshot_2025.12.22_-_23.30.31.29.jpg",
-            "title": "MXBIKES Gear",
-            "url": ""
-          }
-        },
         "tees": {
           "type": "tile",
           "settings": {
@@ -117,7 +109,6 @@
       "block_order": [
         "strike",
         "surge",
-        "rgb",
         "tees"
       ],
       "settings": {
