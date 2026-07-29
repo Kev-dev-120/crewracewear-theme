@@ -20,8 +20,8 @@
         "text_position": "bottom-left",
         "button_label": "SHOP LATEST",
         "button_url": "shopify://collections/surge",
-        "button_label_2": "LEARN MORE",
-        "button_url_2": "shopify://pages/about-us"
+        "button_label_2": "SURGE",
+        "button_url_2": "shopify://collections/surge"
       }
     },
     "178528455775658d8e": {
@@ -57,7 +57,7 @@
             "tab_background_color": "#f4f4f4",
             "tab_text_color": "#0a0a0a",
             "tab_border_color": "#e0e0e0",
-            "tab_hover_background_color": "#DDDDDD",
+            "tab_hover_background_color": "#dddddd",
             "tab_hover_text_color": "#0a0a0a",
             "subtab_font_size": 14,
             "subtab_padding": 12,
