@@ -86,7 +86,7 @@
           "settings": {
             "image": "shopify://shop_images/IMG_0257.jpg",
             "title": "STRIKE",
-            "url": ""
+            "url": "shopify://collections/strike"
           }
         },
         "surge": {
@@ -94,7 +94,7 @@
           "settings": {
             "image": "shopify://shop_images/image.jpg",
             "title": "SURGE",
-            "url": ""
+            "url": "shopify://collections/surge"
           }
         },
         "rgb": {
