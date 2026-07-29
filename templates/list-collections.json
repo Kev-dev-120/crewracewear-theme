@@ -11,8 +11,17 @@
   "sections": {
     "main": {
       "type": "main-list-collections",
-      "settings": {}
+      "settings": {
+        "heading": "Shop by Collection",
+        "hidden_collections": [
+          "frontpage",
+          "merch",
+          "motocross-gear"
+        ]
+      }
     }
   },
-  "order": ["main"]
+  "order": [
+    "main"
+  ]
 }
