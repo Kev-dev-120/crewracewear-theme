@@ -536,9 +536,55 @@ h1, h2, h3, h4 {
 .product__price { font-size: 22px; font-weight: 600; margin-bottom: 24px; }
 .product__price--sale { color: var(--color-sale); margin-right: 10px; }
 .product__price--compare { text-decoration: line-through; color: var(--color-gray-400); font-size: 16px; }
-.product__option { margin-bottom: 18px; }
-.product__option label { display: block; font-weight: 700; font-size: 13px; text-transform: uppercase; margin-bottom: 8px; }
-.product__variant-select { width: 100%; padding: 14px; border: 2px solid var(--color-black); border-radius: var(--radius); margin-bottom: 16px; font-size: 15px; }
+.product__option { margin-bottom: 22px; }
+.product__option > label { display: block; font-weight: 700; font-size: 13px; text-transform: uppercase; letter-spacing: 0.04em; margin-bottom: 10px; }
+.product__option > label span { font-weight: 500; text-transform: none; color: var(--color-gray-700); }
+.product__option-values { display: flex; flex-wrap: wrap; gap: 8px; }
+.product__option-pill { position: relative; }
+.product__option-pill input {
+  position: absolute;
+  opacity: 0;
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  cursor: pointer;
+}
+.product__option-pill label {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 48px;
+  height: 44px;
+  padding: 0 16px;
+  border: 1.5px solid var(--color-gray-200);
+  border-radius: var(--radius);
+  font-size: 13px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.02em;
+  color: var(--color-black);
+  background: var(--color-white);
+  cursor: pointer;
+  transition: border-color .15s ease, background .15s ease, color .15s ease;
+}
+.product__option-pill:hover label { border-color: var(--color-black); }
+.product__option-pill input:checked + label {
+  border-color: transparent;
+  background-image: var(--gradient);
+  color: var(--color-white);
+}
+.product__option-pill input:focus-visible + label { outline: 2px solid var(--color-black); outline-offset: 2px; }
+.product__option-pill--oos label {
+  color: var(--color-gray-400);
+  border-style: dashed;
+  text-decoration: line-through;
+  cursor: not-allowed;
+}
+.product__option-pill--oos input:checked + label {
+  background-image: none;
+  background: var(--color-off-white);
+  color: var(--color-gray-400);
+}
 .product__description { margin-top: 32px; color: var(--color-gray-700); line-height: 1.7; }
 
 /* ---------- Collection page ---------- */

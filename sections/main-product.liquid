@@ -15,7 +15,7 @@
   <div class="product__info">
     {%- if product.vendor != blank -%}<p class="product__vendor">{{ product.vendor }}</p>{%- endif -%}
     <h1 class="product__title">{{ product.title }}</h1>
-    <div class="product__price">
+    <div class="product__price" data-product-price>
       {%- if product.compare_at_price > product.price -%}
         <span class="product__price--sale">{{ product.price | money }}</span>
         <span class="product__price--compare">{{ product.compare_at_price | money }}</span>
@@ -24,37 +24,104 @@
       {%- endif -%}
     </div>
 
-    {% form 'product', product %}
+    {% form 'product', product, id: 'product-form' %}
+      <input type="hidden" name="id" value="{{ product.selected_or_first_available_variant.id }}" data-product-variant-id>
+
       {%- unless product.has_only_default_variant -%}
         {%- for option in product.options_with_values -%}
           <div class="product__option">
-            <label>{{ option.name }}</label>
+            <label>{{ option.name }}: <span data-option-selected-value>{{ option.selected_value }}</span></label>
             <div class="product__option-values">
               {%- for value in option.values -%}
-                <input type="radio" id="option-{{ option.position }}-{{ forloop.index }}" name="option-{{ option.position }}" value="{{ value | escape }}" {% if option.selected_value == value %}checked{% endif %}>
-                <label for="option-{{ option.position }}-{{ forloop.index }}">{{ value }}</label>
+                {%- assign value_available = false -%}
+                {%- for variant in product.variants -%}
+                  {%- if variant.options[option.position | minus: 1] == value and variant.available -%}
+                    {%- assign value_available = true -%}
+                  {%- endif -%}
+                {%- endfor -%}
+                {%- assign input_id = 'option-' | append: option.position | append: '-' | append: forloop.index -%}
+                <span class="product__option-pill {% unless value_available %}product__option-pill--oos{% endunless %}">
+                  <input
+                    type="radio"
+                    id="{{ input_id }}"
+                    name="option-{{ option.position }}"
+                    value="{{ value | escape }}"
+                    data-option-index="{{ option.position | minus: 1 }}"
+                    {% if option.selected_value == value %}checked{% endif %}
+                    {% unless value_available %}disabled{% endunless %}>
+                  <label for="{{ input_id }}">{{ value }}</label>
+                </span>
               {%- endfor -%}
             </div>
           </div>
         {%- endfor -%}
       {%- endunless -%}
 
-      <select name="id" class="product__variant-select">
-        {%- for variant in product.variants -%}
-          <option value="{{ variant.id }}" {% if variant == product.selected_or_first_available_variant %}selected{% endif %} {% unless variant.available %}disabled{% endunless %}>
-            {{ variant.title }}{% unless variant.available %} - Sold out{% endunless %}
-          </option>
-        {%- endfor -%}
-      </select>
-
-      <button type="submit" class="btn btn--primary btn--full" {% unless product.available %}disabled{% endunless %}>
-        {%- if product.available -%}ADD TO CART{%- else -%}SOLD OUT{%- endif -%}
+      <button type="submit" class="btn btn--primary btn--full" data-add-to-cart {% unless product.selected_or_first_available_variant.available %}disabled{% endunless %}>
+        <span data-add-to-cart-label>
+          {%- if product.selected_or_first_available_variant.available -%}ADD TO CART{%- else -%}SOLD OUT{%- endif -%}
+        </span>
       </button>
     {% endform %}
 
     <div class="product__description rte">{{ product.description }}</div>
   </div>
 </section>
+
+<script>
+  (function () {
+    var productVariants = {{ product.variants | json }};
+    var form = document.getElementById('product-form');
+    if (!form) return;
+
+    var variantIdInput = form.querySelector('[data-product-variant-id]');
+    var priceEl = document.querySelector('[data-product-price]');
+    var addBtn = form.querySelector('[data-add-to-cart]');
+    var addLabel = form.querySelector('[data-add-to-cart-label]');
+
+    function formatMoney(cents) {
+      return '$' + (cents / 100).toFixed(2);
+    }
+
+    function currentSelection() {
+      var values = [];
+      form.querySelectorAll('[data-option-index]:checked').forEach(function (input) {
+        values[parseInt(input.dataset.optionIndex, 10)] = input.value;
+      });
+      return values;
+    }
+
+    function findVariant(values) {
+      return productVariants.filter(function (v) {
+        return values.every(function (val, i) { return v.options[i] === val; });
+      })[0];
+    }
+
+    function updateUI() {
+      var values = currentSelection();
+      var variant = findVariant(values);
+
+      form.querySelectorAll('.product__option').forEach(function (group) {
+        var checked = group.querySelector('[data-option-index]:checked');
+        var label = group.querySelector('[data-option-selected-value]');
+        if (checked && label) label.textContent = checked.value;
+      });
+
+      if (variant) {
+        variantIdInput.value = variant.id;
+        if (priceEl) priceEl.textContent = formatMoney(variant.price);
+        if (addLabel) addLabel.textContent = variant.available ? 'ADD TO CART' : 'SOLD OUT';
+        addBtn.disabled = !variant.available;
+      } else {
+        addBtn.disabled = true;
+      }
+    }
+
+    form.querySelectorAll('[data-option-index]').forEach(function (input) {
+      input.addEventListener('change', updateUI);
+    });
+  })();
+</script>
 
 {% schema %}
 {
