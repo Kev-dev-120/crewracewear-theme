@@ -1,6 +1,610 @@
+{% doc %}
+  @prompt
+    Create a tabs navigation block with the following features:
+    1. An "About" tab that functions as a navigation link to the About Us page
+    2. A "Products" tab that displays nested subtabs for each product category tile, allowing users to browse categories within the tab
+    The block should support clickable tab links and a hierarchical subtab structure under the Products tab., add additional tabs: Discord , Contact Us, Meet The Team
+{% enddoc %}
+{% assign ai_gen_id = block.id | replace: '_', '' | downcase %}
+
+{% style %}
+  .ai-tabs-nav-{{ ai_gen_id }} {
+    display: block;
+    width: {{ block.settings.desktop_width_percent }}%;
+    max-width: 100%;
+    background-color: {{ block.settings.background_color }};
+    border-radius: {{ block.settings.border_radius }}px;
+    padding: {{ block.settings.padding }}px;
+  }
+
+  .ai-tabs-nav__container-{{ ai_gen_id }} {
+    display: flex;
+    gap: {{ block.settings.tab_spacing }}px;
+    align-items: flex-start;
+    flex-wrap: wrap;
+  }
+
+  .ai-tabs-nav__tab-{{ ai_gen_id }} {
+    position: relative;
+  }
+
+  .ai-tabs-nav__tab-link-{{ ai_gen_id }} {
+    display: inline-block;
+    padding: {{ block.settings.tab_padding_vertical }}px {{ block.settings.tab_padding_horizontal }}px;
+    background-color: {{ block.settings.tab_background_color }};
+    color: {{ block.settings.tab_text_color }};
+    text-decoration: none;
+    border-radius: {{ block.settings.tab_border_radius }}px;
+    font-size: {{ block.settings.tab_font_size }}px;
+    font-weight: 500;
+    transition: all 0.3s ease;
+    cursor: pointer;
+    border: 1px solid {{ block.settings.tab_border_color }};
+  }
+
+  .ai-tabs-nav__tab-link-{{ ai_gen_id }}:hover {
+    background-color: {{ block.settings.tab_hover_background_color }};
+    color: {{ block.settings.tab_hover_text_color }};
+  }
+
+  .ai-tabs-nav__tab-link--expandable-{{ ai_gen_id }} {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .ai-tabs-nav__tab-icon-{{ ai_gen_id }} {
+    width: 16px;
+    height: 16px;
+    transition: transform 0.3s ease;
+  }
+
+  .ai-tabs-nav__tab-icon--expanded-{{ ai_gen_id }} {
+    transform: rotate(180deg);
+  }
+
+  .ai-tabs-nav__subtabs-{{ ai_gen_id }} {
+    position: absolute;
+    top: calc(100% + 8px);
+    left: 0;
+    background-color: {{ block.settings.subtab_background_color }};
+    border-radius: {{ block.settings.subtab_border_radius }}px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    padding: {{ block.settings.subtab_padding }}px;
+    min-width: 200px;
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(-10px);
+    transition: all 0.3s ease;
+    z-index: 10;
+  }
+
+  .ai-tabs-nav__subtabs--visible-{{ ai_gen_id }} {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
+  }
+
+  .ai-tabs-nav__subtab-item-{{ ai_gen_id }} {
+    margin-bottom: 8px;
+  }
+
+  .ai-tabs-nav__subtab-item-{{ ai_gen_id }}:last-child {
+    margin-bottom: 0;
+  }
+
+  .ai-tabs-nav__subtab-link-{{ ai_gen_id }} {
+    display: block;
+    padding: {{ block.settings.subtab_padding_vertical }}px {{ block.settings.subtab_padding_horizontal }}px;
+    color: {{ block.settings.subtab_text_color }};
+    text-decoration: none;
+    border-radius: {{ block.settings.subtab_item_border_radius }}px;
+    font-size: {{ block.settings.subtab_font_size }}px;
+    transition: all 0.3s ease;
+  }
+
+  .ai-tabs-nav__subtab-link-{{ ai_gen_id }}:hover {
+    background-color: {{ block.settings.subtab_hover_background_color }};
+    color: {{ block.settings.subtab_hover_text_color }};
+  }
+
+  .ai-tabs-nav__empty-state-{{ ai_gen_id }} {
+    padding: 16px;
+    color: #999;
+    font-size: 14px;
+    text-align: center;
+    font-style: italic;
+  }
+
+  @media screen and (max-width: 749px) {
+    .ai-tabs-nav__container-{{ ai_gen_id }} {
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .ai-tabs-nav__subtabs-{{ ai_gen_id }} {
+      position: static;
+      transform: none;
+      box-shadow: none;
+      margin-top: 8px;
+      padding-left: 16px;
+    }
+
+    .ai-tabs-nav__subtabs--visible-{{ ai_gen_id }} {
+      transform: none;
+    }
+  }
+{% endstyle %}
+
+<tabs-navigation-{{ ai_gen_id }}
+  class="ai-tabs-nav-{{ ai_gen_id }}"
+  {{ block.shopify_attributes }}
+>
+  <div class="ai-tabs-nav__container-{{ ai_gen_id }}">
+    <div class="ai-tabs-nav__tab-{{ ai_gen_id }}">
+      {% if block.settings.about_page != blank %}
+        <a
+          href="{{ block.settings.about_page.url }}"
+          class="ai-tabs-nav__tab-link-{{ ai_gen_id }}"
+        >
+          {{ block.settings.about_tab_label }}
+        </a>
+      {% else %}
+        <span class="ai-tabs-nav__tab-link-{{ ai_gen_id }}">
+          {{ block.settings.about_tab_label }}
+        </span>
+      {% endif %}
+    </div>
+
+    <div class="ai-tabs-nav__tab-{{ ai_gen_id }}">
+      <button
+        class="ai-tabs-nav__tab-link-{{ ai_gen_id }} ai-tabs-nav__tab-link--expandable-{{ ai_gen_id }}"
+        data-tab-trigger
+        aria-expanded="false"
+      >
+        <span>{{ block.settings.products_tab_label }}</span>
+        <svg
+          class="ai-tabs-nav__tab-icon-{{ ai_gen_id }}"
+          xmlns="http://www.w3.org/2000/svg"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+        >
+          <polyline points="6 9 12 15 18 9"></polyline>
+        </svg>
+      </button>
+
+      <div class="ai-tabs-nav__subtabs-{{ ai_gen_id }}" data-subtabs>
+        {% if block.settings.product_collections != blank %}
+          {% for collection in block.settings.product_collections %}
+            <div class="ai-tabs-nav__subtab-item-{{ ai_gen_id }}">
+              <a
+                href="{{ collection.url }}"
+                class="ai-tabs-nav__subtab-link-{{ ai_gen_id }}"
+              >
+                {{ collection.title }}
+              </a>
+            </div>
+          {% endfor %}
+        {% else %}
+          <div class="ai-tabs-nav__empty-state-{{ ai_gen_id }}">
+            Next, add product collections
+          </div>
+        {% endif %}
+      </div>
+    </div>
+
+    <div class="ai-tabs-nav__tab-{{ ai_gen_id }}">
+      {% if block.settings.discord_url != blank %}
+        <a
+          href="{{ block.settings.discord_url }}"
+          class="ai-tabs-nav__tab-link-{{ ai_gen_id }}"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          {{ block.settings.discord_tab_label }}
+        </a>
+      {% else %}
+        <span class="ai-tabs-nav__tab-link-{{ ai_gen_id }}">
+          {{ block.settings.discord_tab_label }}
+        </span>
+      {% endif %}
+    </div>
+
+    <div class="ai-tabs-nav__tab-{{ ai_gen_id }}">
+      {% if block.settings.contact_page != blank %}
+        <a
+          href="{{ block.settings.contact_page.url }}"
+          class="ai-tabs-nav__tab-link-{{ ai_gen_id }}"
+        >
+          {{ block.settings.contact_tab_label }}
+        </a>
+      {% else %}
+        <span class="ai-tabs-nav__tab-link-{{ ai_gen_id }}">
+          {{ block.settings.contact_tab_label }}
+        </span>
+      {% endif %}
+    </div>
+
+    <div class="ai-tabs-nav__tab-{{ ai_gen_id }}">
+      {% if block.settings.team_page != blank %}
+        <a
+          href="{{ block.settings.team_page.url }}"
+          class="ai-tabs-nav__tab-link-{{ ai_gen_id }}"
+        >
+          {{ block.settings.team_tab_label }}
+        </a>
+      {% else %}
+        <span class="ai-tabs-nav__tab-link-{{ ai_gen_id }}">
+          {{ block.settings.team_tab_label }}
+        </span>
+      {% endif %}
+    </div>
+  </div>
+</tabs-navigation-{{ ai_gen_id }}>
+
+<script>
+  (function() {
+    class TabsNavigation{{ ai_gen_id }} extends HTMLElement {
+      constructor() {
+        super();
+      }
+
+      connectedCallback() {
+        this.trigger = this.querySelector('[data-tab-trigger]');
+        this.subtabs = this.querySelector('[data-subtabs]');
+        this.icon = this.trigger.querySelector('.ai-tabs-nav__tab-icon-{{ ai_gen_id }}');
+        this.isExpanded = false;
+
+        this.setupEventListeners();
+      }
+
+      setupEventListeners() {
+        this.trigger.addEventListener('click', () => {
+          this.toggleSubtabs();
+        });
+
+        document.addEventListener('click', (event) => {
+          if (!this.contains(event.target) && this.isExpanded) {
+            this.closeSubtabs();
+          }
+        });
+      }
+
+      toggleSubtabs() {
+        this.isExpanded = !this.isExpanded;
+
+        if (this.isExpanded) {
+          this.openSubtabs();
+        } else {
+          this.closeSubtabs();
+        }
+      }
+
+      openSubtabs() {
+        this.subtabs.classList.add('ai-tabs-nav__subtabs--visible-{{ ai_gen_id }}');
+        this.icon.classList.add('ai-tabs-nav__tab-icon--expanded-{{ ai_gen_id }}');
+        this.trigger.setAttribute('aria-expanded', 'true');
+        this.isExpanded = true;
+      }
+
+      closeSubtabs() {
+        this.subtabs.classList.remove('ai-tabs-nav__subtabs--visible-{{ ai_gen_id }}');
+        this.icon.classList.remove('ai-tabs-nav__tab-icon--expanded-{{ ai_gen_id }}');
+        this.trigger.setAttribute('aria-expanded', 'false');
+        this.isExpanded = false;
+      }
+    }
+
+    customElements.define('tabs-navigation-{{ ai_gen_id }}', TabsNavigation{{ ai_gen_id }});
+  })();
+</script>
+
 {% schema %}
- {
-   "name": "AI_Block",
-   "tag": "shopify-ai-generated-block"
- }
+{
+  "name": "Tabs navigation",
+  "tag": null,
+  "settings": [
+    {
+      "type": "header",
+      "content": "About tab"
+    },
+    {
+      "type": "text",
+      "id": "about_tab_label",
+      "label": "Label",
+      "default": "About"
+    },
+    {
+      "type": "page",
+      "id": "about_page",
+      "label": "Page"
+    },
+    {
+      "type": "header",
+      "content": "Products tab"
+    },
+    {
+      "type": "text",
+      "id": "products_tab_label",
+      "label": "Label",
+      "default": "Products"
+    },
+    {
+      "type": "collection_list",
+      "id": "product_collections",
+      "label": "Collections",
+      "limit": 10
+    },
+    {
+      "type": "header",
+      "content": "Discord tab"
+    },
+    {
+      "type": "text",
+      "id": "discord_tab_label",
+      "label": "Label",
+      "default": "Discord"
+    },
+    {
+      "type": "url",
+      "id": "discord_url",
+      "label": "Discord URL"
+    },
+    {
+      "type": "header",
+      "content": "Contact Us tab"
+    },
+    {
+      "type": "text",
+      "id": "contact_tab_label",
+      "label": "Label",
+      "default": "Contact Us"
+    },
+    {
+      "type": "page",
+      "id": "contact_page",
+      "label": "Page"
+    },
+    {
+      "type": "header",
+      "content": "Meet The Team tab"
+    },
+    {
+      "type": "text",
+      "id": "team_tab_label",
+      "label": "Label",
+      "default": "Meet The Team"
+    },
+    {
+      "type": "page",
+      "id": "team_page",
+      "label": "Page"
+    },
+    {
+      "type": "header",
+      "content": "Layout"
+    },
+    {
+      "type": "range",
+      "id": "desktop_width_percent",
+      "label": "Desktop width",
+      "min": 50,
+      "max": 100,
+      "step": 5,
+      "unit": "%",
+      "default": 100
+    },
+    {
+      "type": "range",
+      "id": "padding",
+      "label": "Container padding",
+      "min": 0,
+      "max": 50,
+      "step": 5,
+      "unit": "px",
+      "default": 20
+    },
+    {
+      "type": "range",
+      "id": "tab_spacing",
+      "label": "Tab spacing",
+      "min": 0,
+      "max": 40,
+      "step": 5,
+      "unit": "px",
+      "default": 15
+    },
+    {
+      "type": "range",
+      "id": "border_radius",
+      "label": "Container border radius",
+      "min": 0,
+      "max": 40,
+      "step": 5,
+      "unit": "px",
+      "default": 10
+    },
+    {
+      "type": "header",
+      "content": "Container colors"
+    },
+    {
+      "type": "color",
+      "id": "background_color",
+      "label": "Background",
+      "default": "#ffffff"
+    },
+    {
+      "type": "header",
+      "content": "Tab style"
+    },
+    {
+      "type": "range",
+      "id": "tab_font_size",
+      "label": "Font size",
+      "min": 12,
+      "max": 24,
+      "step": 1,
+      "unit": "px",
+      "default": 16
+    },
+    {
+      "type": "range",
+      "id": "tab_padding_vertical",
+      "label": "Vertical padding",
+      "min": 5,
+      "max": 30,
+      "step": 1,
+      "unit": "px",
+      "default": 12
+    },
+    {
+      "type": "range",
+      "id": "tab_padding_horizontal",
+      "label": "Horizontal padding",
+      "min": 10,
+      "max": 50,
+      "step": 5,
+      "unit": "px",
+      "default": 20
+    },
+    {
+      "type": "range",
+      "id": "tab_border_radius",
+      "label": "Border radius",
+      "min": 0,
+      "max": 40,
+      "step": 2,
+      "unit": "px",
+      "default": 8
+    },
+    {
+      "type": "color",
+      "id": "tab_background_color",
+      "label": "Background",
+      "default": "#f4f4f4"
+    },
+    {
+      "type": "color",
+      "id": "tab_text_color",
+      "label": "Text",
+      "default": "#0a0a0a"
+    },
+    {
+      "type": "color",
+      "id": "tab_border_color",
+      "label": "Border",
+      "default": "#e0e0e0"
+    },
+    {
+      "type": "color",
+      "id": "tab_hover_background_color",
+      "label": "Hover background",
+      "default": "#d7ff3d"
+    },
+    {
+      "type": "color",
+      "id": "tab_hover_text_color",
+      "label": "Hover text",
+      "default": "#0a0a0a"
+    },
+    {
+      "type": "header",
+      "content": "Subtab style"
+    },
+    {
+      "type": "range",
+      "id": "subtab_font_size",
+      "label": "Font size",
+      "min": 12,
+      "max": 20,
+      "step": 1,
+      "unit": "px",
+      "default": 14
+    },
+    {
+      "type": "range",
+      "id": "subtab_padding",
+      "label": "Container padding",
+      "min": 5,
+      "max": 30,
+      "step": 1,
+      "unit": "px",
+      "default": 12
+    },
+    {
+      "type": "range",
+      "id": "subtab_padding_vertical",
+      "label": "Item vertical padding",
+      "min": 5,
+      "max": 20,
+      "step": 1,
+      "unit": "px",
+      "default": 8
+    },
+    {
+      "type": "range",
+      "id": "subtab_padding_horizontal",
+      "label": "Item horizontal padding",
+      "min": 5,
+      "max": 30,
+      "step": 1,
+      "unit": "px",
+      "default": 12
+    },
+    {
+      "type": "range",
+      "id": "subtab_border_radius",
+      "label": "Container border radius",
+      "min": 0,
+      "max": 40,
+      "step": 2,
+      "unit": "px",
+      "default": 8
+    },
+    {
+      "type": "range",
+      "id": "subtab_item_border_radius",
+      "label": "Item border radius",
+      "min": 0,
+      "max": 20,
+      "step": 1,
+      "unit": "px",
+      "default": 4
+    },
+    {
+      "type": "color",
+      "id": "subtab_background_color",
+      "label": "Background",
+      "default": "#ffffff"
+    },
+    {
+      "type": "color",
+      "id": "subtab_text_color",
+      "label": "Text",
+      "default": "#0a0a0a"
+    },
+    {
+      "type": "color",
+      "id": "subtab_hover_background_color",
+      "label": "Hover background",
+      "default": "#f4f4f4"
+    },
+    {
+      "type": "color",
+      "id": "subtab_hover_text_color",
+      "label": "Hover text",
+      "default": "#0a0a0a"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Tabs navigation"
+    }
+  ]
+}
 {% endschema %}
