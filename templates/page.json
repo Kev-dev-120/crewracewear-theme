@@ -13,10 +13,10 @@
       "type": "main-page",
       "settings": {}
     },
-    "blocks_iCbqrr": {
+    "blocks_fq9j7m": {
       "type": "_blocks",
       "blocks": {
-        "ai_gen_block_6daeb62_DDg3cx": {
+        "ai_gen_block_6daeb62_QAfB7J": {
           "type": "ai_gen_block_6daeb62",
           "settings": {
             "show_header": true,
@@ -100,7 +100,7 @@
         }
       },
       "block_order": [
-        "ai_gen_block_6daeb62_DDg3cx"
+        "ai_gen_block_6daeb62_QAfB7J"
       ],
       "name": "Rider roster",
       "settings": {}
@@ -108,6 +108,6 @@
   },
   "order": [
     "main",
-    "blocks_iCbqrr"
+    "blocks_fq9j7m"
   ]
 }
