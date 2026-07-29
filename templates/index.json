@@ -90,7 +90,7 @@
         "heading": "BUILT BY RACERS, FOR RACERS",
         "text": "<p>Crew Racewear started in the pits, not the boardroom. Every piece is tested at the track before it ever hits the shop.</p>",
         "button_label": "ABOUT US",
-        "button_url": ""
+        "button_url": "shopify://pages/about-us"
       }
     }
   },
