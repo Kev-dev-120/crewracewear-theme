@@ -13,12 +13,24 @@
   "sections": {
     "newsletter": {
       "type": "newsletter",
-      "settings": {}
+      "settings": {
+        "heading": "JOIN THE CREW",
+        "subheading": "Drops, races, and restocks — straight to your inbox."
+      }
     },
     "footer": {
       "type": "footer",
-      "settings": {}
+      "settings": {
+        "tagline": "Built by racers, for racers.",
+        "contact_email": "crewracewear@gmail.com",
+        "instagram_url": "shopify://metaobjects/meet_the_team/billy-ottervanger",
+        "youtube_url": "",
+        "discord_url": "https://discord.gg/crewracewear"
+      }
     }
   },
-  "order": ["newsletter", "footer"]
+  "order": [
+    "newsletter",
+    "footer"
+  ]
 }
