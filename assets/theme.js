@@ -24,6 +24,23 @@ document.addEventListener('DOMContentLoaded', function () {
     }
   }
 
+  /* ---------------- Product gallery thumbnail swap ---------------- */
+  document.querySelectorAll('.product__media').forEach(function (media) {
+    var mainImg = media.querySelector('[data-product-gallery-main]');
+    var thumbs = media.querySelectorAll('[data-thumb]');
+    if (!mainImg || !thumbs.length) return;
+
+    thumbs.forEach(function (thumb) {
+      thumb.addEventListener('click', function () {
+        thumbs.forEach(function (t) { t.classList.remove('is-active'); });
+        thumb.classList.add('is-active');
+        mainImg.style.opacity = '0';
+        mainImg.src = thumb.dataset.full;
+        mainImg.onload = function () { mainImg.style.opacity = '1'; };
+      });
+    });
+  });
+
   /* ---------------- Cart drawer ---------------- */
   var cartDrawer = document.querySelector('[data-cart-drawer]');
   var cartToggles = document.querySelectorAll('[data-cart-drawer-toggle]');

@@ -1,12 +1,19 @@
 <section class="product">
   <div class="product__media">
     {%- if product.featured_media -%}
-      <img src="{{ product.featured_media | image_url: width: 1200 }}" alt="{{ product.featured_media.alt | escape }}" width="1200" height="{{ 1200 | divided_by: product.featured_media.aspect_ratio }}" loading="eager">
+      <img data-product-gallery-main src="{{ product.featured_media | image_url: width: 1200 }}" alt="{{ product.featured_media.alt | escape }}" width="1200" height="1200" loading="eager">
     {%- endif -%}
     {%- if product.media.size > 1 -%}
       <div class="product__thumbs">
         {%- for media in product.media -%}
-          <img src="{{ media | image_url: width: 200 }}" alt="{{ media.alt | escape }}" loading="lazy" width="200" height="{{ 200 | divided_by: media.aspect_ratio }}">
+          <button
+            type="button"
+            class="product__thumb {% if forloop.first %}is-active{% endif %}"
+            data-thumb
+            data-full="{{ media | image_url: width: 1200 }}"
+            aria-label="View image {{ forloop.index }}">
+            <img src="{{ media | image_url: width: 200 }}" alt="{{ media.alt | escape }}" loading="lazy" width="200" height="200">
+          </button>
         {%- endfor -%}
       </div>
     {%- endif -%}
