@@ -1,9 +1,97 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
 {
   "sections": {
     "main": {
       "type": "main-product",
+      "disabled": true,
+      "settings": {}
+    },
+    "blocks_RtCBCb": {
+      "type": "_blocks",
+      "blocks": {
+        "ai_gen_block_d022111_zGiarC": {
+          "type": "ai_gen_block_d022111",
+          "settings": {
+            "arrow_size": 50,
+            "arrow_bg_color": "#0a0a0a",
+            "arrow_color": "#d7ff3d",
+            "arrow_border_color": "#d7ff3d",
+            "arrow_border_width": 2,
+            "arrow_border_radius": 5,
+            "arrow_opacity": 0.9,
+            "arrow_stroke_width": 3,
+            "arrow_hover_bg_color": "#d7ff3d",
+            "arrow_hover_color": "#0a0a0a",
+            "hide_duplicate_selectors": true,
+            "selector_spacing": 25,
+            "selector_label_size": 13,
+            "selector_label_weight": 700,
+            "selector_label_color": "#0a0a0a",
+            "selector_label_transform": "uppercase",
+            "selector_label_spacing": 1,
+            "selector_option_padding": 10,
+            "selector_border_width": 2,
+            "selector_border_radius": 4,
+            "selector_bg_color": "#ffffff",
+            "selector_text_color": "#0a0a0a",
+            "selector_border_color": "#cccccc",
+            "selector_hover_bg_color": "#f5f5f5",
+            "selector_hover_border_color": "#0a0a0a",
+            "selector_active_bg_color": "#0a0a0a",
+            "selector_active_text_color": "#d7ff3d",
+            "selector_active_border_color": "#d7ff3d",
+            "clean_product_info": true,
+            "info_padding": 20,
+            "section_spacing": 25,
+            "title_size": 36,
+            "title_weight": 700,
+            "title_color": "#0a0a0a",
+            "title_transform": "uppercase",
+            "title_spacing": 1.5,
+            "title_margin": 20,
+            "price_size": 24,
+            "price_weight": 600,
+            "price_color": "#0a0a0a",
+            "price_margin": 20,
+            "description_size": 15,
+            "description_line_height": 1.6,
+            "description_color": "#4a4a4a",
+            "description_margin": 25,
+            "button_bg_color": "#0a0a0a",
+            "button_text_color": "#d7ff3d",
+            "button_border_color": "#d7ff3d",
+            "button_border_width": 2,
+            "button_border_radius": 4,
+            "button_padding": 16,
+            "button_font_size": 16,
+            "button_font_weight": 700,
+            "button_text_transform": "uppercase",
+            "button_letter_spacing": 1.5,
+            "button_hover_bg_color": "#d7ff3d",
+            "button_hover_text_color": "#0a0a0a",
+            "button_hover_border_color": "#d7ff3d",
+            "desktop_width_percent": 100
+          },
+          "blocks": {}
+        }
+      },
+      "block_order": [
+        "ai_gen_block_d022111_zGiarC"
+      ],
+      "name": "Product page cleanup",
       "settings": {}
     }
   },
-  "order": ["main"]
+  "order": [
+    "main",
+    "blocks_RtCBCb"
+  ]
 }
