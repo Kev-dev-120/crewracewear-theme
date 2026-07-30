@@ -1,16 +1,18 @@
 <section class="product">
   <div class="product__media">
-    {%- if product.featured_media -%}
-      <img data-product-gallery-main src="{{ product.featured_media | image_url: width: 1200 }}" alt="{{ product.featured_media.alt | escape }}" width="1200" height="1200" loading="eager">
-    {%- endif -%}
-    {%- if product.media.size > 1 -%}
-      <button type="button" class="product__media-nav product__media-nav--prev" data-gallery-prev aria-label="Previous image">
-        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M15 18l-6-6 6-6"/></svg>
-      </button>
-      <button type="button" class="product__media-nav product__media-nav--next" data-gallery-next aria-label="Next image">
-        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M9 18l6-6-6-6"/></svg>
-      </button>
-    {%- endif -%}
+    <div class="product__media-main">
+      {%- if product.featured_media -%}
+        <img data-product-gallery-main src="{{ product.featured_media | image_url: width: 1200 }}" alt="{{ product.featured_media.alt | escape }}" width="1200" height="1200" loading="eager">
+      {%- endif -%}
+      {%- if product.media.size > 1 -%}
+        <button type="button" class="product__media-nav product__media-nav--prev" data-gallery-prev aria-label="Previous image">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M15 18l-6-6 6-6"/></svg>
+        </button>
+        <button type="button" class="product__media-nav product__media-nav--next" data-gallery-next aria-label="Next image">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M9 18l6-6-6-6"/></svg>
+        </button>
+      {%- endif -%}
+    </div>
     {%- if product.media.size > 1 -%}
       <div class="product__thumbs">
         {%- for media in product.media -%}
