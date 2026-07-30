@@ -613,7 +613,7 @@ body.cart-drawer-open { overflow: hidden; }
   text-transform: uppercase; font-size: 12px; color: var(--color-accent); margin: 0 0 12px;
 }
 .image-with-text h2 { font-size: clamp(26px, 3vw, 36px); margin-bottom: 18px; color: inherit; }
-.image-with-text .rte { color: var(--color-gray-200); margin-bottom: 24px; font-size: 16px; line-height: 1.6; }
+.image-with-text .rte { color: var(--color-white); margin-bottom: 24px; font-size: 16px; line-height: 1.6; text-shadow: 0 1px 8px rgba(0,0,0,.7); }
 
 /* ---------- Newsletter ---------- */
 .newsletter {
