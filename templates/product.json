@@ -9,70 +9,12 @@
  */
 {
   "sections": {
-    "1785388484b490e6be": {
-      "type": "_blocks",
-      "blocks": {
-        "ai_gen_block_c9102c1_irEUiT": {
-          "type": "ai_gen_block_c9102c1",
-          "settings": {
-            "arrow_size": 50,
-            "arrow_offset": 20,
-            "arrow_border_width": 2,
-            "arrow_border_radius": 5,
-            "arrow_stroke_width": 3,
-            "arrow_opacity": 0.8,
-            "arrow_background": "#0a0a0a",
-            "arrow_border_color": "#d7ff3d",
-            "arrow_color": "#d7ff3d",
-            "arrow_hover_background": "#d7ff3d",
-            "arrow_hover_border_color": "#d7ff3d",
-            "arrow_hover_color": "#0a0a0a",
-            "info_padding": 20,
-            "title_spacing": 20,
-            "title_weight": 700,
-            "title_letter_spacing": 0.5,
-            "price_spacing": 25,
-            "price_size": 24,
-            "price_weight": 600,
-            "form_spacing": 30,
-            "input_spacing": 20,
-            "variant_section_padding": 15,
-            "variant_section_border_width": 1,
-            "variant_section_border_radius": 8,
-            "variant_section_border_color": "#e5e5e5",
-            "variant_section_background": "#fafafa",
-            "variant_label_weight": 600,
-            "variant_label_spacing": 10,
-            "variant_label_transform": "uppercase",
-            "variant_label_letter_spacing": 1,
-            "variant_button_padding": 12,
-            "variant_button_border_width": 2,
-            "variant_button_active_border_width": 3,
-            "variant_button_border_radius": 6,
-            "variant_button_weight": 500,
-            "variant_button_margin": 4,
-            "description_spacing": 30,
-            "description_line_height": 1.6,
-            "accordion_spacing": 30,
-            "accordion_title_weight": 600,
-            "accordion_padding": 15
-          },
-          "blocks": {}
-        }
-      },
-      "block_order": [
-        "ai_gen_block_c9102c1_irEUiT"
-      ],
-      "settings": {}
-    },
     "main": {
       "type": "main-product",
-      "disabled": true,
       "settings": {}
     }
   },
   "order": [
-    "1785388484b490e6be",
     "main"
   ]
 }
