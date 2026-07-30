@@ -1,30 +1,14 @@
 <section class="product">
   <div class="product__media">
-    <div class="product__media-main">
-      {%- if product.featured_media -%}
-        <img data-product-gallery-main src="{{ product.featured_media | image_url: width: 1200 }}" alt="{{ product.featured_media.alt | escape }}" width="1200" height="1200" loading="eager">
-      {%- endif -%}
-      {%- if product.media.size > 1 -%}
-        <button type="button" class="product__media-nav product__media-nav--prev" data-gallery-prev aria-label="Previous image">
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M15 18l-6-6 6-6"/></svg>
-        </button>
-        <button type="button" class="product__media-nav product__media-nav--next" data-gallery-next aria-label="Next image">
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M9 18l6-6-6-6"/></svg>
-        </button>
-      {%- endif -%}
-    </div>
-    {%- if product.media.size > 1 -%}
-      <div class="product__thumbs">
-        {%- for media in product.media -%}
-          <button
-            type="button"
-            class="product__thumb {% if forloop.first %}is-active{% endif %}"
-            data-thumb
-            data-full="{{ media | image_url: width: 1200 }}"
-            aria-label="View image {{ forloop.index }}">
-            <img src="{{ media | image_url: width: 200 }}" alt="{{ media.alt | escape }}" loading="lazy" width="200" height="200">
-          </button>
-        {%- endfor -%}
+    {%- if product.media.size > 0 -%}
+      <div class="product__slideshow">
+        <button class="product__arrow product__arrow--prev" onclick="slideProduct(-1)">&#8592;</button>
+        <div class="product__slides">
+          {%- for media in product.media -%}
+             <img class="product__slide{% if forloop.first %} active{% endif %}" src="{{ media | image_url: width: 1200 }}" alt="{{ media.alt | escape }}" width="1200" height="{{ 1200 | divided_by: media.aspect_ratio }}" loading="{% if forloop.first %}eager{% else %}lazy{% endif %}">
+          {%- endfor -%}
+        </div>
+        <button class="product__arrow product__arrow--next" onclick="slideProduct(1)">&#8594;</button>
       </div>
     {%- endif -%}
   </div>
@@ -32,7 +16,7 @@
   <div class="product__info">
     {%- if product.vendor != blank -%}<p class="product__vendor">{{ product.vendor }}</p>{%- endif -%}
     <h1 class="product__title">{{ product.title }}</h1>
-    <div class="product__price" data-product-price>
+    <div class="product__price">
       {%- if product.compare_at_price > product.price -%}
         <span class="product__price--sale">{{ product.price | money }}</span>
         <span class="product__price--compare">{{ product.compare_at_price | money }}</span>
@@ -41,105 +25,58 @@
       {%- endif -%}
     </div>
 
-    {% form 'product', product, id: 'product-form' %}
-      <input type="hidden" name="id" value="{{ product.selected_or_first_available_variant.id }}" data-product-variant-id>
-
+    {% form 'product', product %}
       {%- unless product.has_only_default_variant -%}
         {%- for option in product.options_with_values -%}
           <div class="product__option">
-            <label>{{ option.name }}: <span data-option-selected-value>{{ option.selected_value }}</span></label>
+            <label>{{ option.name }}</label>
             <div class="product__option-values">
               {%- for value in option.values -%}
-                {%- assign value_available = false -%}
-                {%- for variant in product.variants -%}
-                  {%- if variant.options[option.position | minus: 1] == value and variant.available -%}
-                    {%- assign value_available = true -%}
-                  {%- endif -%}
-                {%- endfor -%}
-                {%- assign input_id = 'option-' | append: option.position | append: '-' | append: forloop.index -%}
-                <span class="product__option-pill {% unless value_available %}product__option-pill--oos{% endunless %}">
-                  <input
-                    type="radio"
-                    id="{{ input_id }}"
-                    name="option-{{ option.position }}"
-                    value="{{ value | escape }}"
-                    data-option-index="{{ option.position | minus: 1 }}"
-                    {% if option.selected_value == value %}checked{% endif %}
-                    {% unless value_available %}disabled{% endunless %}>
-                  <label for="{{ input_id }}">{{ value }}</label>
-                </span>
+                <input type="radio" id="option-{{ option.position }}-{{ forloop.index }}" name="option-{{ option.position }}" value="{{ value | escape }}" {% if option.selected_value == value %}checked{% endif %}>
+                <label for="option-{{ option.position }}-{{ forloop.index }}">{{ value }}</label>
               {%- endfor -%}
             </div>
           </div>
         {%- endfor -%}
       {%- endunless -%}
 
-      <button type="submit" class="btn btn--primary btn--full" data-add-to-cart {% unless product.selected_or_first_available_variant.available %}disabled{% endunless %}>
-        <span data-add-to-cart-label>
-          {%- if product.selected_or_first_available_variant.available -%}ADD TO CART{%- else -%}SOLD OUT{%- endif -%}
-        </span>
+      <select name="id" class="product__variant-select" style="display:none">
+        {%- for variant in product.variants -%}
+          <option value="{{ variant.id }}" {% if variant == product.selected_or_first_available_variant %}selected{% endif %} {% unless variant.available %}disabled{% endunless %}>
+            {{ variant.title }}{% unless variant.available %} - Sold out{% endunless %}
+          </option>
+        {%- endfor -%}
+      </select>
+
+      <button type="submit" class="btn btn--primary btn--full" {% unless product.available %}disabled{% endunless %}>
+        {%- if product.available -%}ADD TO CART{%- else -%}SOLD OUT{%- endif -%}
       </button>
     {% endform %}
 
     <div class="product__description rte">{{ product.description }}</div>
   </div>
 </section>
-
-<script>
-  (function () {
-    var productVariants = {{ product.variants | json }};
-    var form = document.getElementById('product-form');
-    if (!form) return;
-
-    var variantIdInput = form.querySelector('[data-product-variant-id]');
-    var priceEl = document.querySelector('[data-product-price]');
-    var addBtn = form.querySelector('[data-add-to-cart]');
-    var addLabel = form.querySelector('[data-add-to-cart-label]');
-
-    function formatMoney(cents) {
-      return '$' + (cents / 100).toFixed(2);
+  <style>
+    .product__slideshow { position: relative; }
+    .product__slide { display: none; width: 100%; }
+    .product__slide.active { display: block; }
+    .product__arrow {
+      position: absolute; top: 50%; transform: translateY(-50%);
+      background: #111; color: #fff; border: none; padding: 12px 16px;
+      font-size: 20px; cursor: pointer; z-index: 2;
     }
-
-    function currentSelection() {
-      var values = [];
-      form.querySelectorAll('[data-option-index]:checked').forEach(function (input) {
-        values[parseInt(input.dataset.optionIndex, 10)] = input.value;
-      });
-      return values;
+    .product__arrow--prev { left: 0; }
+    .product__arrow--next { right: 0; }
+  </style>
+  <script>
+    let currentSlide = 0;
+    const slides = document.querySelectorAll('.product__slide');
+    function slideProduct(dir) {
+      slides[currentSlide].classList.remove('active');
+      currentSlide = (currentSlide + dir + slides.length) % slides.length;
+      slides[currentSlide].classList.add('active');
     }
-
-    function findVariant(values) {
-      return productVariants.filter(function (v) {
-        return values.every(function (val, i) { return v.options[i] === val; });
-      })[0];
-    }
-
-    function updateUI() {
-      var values = currentSelection();
-      var variant = findVariant(values);
-
-      form.querySelectorAll('.product__option').forEach(function (group) {
-        var checked = group.querySelector('[data-option-index]:checked');
-        var label = group.querySelector('[data-option-selected-value]');
-        if (checked && label) label.textContent = checked.value;
-      });
-
-      if (variant) {
-        variantIdInput.value = variant.id;
-        if (priceEl) priceEl.textContent = formatMoney(variant.price);
-        if (addLabel) addLabel.textContent = variant.available ? 'ADD TO CART' : 'SOLD OUT';
-        addBtn.disabled = !variant.available;
-      } else {
-        addBtn.disabled = true;
-      }
-    }
-
-    form.querySelectorAll('[data-option-index]').forEach(function (input) {
-      input.addEventListener('change', updateUI);
-    });
-  })();
-</script>
-
+  </script>
 {% schema %}
 {
   "name": "Product information",
