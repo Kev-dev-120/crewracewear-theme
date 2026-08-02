@@ -5,7 +5,7 @@
         <button class="product__arrow product__arrow--prev" onclick="slideProduct(-1)">&#8592;</button>
         <div class="product__slides">
           {%- for media in product.media -%}
-             <img class="product__slide{% if forloop.first %} active{% endif %}" src="{{ media | image_url: width: 1200 }}" alt="{{ media.alt | escape }}" width="1000" height="{{ 1200 | divided_by: media.aspect_ratio }}" loading="{% if forloop.first %}eager{% else %}lazy{% endif %}">
+             <img class="product__slide{% if forloop.first %} active{% endif %}" src="{{ media | image_url: width: 1400 }}" alt="{{ media.alt | escape }}" width="1400" height="{{ 1000 | divided_by: media.aspect_ratio }}" loading="{% if forloop.first %}eager{% else %}lazy{% endif %}">
           {%- endfor -%}
         </div>
         <button class="product__arrow product__arrow--next" onclick="slideProduct(1)">&#8594;</button>
