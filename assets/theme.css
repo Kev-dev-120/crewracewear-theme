@@ -402,6 +402,29 @@ body.cart-drawer-open { overflow: hidden; }
   border-top: 1px solid var(--color-gray-200);
   padding: 20px 24px 24px;
 }
+.cart-drawer__note { margin-bottom: 16px; }
+.cart-drawer__note label {
+  display: block;
+  font-weight: 700;
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  margin-bottom: 6px;
+  color: var(--color-black);
+}
+.cart-drawer__note-hint { color: var(--color-gray-700); font-size: 12px; margin: 0 0 8px; line-height: 1.4; }
+.cart-drawer__note textarea {
+  width: 100%;
+  padding: 10px 12px;
+  border: 1.5px solid var(--color-gray-200);
+  border-radius: var(--radius);
+  font-size: 13px;
+  font-family: var(--font-body);
+  color: var(--color-black);
+  resize: vertical;
+  transition: border-color .15s ease;
+}
+.cart-drawer__note textarea:focus { outline: none; border-color: var(--color-black); }
 .cart-drawer__subtotal {
   display: flex;
   justify-content: space-between;
@@ -800,6 +823,29 @@ body.cart-drawer-open { overflow: hidden; }
 .cart-page__product { display: flex; gap: 16px; align-items: center; }
 .cart-page__product img { border: 1px solid var(--color-gray-200); border-radius: var(--radius); }
 .cart-page__variant { color: var(--color-gray-400); font-size: 13px; }
+.cart-page__note { max-width: 480px; margin: 8px 0 32px; }
+.cart-page__note label {
+  display: block;
+  font-weight: 700;
+  font-size: 12px;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  margin-bottom: 6px;
+  color: var(--color-black);
+}
+.cart-page__note-hint { color: var(--color-gray-700); font-size: 13px; margin: 0 0 10px; line-height: 1.5; }
+.cart-page__note textarea {
+  width: 100%;
+  padding: 14px 16px;
+  border: 1.5px solid var(--color-gray-200);
+  border-radius: var(--radius);
+  font-size: 14px;
+  font-family: var(--font-body);
+  color: var(--color-black);
+  resize: vertical;
+  transition: border-color .15s ease;
+}
+.cart-page__note textarea:focus { outline: none; border-color: var(--color-black); }
 .cart-page__footer { display: flex; align-items: center; justify-content: flex-end; gap: 20px; }
 .cart-page__subtotal { font-weight: 700; font-size: 18px; margin-right: auto; }
 .error-404 { text-align: center; }

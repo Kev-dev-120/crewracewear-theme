@@ -143,6 +143,36 @@ document.addEventListener('DOMContentLoaded', function () {
       .then(function (cart) { renderCart(cart); });
   }
 
+  function updateCartNote(note) {
+    return fetch('/cart/update.js', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ note: note })
+    });
+  }
+
+  var cartNoteEl = cartDrawer && cartDrawer.querySelector('[data-cart-drawer-note]');
+  var cartNoteSynced = true;
+  if (cartNoteEl) {
+    cartNoteEl.addEventListener('input', function () { cartNoteSynced = false; });
+    cartNoteEl.addEventListener('blur', function () {
+      if (cartNoteSynced) return;
+      updateCartNote(cartNoteEl.value).then(function () { cartNoteSynced = true; });
+    });
+  }
+
+  var cartCheckoutLink = cartDrawer && cartDrawer.querySelector('[data-cart-drawer-checkout]');
+  if (cartCheckoutLink && cartNoteEl) {
+    cartCheckoutLink.addEventListener('click', function (e) {
+      if (cartNoteSynced) return;
+      e.preventDefault();
+      updateCartNote(cartNoteEl.value).then(function () {
+        cartNoteSynced = true;
+        window.location.href = cartCheckoutLink.href;
+      });
+    });
+  }
+
   cartToggles.forEach(function (toggle) {
     toggle.addEventListener('click', function (e) {
       e.preventDefault();

@@ -66,6 +66,11 @@
         <p class="cart-drawer__empty">Your cart is empty.</p>
       </div>
       <div class="cart-drawer__footer">
+        <div class="cart-drawer__note">
+          <label for="CartDrawerNote">Special Instructions</label>
+          <p class="cart-drawer__note-hint">For name and number customization, as well as kids' or women's sizing, please include your request here.</p>
+          <textarea id="CartDrawerNote" data-cart-drawer-note rows="3" placeholder="e.g. Name: John, Number: 24, Kids size M">{{ cart.note }}</textarea>
+        </div>
         <div class="cart-drawer__subtotal">
           <span>Subtotal</span>
           <span data-cart-drawer-subtotal>{{ cart.total_price | money }}</span>
