@@ -16,7 +16,7 @@
   <div class="product__info">
     {%- if product.vendor != blank -%}<p class="product__vendor">{{ product.vendor }}</p>{%- endif -%}
     <h1 class="product__title">{{ product.title }}</h1>
-    <div class="product__price">
+    <div class="product__price" data-product-price>
       {%- if product.compare_at_price > product.price -%}
         <span class="product__price--sale">{{ product.price | money }}</span>
         <span class="product__price--compare">{{ product.compare_at_price | money }}</span>
@@ -25,14 +25,14 @@
       {%- endif -%}
     </div>
 
-    {% form 'product', product %}
+    {% form 'product', product, id: 'product-form' %}
       {%- unless product.has_only_default_variant -%}
         {%- for option in product.options_with_values -%}
           <div class="product__option">
             <label>{{ option.name }}</label>
             <div class="product__option-values">
               {%- for value in option.values -%}
-                <input type="radio" id="option-{{ option.position }}-{{ forloop.index }}" name="option-{{ option.position }}" value="{{ value | escape }}" {% if option.selected_value == value %}checked{% endif %}>
+                <input type="radio" id="option-{{ option.position }}-{{ forloop.index }}" name="option-{{ option.position }}" value="{{ value | escape }}" data-option-index="{{ option.position | minus: 1 }}" {% if option.selected_value == value %}checked{% endif %}>
                 <label for="option-{{ option.position }}-{{ forloop.index }}">{{ value }}</label>
               {%- endfor -%}
             </div>
@@ -40,7 +40,7 @@
         {%- endfor -%}
       {%- endunless -%}
 
-      <select name="id" class="product__variant-select" style="display:none">
+      <select name="id" class="product__variant-select" data-product-variant-select style="display:none">
         {%- for variant in product.variants -%}
           <option value="{{ variant.id }}" {% if variant == product.selected_or_first_available_variant %}selected{% endif %} {% unless variant.available %}disabled{% endunless %}>
             {{ variant.title }}{% unless variant.available %} - Sold out{% endunless %}
@@ -48,8 +48,10 @@
         {%- endfor -%}
       </select>
 
-      <button type="submit" class="btn btn--primary btn--full" {% unless product.available %}disabled{% endunless %}>
-        {%- if product.available -%}ADD TO CART{%- else -%}SOLD OUT{%- endif -%}
+      <button type="submit" class="btn btn--primary btn--full" data-add-to-cart {% unless product.selected_or_first_available_variant.available %}disabled{% endunless %}>
+        <span data-add-to-cart-label>
+          {%- if product.selected_or_first_available_variant.available -%}ADD TO CART{%- else -%}SOLD OUT{%- endif -%}
+        </span>
       </button>
     {% endform %}
 
@@ -76,6 +78,52 @@
       currentSlide = (currentSlide + dir + slides.length) % slides.length;
       slides[currentSlide].classList.add('active');
     }
+  </script>
+  <script>
+    (function () {
+      var productVariants = {{ product.variants | json }};
+      var form = document.getElementById('product-form');
+      if (!form) return;
+
+      var variantSelect = form.querySelector('[data-product-variant-select]');
+      var priceEl = document.querySelector('[data-product-price]');
+      var addBtn = form.querySelector('[data-add-to-cart]');
+      var addLabel = form.querySelector('[data-add-to-cart-label]');
+
+      function formatMoney(cents) {
+        return '$' + (cents / 100).toFixed(2);
+      }
+
+      function currentSelection() {
+        var values = [];
+        form.querySelectorAll('[data-option-index]:checked').forEach(function (input) {
+          values[parseInt(input.dataset.optionIndex, 10)] = input.value;
+        });
+        return values;
+      }
+
+      function findVariant(values) {
+        return productVariants.filter(function (v) {
+          return values.every(function (val, i) { return v.options[i] === val; });
+        })[0];
+      }
+
+      function updateUI() {
+        var variant = findVariant(currentSelection());
+        if (!variant) {
+          if (addBtn) addBtn.disabled = true;
+          return;
+        }
+        if (variantSelect) variantSelect.value = variant.id;
+        if (priceEl) priceEl.textContent = formatMoney(variant.price);
+        if (addLabel) addLabel.textContent = variant.available ? 'ADD TO CART' : 'SOLD OUT';
+        if (addBtn) addBtn.disabled = !variant.available;
+      }
+
+      form.querySelectorAll('[data-option-index]').forEach(function (input) {
+        input.addEventListener('change', updateUI);
+      });
+    })();
   </script>
 {% schema %}
 {
