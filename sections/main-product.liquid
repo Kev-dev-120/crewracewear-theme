@@ -25,6 +25,21 @@
       {%- endif -%}
     </div>
 
+    {%- assign handle_suffix = product.handle | slice: -5, 5 -%}
+    {%- if handle_suffix == '-plus' -%}
+      {%- assign companion_handle = product.handle | remove: '-plus' -%}
+      {%- assign companion = all_products[companion_handle] -%}
+      {%- if companion != blank -%}
+        <a href="{{ companion.url }}" class="product__size-crosslink">Need XS&ndash;L? Shop standard sizes &rarr;</a>
+      {%- endif -%}
+    {%- else -%}
+      {%- assign companion_handle = product.handle | append: '-plus' -%}
+      {%- assign companion = all_products[companion_handle] -%}
+      {%- if companion != blank -%}
+        <a href="{{ companion.url }}" class="product__size-crosslink">Need XL or larger? Shop Plus Sizes &rarr;</a>
+      {%- endif -%}
+    {%- endif -%}
+
     {% form 'product', product, id: 'product-form' %}
       {%- unless product.has_only_default_variant -%}
         {%- for option in product.options_with_values -%}
@@ -75,6 +90,14 @@
     }
     .product__arrow--prev { left: 0; }
     .product__arrow--next { right: 0; }
+    .product__size-crosslink {
+      display: inline-block;
+      margin-bottom: 20px;
+      font-size: 14px;
+      font-weight: 600;
+      text-decoration: underline;
+      color: var(--color-black);
+    }
   </style>
   <script>
     let currentSlide = 0;
