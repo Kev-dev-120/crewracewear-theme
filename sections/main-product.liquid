@@ -5,7 +5,7 @@
         <button class="product__arrow product__arrow--prev" onclick="slideProduct(-1)">&#8592;</button>
         <div class="product__slides">
           {%- for media in product.media -%}
-             <img class="product__slide{% if forloop.first %} active{% endif %}" src="{{ media | image_url: width: 1400 }}" alt="{{ media.alt | escape }}" width="1400" height="{{ 1000 | divided_by: media.aspect_ratio }}" loading="{% if forloop.first %}eager{% else %}lazy{% endif %}">
+             <img class="product__slide{% if forloop.first %} active{% endif %}" src="{{ media | image_url: width: 1400 }}" alt="{{ media.alt | escape }}" width="1400" height="{{ 1400 | divided_by: media.aspect_ratio }}" loading="{% if forloop.first %}eager{% else %}lazy{% endif %}">
           {%- endfor -%}
         </div>
         <button class="product__arrow product__arrow--next" onclick="slideProduct(1)">&#8594;</button>
@@ -60,7 +60,14 @@
 </section>
   <style>
     .product__slideshow { position: relative; }
-    .product__slide { display: none; width: 100%; }
+    .product__slide {
+      display: none;
+      width: 100%;
+      aspect-ratio: 1 / 1;
+      object-fit: contain;
+      background: var(--color-off-white);
+      border-radius: var(--radius);
+    }
     .product__slide.active { display: block; }
     .product__arrow {
       position: absolute; top: 50%; transform: translateY(-50%);
