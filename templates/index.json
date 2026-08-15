@@ -11,6 +11,7 @@
   "sections": {
     "presale": {
       "type": "presale-banner",
+      "disabled": true,
       "settings": {
         "text": "// SURGE & STRIKE // PRE-SALE ENDS AT MIDNIGHT//",
         "link_url": "",
