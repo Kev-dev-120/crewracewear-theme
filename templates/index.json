@@ -11,8 +11,9 @@
   "sections": {
     "presale": {
       "type": "presale-banner",
+      "disabled": true,
       "settings": {
-        "text": "// SURGE & STRIKE // PRE-SALE STARTING AUGUST 3RD TILL AUGUST 7TH //",
+        "text": "// SURGE & STRIKE // PRE-SALE ENDS AT MIDNIGHT//",
         "link_url": "",
         "speed": 32
       }
