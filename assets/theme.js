@@ -218,10 +218,24 @@ document.addEventListener('DOMContentLoaded', function () {
     if (submitBtn) submitBtn.disabled = true;
     if (label) label.textContent = 'ADDING…';
 
+    var quantityInput = form.querySelector('[name="quantity"]');
+    var item = {
+      id: idInput.value,
+      quantity: quantityInput && quantityInput.value ? parseInt(quantityInput.value, 10) : 1
+    };
+
+    /* Forward any properties[Name] fields (e.g. from the Hulk Product Options app block) */
+    var properties = {};
+    new FormData(form).forEach(function (value, key) {
+      var match = key.match(/^properties\[(.+)\]$/);
+      if (match && typeof value === 'string') properties[match[1]] = value;
+    });
+    if (Object.keys(properties).length) item.properties = properties;
+
     fetch('/cart/add.js', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ items: [{ id: idInput.value, quantity: 1 }] })
+      body: JSON.stringify({ items: [item] })
     })
       .then(function (res) {
         if (!res.ok) throw new Error('Could not add to cart');
