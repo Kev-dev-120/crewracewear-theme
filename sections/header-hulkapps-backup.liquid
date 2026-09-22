@@ -73,7 +73,7 @@
         </div>
         <div class="cart-drawer__subtotal">
           <span>Subtotal</span>
-          <span  data-hulkapps-cart-total data-cart-drawer-subtotal>{{ cart.total_price | money }}</span>
+          <span data-cart-drawer-subtotal>{{ cart.total_price | money }}</span>
         </div>
         <a href="{{ routes.cart_url }}" class="btn btn--ghost cart-drawer__view-cart-btn">View Cart</a>
         <a href="{{ routes.cart_url }}/checkout" class="btn btn--primary cart-drawer__checkout-btn" data-cart-drawer-checkout>Checkout</a>

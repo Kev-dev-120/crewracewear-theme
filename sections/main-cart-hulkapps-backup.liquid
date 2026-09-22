@@ -11,7 +11,7 @@
         </thead>
         <tbody>
           {%- for item in cart.items -%}
-            <tr data-hulkapps-lineitem >
+            <tr>
               <td class="cart-page__product">
                 {%- if item.image -%}<img src="{{ item.image | image_url: width: 120 }}" alt="{{ item.title | escape }}" width="120" loading="lazy">{%- endif -%}
                 <div>
@@ -19,9 +19,9 @@
                   {%- unless item.product.has_only_default_variant -%}<p class="cart-page__variant">{{ item.variant.title }}</p>{%- endunless -%}
                 </div>
               </td>
-              <td data-hulkapps-ci-price data-key='{{item.key}}' >{{ item.original_price | money }}</td>
+              <td>{{ item.original_price | money }}</td>
               <td><input type="number" name="updates[{{ item.variant_id }}]" value="{{ item.quantity }}" min="0"></td>
-              <td data-hulkapps-line-price data-key='{{item.key}}' >{{ item.final_line_price | money }}</td>
+              <td>{{ item.final_line_price | money }}</td>
             </tr>
           {%- endfor -%}
         </tbody>
@@ -32,7 +32,7 @@
         <textarea id="CartNote" name="note" rows="4" placeholder="e.g. Name: John, Number: 24, Kids size M">{{ cart.note }}</textarea>
       </div>
       <div class="cart-page__footer">
-        <p  data-hulkapps-cart-total class="cart-page__subtotal">Subtotal: {{ cart.total_price | money }}</p>
+        <p class="cart-page__subtotal">Subtotal: {{ cart.total_price | money }}</p>
         <button type="submit" name="update" class="btn btn--ghost">Update cart</button>
         <button type="submit" name="checkout" class="btn btn--primary">Checkout</button>
       </div>
