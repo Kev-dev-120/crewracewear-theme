@@ -28,7 +28,7 @@
         "subheading": "Race-tested apparel built for the gate drop and everything after.",
         "text_position": "left",
         "button_label": "SHOP LATEST",
-        "button_url": "shopify://collections/surge",
+        "button_url": "shopify://collections/new-products",
         "button_label_2": "",
         "button_url_2": "shopify://collections/surge"
       }
@@ -87,7 +87,7 @@
       "type": "featured-collection",
       "settings": {
         "heading": "NEW ARRIVALS",
-        "collection": "surge",
+        "collection": "new-products",
         "products_to_show": 4
       }
     },
