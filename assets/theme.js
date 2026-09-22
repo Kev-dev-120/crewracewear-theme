@@ -87,6 +87,15 @@ document.addEventListener('DOMContentLoaded', function () {
     document.body.classList.remove('cart-drawer-open');
   }
 
+  function formatProperties(properties) {
+    if (!properties) return '';
+    var parts = Object.keys(properties)
+      .filter(function (key) { return key.charAt(0) !== '_' && properties[key] !== null && properties[key] !== ''; })
+      .map(function (key) { return escapeHtml(key) + ': ' + escapeHtml(properties[key]); });
+    if (!parts.length) return '';
+    return '<p class="cart-drawer__item-properties">' + parts.join(' &middot; ') + '</p>';
+  }
+
   function renderCart(cart) {
     cartCountEls.forEach(function (el) {
       el.textContent = cart.item_count;
@@ -106,6 +115,7 @@ document.addEventListener('DOMContentLoaded', function () {
             '<div class="cart-drawer__item-info">' +
               '<a href="' + item.url + '" class="cart-drawer__item-title">' + escapeHtml(item.product_title) + '</a>' +
               (item.variant_title ? '<p class="cart-drawer__item-variant">' + escapeHtml(item.variant_title) + '</p>' : '') +
+              formatProperties(item.properties) +
               '<div class="cart-drawer__item-row">' +
                 '<div class="cart-drawer__qty">' +
                   '<button type="button" class="cart-drawer__qty-btn" data-cart-qty-decrease aria-label="Decrease quantity">&minus;</button>' +

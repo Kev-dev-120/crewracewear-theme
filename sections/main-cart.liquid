@@ -17,6 +17,16 @@
                 <div>
                   <a href="{{ item.url }}">{{ item.product.title }}</a>
                   {%- unless item.product.has_only_default_variant -%}<p class="cart-page__variant">{{ item.variant.title }}</p>{%- endunless -%}
+                  {%- if item.properties.size > 0 -%}
+                    <p class="cart-page__properties">
+                      {%- for property in item.properties -%}
+                        {%- assign prop_first_char = property.first | slice: 0, 1 -%}
+                        {%- unless prop_first_char == '_' or property.last == blank -%}
+                          {{ property.first }}: {{ property.last }}{% unless forloop.last %} &middot; {% endunless %}
+                        {%- endunless -%}
+                      {%- endfor -%}
+                    </p>
+                  {%- endif -%}
                 </div>
               </td>
               <td data-hulkapps-ci-price data-key='{{item.key}}' >{{ item.original_price | money }}</td>
