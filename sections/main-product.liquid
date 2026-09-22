@@ -63,6 +63,12 @@
         {%- endfor -%}
       </select>
 
+      <div class="product__app-blocks">
+        {%- for block in section.blocks -%}
+          {%- render block -%}
+        {%- endfor -%}
+      </div>
+
       <button type="submit" class="btn btn--primary btn--full" data-add-to-cart {% unless product.selected_or_first_available_variant.available %}disabled{% endunless %}>
         <span data-add-to-cart-label>
           {%- if product.selected_or_first_available_variant.available -%}ADD TO CART{%- else -%}SOLD OUT{%- endif -%}
@@ -157,6 +163,9 @@
 {% schema %}
 {
   "name": "Product information",
-  "settings": []
+  "settings": [],
+  "blocks": [
+    { "type": "@app" }
+  ]
 }
 {% endschema %}
