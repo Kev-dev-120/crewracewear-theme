@@ -40,10 +40,18 @@
     "categories": {
       "type": "category-tiles",
       "blocks": {
+        "tile_TQkgVC": {
+          "type": "tile",
+          "settings": {
+            "image": "shopify://shop_images/AX1A4574.jpg",
+            "title": "NOVA",
+            "url": "shopify://collections/nova"
+          }
+        },
         "strike": {
           "type": "tile",
           "settings": {
-            "image": "shopify://shop_images/IMG_0257.jpg",
+            "image": "shopify://shop_images/IMG_5341.jpg",
             "title": "STRIKE",
             "url": "shopify://collections/strike"
           }
@@ -51,7 +59,7 @@
         "surge": {
           "type": "tile",
           "settings": {
-            "image": "shopify://shop_images/image.jpg",
+            "image": "shopify://shop_images/IMG_5241.jpg",
             "title": "SURGE",
             "url": "shopify://collections/surge"
           }
@@ -66,6 +74,7 @@
         }
       },
       "block_order": [
+        "tile_TQkgVC",
         "strike",
         "surge",
         "tees"
