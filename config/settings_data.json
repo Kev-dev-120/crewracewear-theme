@@ -1,3 +1,12 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
 {
   "current": {
     "color_black": "#0a0a0a",
@@ -7,6 +16,14 @@
     "font_body": "inter_n4",
     "social_instagram_link": "https://instagram.com/thecrewmxb",
     "social_youtube_link": "https://youtube.com/@TheCrewRacingmxb",
-    "social_discord_link": ""
+    "social_discord_link": "",
+    "content_for_index": [],
+    "blocks": {
+      "10042746950867549768": {
+        "type": "shopify://apps/hulk-product-options/blocks/app-embed/380168ef-9475-4244-a291-f66b189208b5",
+        "disabled": false,
+        "settings": {}
+      }
+    }
   }
 }
