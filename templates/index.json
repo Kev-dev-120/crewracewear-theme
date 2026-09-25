@@ -11,11 +11,10 @@
   "sections": {
     "presale": {
       "type": "presale-banner",
-      "disabled": true,
       "settings": {
-        "text": "// SURGE & STRIKE // PRE-SALE ENDS AT MIDNIGHT//",
+        "text": "// ALL GEAR COLLECTIONS // PRE-SALE BEGINS 09/25 //",
         "link_url": "",
-        "speed": 32
+        "speed": 38
       }
     },
     "hero": {
