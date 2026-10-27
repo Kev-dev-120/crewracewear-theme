@@ -43,7 +43,7 @@
         endfor
 
         assign ordered_codes = ''
-        assign preferred_codes = 'USD,GBP,EUR' | split: ','
+        assign preferred_codes = 'USD,GBP,EUR,AUD' | split: ','
         for code in preferred_codes
           if currency_codes contains code
             assign ordered_codes = ordered_codes | append: code | append: ','
@@ -72,6 +72,8 @@
                       assign preferred_country = 'GB'
                     when 'EUR'
                       assign preferred_country = 'IE'
+                    when 'AUD'
+                      assign preferred_country = 'AU'
                     else
                       assign preferred_country = ''
                   endcase
