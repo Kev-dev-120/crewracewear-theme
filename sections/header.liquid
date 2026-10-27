@@ -33,6 +33,72 @@
     </nav>
 
     <div class="site-header__icons">
+      {%- liquid
+        assign currency_codes = ''
+        for c in localization.available_countries
+          assign code = c.currency.iso_code
+          unless currency_codes contains code
+            assign currency_codes = currency_codes | append: code | append: ','
+          endunless
+        endfor
+
+        assign ordered_codes = ''
+        assign preferred_codes = 'USD,GBP,EUR' | split: ','
+        for code in preferred_codes
+          if currency_codes contains code
+            assign ordered_codes = ordered_codes | append: code | append: ','
+          endif
+        endfor
+        assign all_codes = currency_codes | split: ','
+        for code in all_codes
+          unless ordered_codes contains code
+            assign ordered_codes = ordered_codes | append: code | append: ','
+          endunless
+        endfor
+        assign currency_list = ordered_codes | split: ','
+      -%}
+      {%- if currency_list.size > 1 -%}
+        {%- form 'localization', class: 'currency-selector' -%}
+          <label for="HeaderCurrency" class="visually-hidden">Currency</label>
+          <select id="HeaderCurrency" name="country_code" class="currency-selector__select" data-currency-select>
+            {%- for code in currency_list -%}
+              {%- liquid
+                assign rep = nil
+                if localization.country.currency.iso_code == code
+                  assign rep = localization.country
+                else
+                  case code
+                    when 'USD'
+                      assign preferred_country = 'US'
+                    when 'GBP'
+                      assign preferred_country = 'GB'
+                    when 'EUR'
+                      assign preferred_country = 'IE'
+                    else
+                      assign preferred_country = ''
+                  endcase
+                  for c in localization.available_countries
+                    if c.iso_code == preferred_country
+                      assign rep = c
+                      break
+                    endif
+                  endfor
+                  if rep == nil
+                    for c in localization.available_countries
+                      if c.currency.iso_code == code
+                        assign rep = c
+                        break
+                      endif
+                    endfor
+                  endif
+                endif
+              -%}
+              <option value="{{ rep.iso_code }}"{% if code == localization.country.currency.iso_code %} selected{% endif %}>{{ code }} {{ rep.currency.symbol }}</option>
+            {%- endfor -%}
+          </select>
+          <noscript><button type="submit" class="currency-selector__submit">Update</button></noscript>
+        {%- endform -%}
+      {%- endif -%}
       <button class="site-header__icon" data-search-toggle aria-label="Search">
         <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
       </button>

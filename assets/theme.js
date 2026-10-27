@@ -59,8 +59,20 @@ document.addEventListener('DOMContentLoaded', function () {
   var cartCountEls = document.querySelectorAll('[data-cart-count]');
 
   function formatMoney(cents) {
-    return '$' + (cents / 100).toFixed(2);
+    var currency = (window.Shopify && window.Shopify.currency && window.Shopify.currency.active) || 'USD';
+    try {
+      return new Intl.NumberFormat('en-US', { style: 'currency', currency: currency }).format(cents / 100);
+    } catch (e) {
+      return '$' + (cents / 100).toFixed(2);
+    }
   }
+
+  /* ---------------- Currency selector ---------------- */
+  document.querySelectorAll('[data-currency-select]').forEach(function (select) {
+    select.addEventListener('change', function () {
+      if (select.form) select.form.submit();
+    });
+  });
 
   function escapeHtml(str) {
     var div = document.createElement('div');
