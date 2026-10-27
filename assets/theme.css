@@ -939,6 +939,8 @@ body.cart-drawer-open { overflow: hidden; }
   outline: none;
   border-color: var(--color-black);
 }
+.contact-form-section__email { color: var(--color-gray-700); font-size: 15px; margin: -4px 0 20px; }
+.contact-form-section__email a { color: var(--color-black); font-weight: 600; text-decoration: underline; }
 
 /* ---------- Responsive ---------- */
 @media (max-width: 989px) {

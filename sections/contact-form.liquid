@@ -40,6 +40,12 @@
         <textarea id="ContactFormMessage" name="contact[body]" rows="6" required>{{ form.body }}</textarea>
       </div>
 
+      {%- if section.settings.contact_email != blank -%}
+        <p class="contact-form-section__email">
+          Or email us directly: <a href="mailto:{{ section.settings.contact_email }}">{{ section.settings.contact_email }}</a>
+        </p>
+      {%- endif -%}
+
       <button type="submit" class="btn btn--primary">Send Message</button>
     {% endform %}
   </div>
@@ -50,7 +56,8 @@
   "name": "Contact form",
   "settings": [
     { "type": "text", "id": "heading", "label": "Heading", "default": "Contact Us" },
-    { "type": "textarea", "id": "subheading", "label": "Subheading", "default": "Questions about an order, a collab, or just want to say hey? Send it our way." }
+    { "type": "textarea", "id": "subheading", "label": "Subheading", "default": "Questions about an order, a collab, or just want to say hey? Send it our way." },
+    { "type": "text", "id": "contact_email", "label": "Contact email (shown above the Send button)", "default": "crewracewear@gmail.com" }
   ],
   "presets": [
     { "name": "Contact form" }
