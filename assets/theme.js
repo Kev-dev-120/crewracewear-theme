@@ -59,6 +59,7 @@ document.addEventListener('DOMContentLoaded', function () {
   var cartCountEls = document.querySelectorAll('[data-cart-count]');
 
   function formatMoney(cents) {
+    if (window.CrewMoney) return window.CrewMoney.format(cents);
     var currency = (window.Shopify && window.Shopify.currency && window.Shopify.currency.active) || 'USD';
     try {
       return new Intl.NumberFormat('en-US', { style: 'currency', currency: currency }).format(cents / 100);

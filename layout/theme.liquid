@@ -31,6 +31,40 @@
 
   {{ 'theme.css' | asset_url | stylesheet_tag }}
 
+  <script>
+    /* Formats prices exactly like Shopify's money filter for the shopper's active currency,
+       using a server-rendered sample to learn the symbol, separators and decimals. */
+    window.CrewMoney = (function () {
+      var sample = {{ 123456 | money | json }};
+      var decoder = document.createElement('textarea');
+      decoder.innerHTML = sample.replace(/<[^>]*>/g, '');
+      sample = decoder.value;
+      var prefix = '', suffix = '', decimal = '.', thousands = ',';
+      var match = sample.match(/\d[\d.,\s ']*\d/);
+      if (match) {
+        var num = match[0];
+        prefix = sample.slice(0, match.index);
+        suffix = sample.slice(match.index + num.length);
+        var seps = [];
+        for (var i = 0; i < num.length; i++) { if (!/\d/.test(num.charAt(i))) seps.push(i); }
+        var last = seps.length ? seps[seps.length - 1] : -1;
+        var decimalIndex = (last >= 0 && num.length - last - 1 === 2) ? last : -1;
+        decimal = decimalIndex >= 0 ? num.charAt(decimalIndex) : '';
+        thousands = '';
+        for (var j = 0; j < seps.length; j++) {
+          if (seps[j] !== decimalIndex) { thousands = num.charAt(seps[j]); break; }
+        }
+      }
+      function group(whole) { return whole.replace(/\B(?=(\d{3})+(?!\d))/g, thousands); }
+      return {
+        format: function (cents) {
+          if (!decimal) return prefix + group(String(Math.round(cents / 100))) + suffix;
+          var parts = (Math.round(cents) / 100).toFixed(2).split('.');
+          return prefix + group(parts[0]) + decimal + parts[1] + suffix;
+        }
+      };
+    })();
+  </script>
   <script src="{{ 'theme.js' | asset_url }}" defer="defer"></script>
 {% include 'hulk_po_vd' %}</head>
 <body class="template-{{ request.page_type }}">
