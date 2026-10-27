@@ -49,12 +49,10 @@
             assign ordered_codes = ordered_codes | append: code | append: ','
           endif
         endfor
-        assign all_codes = currency_codes | split: ','
-        for code in all_codes
-          unless ordered_codes contains code
-            assign ordered_codes = ordered_codes | append: code | append: ','
-          endunless
-        endfor
+        assign current_code = localization.country.currency.iso_code
+        unless ordered_codes contains current_code
+          assign ordered_codes = ordered_codes | append: current_code | append: ','
+        endunless
         assign currency_list = ordered_codes | split: ','
       -%}
       {%- if currency_list.size > 1 -%}
