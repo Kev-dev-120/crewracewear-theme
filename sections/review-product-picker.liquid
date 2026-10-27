@@ -1,0 +1,87 @@
+{%- liquid
+  assign anchor = section.settings.anchor_id | default: 'reviews' | handleize
+  if section.settings.collections.size > 0
+    assign use_collections = true
+  else
+    assign use_collections = false
+    assign all_products = collections.all.products | sort: 'title'
+  endif
+-%}
+
+<section class="review-picker">
+  {%- if section.settings.heading != blank -%}
+    <h2 class="review-picker__heading">{{ section.settings.heading }}</h2>
+  {%- endif -%}
+  {%- if section.settings.text != blank -%}
+    <p class="review-picker__text">{{ section.settings.text }}</p>
+  {%- endif -%}
+
+  <div class="review-picker__controls">
+    <label for="ReviewPicker-{{ section.id }}" class="review-picker__label">Which product are you reviewing?</label>
+    <div class="review-picker__row">
+      <select id="ReviewPicker-{{ section.id }}" class="review-picker__select" data-review-picker-select>
+        <option value="">Select a product</option>
+        {%- if use_collections -%}
+          {%- for collection in section.settings.collections -%}
+            <optgroup label="{{ collection.title | escape }}">
+              {%- for product in collection.products -%}
+                {%- unless product.gift_card? -%}
+                  <option value="{{ product.url }}#{{ anchor }}">{{ product.title | escape }}</option>
+                {%- endunless -%}
+              {%- endfor -%}
+            </optgroup>
+          {%- endfor -%}
+        {%- else -%}
+          {%- for product in all_products -%}
+            {%- unless product.gift_card? -%}
+              <option value="{{ product.url }}#{{ anchor }}">{{ product.title | escape }}</option>
+            {%- endunless -%}
+          {%- endfor -%}
+        {%- endif -%}
+      </select>
+      <button type="button" class="btn btn--primary review-picker__button" data-review-picker-go disabled>
+        {{ section.settings.button_label | default: 'Write a review' }}
+      </button>
+    </div>
+  </div>
+</section>
+
+<script>
+  (function () {
+    var root = document.currentScript.previousElementSibling;
+    var select = root.querySelector('[data-review-picker-select]');
+    var button = root.querySelector('[data-review-picker-go]');
+    if (!select || !button) return;
+    select.addEventListener('change', function () { button.disabled = !select.value; });
+    button.addEventListener('click', function () {
+      if (select.value) window.location.href = select.value;
+    });
+  })();
+</script>
+
+{% schema %}
+{
+  "name": "Review product picker",
+  "settings": [
+    { "type": "text", "id": "heading", "label": "Heading", "default": "Write a review" },
+    { "type": "textarea", "id": "text", "label": "Text", "default": "Pick the gear you're reviewing and we'll take you to its review form. You can rate it, write about it, and add your own photos." },
+    { "type": "text", "id": "button_label", "label": "Button label", "default": "Write a review" },
+    {
+      "type": "collection_list",
+      "id": "collections",
+      "label": "Limit to collections",
+      "info": "Leave empty to list every product in the store."
+    },
+    {
+      "type": "text",
+      "id": "anchor_id",
+      "label": "Product page reviews anchor",
+      "default": "reviews",
+      "info": "Must match the Anchor ID of the Apps section holding the review widget on product pages."
+    }
+  ],
+  "presets": [
+    { "name": "Review product picker" }
+  ]
+}
+{% endschema %}

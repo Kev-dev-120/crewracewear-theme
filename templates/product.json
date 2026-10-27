@@ -12,9 +12,17 @@
     "main": {
       "type": "main-product",
       "settings": {}
+    },
+    "reviews": {
+      "type": "apps",
+      "settings": {
+        "heading": "",
+        "anchor_id": "reviews"
+      }
     }
   },
   "order": [
-    "main"
+    "main",
+    "reviews"
   ]
 }

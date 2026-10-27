@@ -1,0 +1,25 @@
+{
+  "sections": {
+    "main": {
+      "type": "main-page",
+      "settings": {}
+    },
+    "picker": {
+      "type": "review-product-picker",
+      "settings": {
+        "heading": "Write a review",
+        "text": "Pick the gear you're reviewing and we'll take you to its review form. You can rate it, write about it, and add your own photos.",
+        "button_label": "Write a review",
+        "anchor_id": "reviews"
+      }
+    },
+    "all_reviews": {
+      "type": "apps",
+      "settings": {
+        "heading": "",
+        "anchor_id": "all-reviews"
+      }
+    }
+  },
+  "order": ["main", "picker", "all_reviews"]
+}
