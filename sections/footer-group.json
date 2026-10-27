@@ -21,6 +21,7 @@
     "footer": {
       "type": "footer",
       "settings": {
+        "logo": "shopify://shop_images/CREW_Racewear_MEDIAKIT_3.ai.png",
         "tagline": "Built by racers, for racers.",
         "contact_email": "crewracewear@gmail.com",
         "instagram_url": "https://www.instagram.com/crewracewear?utm_source=ig_web_button_share_sheet&igsh=ZDNlZDc0MzIxNw==",
