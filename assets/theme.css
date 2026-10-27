@@ -755,6 +755,36 @@ body.cart-drawer-open { overflow: hidden; }
 .product__price--compare { text-decoration: line-through; color: var(--color-gray-400); font-size: 16px; }
 .product__option { margin-bottom: 22px; }
 .product__option > label { display: block; font-weight: 700; font-size: 13px; text-transform: uppercase; letter-spacing: 0.04em; margin-bottom: 10px; }
+
+/* Native variant picker styled to match the Hulk Product Options panel used on gear */
+.product__options {
+  background: #f7f7f8;
+  border: 1px solid #dadada;
+  padding: 24px 24px 4px;
+  margin-bottom: 20px;
+}
+.product__options .product__option > label {
+  font-weight: 400;
+  font-size: 16px;
+  letter-spacing: 0;
+  color: var(--color-gray-700);
+  margin-bottom: 8px;
+}
+.product__option-select {
+  display: block;
+  width: 100%;
+  padding: 12px 40px 12px 14px;
+  font: inherit;
+  font-size: 16px;
+  color: var(--color-black);
+  background: var(--color-white) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' fill='none' stroke='%236b6b76' stroke-width='1.5'/%3E%3C/svg%3E") no-repeat right 14px center;
+  border: 1px solid #dadada;
+  border-radius: 0;
+  -webkit-appearance: none;
+  appearance: none;
+  cursor: pointer;
+}
+.product__option-select:focus { outline: none; border-color: var(--color-black); }
 .product__option > label span { font-weight: 500; text-transform: none; color: var(--color-gray-700); }
 .product__option-values { display: flex; flex-wrap: wrap; gap: 8px; }
 .product__option-pill { position: relative; }
