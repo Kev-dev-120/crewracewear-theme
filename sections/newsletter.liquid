@@ -4,11 +4,14 @@
     <p class="newsletter__subheading">{{ section.settings.subheading }}</p>
     {% form 'customer', class: 'newsletter__form' %}
       {%- if form.posted_successfully? -%}
-        <p class="newsletter__success">You're in. Welcome to the crew.</p>
+        <p class="newsletter__success" role="status">You're in. Welcome to the crew.</p>
       {%- else -%}
+        {%- if form.errors -%}
+          <div class="newsletter__error" role="alert">{{ form.errors | default_errors }}</div>
+        {%- endif -%}
         <input type="hidden" name="contact[tags]" value="newsletter">
         <div class="newsletter__field">
-          <input type="email" name="contact[email]" placeholder="Email address" required aria-label="Email address">
+          <input type="email" name="contact[email]" value="{{ form.email }}" placeholder="Email address" required aria-label="Email address">
           <button type="submit">Join</button>
         </div>
       {%- endif -%}
