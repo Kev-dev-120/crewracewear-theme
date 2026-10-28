@@ -1002,6 +1002,12 @@ body.cart-drawer-open { overflow: hidden; }
 .contact-form-section__email { color: var(--color-gray-700); font-size: 15px; margin: -4px 0 20px; }
 .contact-form-section__email a { color: var(--color-black); font-weight: 600; text-decoration: underline; }
 
+/* ---------- Get Sponsored form (reuses contact form styles) ---------- */
+.sponsorship-form [hidden] { display: none !important; }
+.sponsorship-form__name-row { display: grid; grid-template-columns: 1fr 120px 1fr; gap: 16px; }
+.sponsorship-form__optional { font-weight: 400; text-transform: none; letter-spacing: 0; color: var(--color-gray-700); }
+.sponsorship-form__trap { position: absolute; left: -10000px; width: 1px; height: 1px; overflow: hidden; }
+
 /* ---------- Apps section / Reviews ---------- */
 .apps-section, .review-picker {
   max-width: var(--container-max);
@@ -1071,4 +1077,6 @@ body.cart-drawer-open { overflow: hidden; }
   .site-header__cart { border: none; padding: 6px; }
   .list-collections__grid { grid-template-columns: repeat(2, 1fr); gap: 16px; }
   .contact-form-section__row { grid-template-columns: 1fr; }
+  .sponsorship-form__name-row { grid-template-columns: 1fr 90px; }
+  .sponsorship-form__name-row > :last-child { grid-column: 1 / -1; }
 }

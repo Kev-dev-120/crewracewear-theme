@@ -1,0 +1,135 @@
+{%- assign endpoint = section.settings.endpoint_url | strip -%}
+{%- assign fallback_email = section.settings.contact_email | default: 'crewracewear@gmail.com' -%}
+
+<section class="contact-form-section sponsorship-form" data-sponsorship-form data-endpoint="{{ endpoint | escape }}" data-fallback-email="{{ fallback_email | escape }}">
+  <div class="contact-form-section__inner">
+    <h1>{{ section.settings.heading | default: page.title }}</h1>
+    {%- if section.settings.intro != blank -%}
+      <p class="contact-form-section__subheading">{{ section.settings.intro }}</p>
+    {%- endif -%}
+
+    <p class="contact-form-section__success" data-sponsorship-success role="status" hidden>{{ section.settings.success_message }}</p>
+    <div class="contact-form-section__errors" data-sponsorship-errors role="alert" hidden></div>
+
+    <form data-sponsorship-fields>
+      <div class="sponsorship-form__name-row">
+        <div class="contact-form-section__field">
+          <label for="SponsorFirst-{{ section.id }}">First name</label>
+          <input type="text" id="SponsorFirst-{{ section.id }}" name="first_name" autocomplete="given-name" maxlength="60" required>
+        </div>
+        <div class="contact-form-section__field">
+          <label for="SponsorMiddle-{{ section.id }}">Middle initial <span class="sponsorship-form__optional">(optional)</span></label>
+          <input type="text" id="SponsorMiddle-{{ section.id }}" name="middle_initial" autocomplete="additional-name" maxlength="1" pattern="[A-Za-z]" title="One letter">
+        </div>
+        <div class="contact-form-section__field">
+          <label for="SponsorLast-{{ section.id }}">Last name</label>
+          <input type="text" id="SponsorLast-{{ section.id }}" name="last_name" autocomplete="family-name" maxlength="60" required>
+        </div>
+      </div>
+
+      <div class="contact-form-section__row">
+        <div class="contact-form-section__field">
+          <label for="SponsorEmail-{{ section.id }}">Email</label>
+          <input type="email" id="SponsorEmail-{{ section.id }}" name="email" autocomplete="email" maxlength="120" required>
+        </div>
+        <div class="contact-form-section__field">
+          <label for="SponsorPhone-{{ section.id }}">Phone number</label>
+          <input type="tel" id="SponsorPhone-{{ section.id }}" name="phone" autocomplete="tel" maxlength="30" required>
+        </div>
+      </div>
+
+      <div class="contact-form-section__field">
+        <label for="SponsorAbout-{{ section.id }}">About you <span class="sponsorship-form__optional">(optional)</span></label>
+        <textarea id="SponsorAbout-{{ section.id }}" name="about" rows="6" maxlength="3000" placeholder="{{ section.settings.about_placeholder | escape }}"></textarea>
+      </div>
+
+      <div class="sponsorship-form__trap" aria-hidden="true">
+        <label for="SponsorWebsite-{{ section.id }}">Website</label>
+        <input type="text" id="SponsorWebsite-{{ section.id }}" name="website" tabindex="-1" autocomplete="off">
+      </div>
+      <input type="hidden" name="started_at" value="">
+
+      <button type="submit" class="btn btn--primary" data-sponsorship-submit>{{ section.settings.button_label | default: 'Submit request' }}</button>
+    </form>
+  </div>
+</section>
+
+<script>
+  (function () {
+    var root = document.currentScript.previousElementSibling;
+    var form = root.querySelector('[data-sponsorship-fields]');
+    var success = root.querySelector('[data-sponsorship-success]');
+    var errorsEl = root.querySelector('[data-sponsorship-errors]');
+    var button = root.querySelector('[data-sponsorship-submit]');
+    var endpoint = root.getAttribute('data-endpoint');
+    var fallbackEmail = root.getAttribute('data-fallback-email');
+    form.querySelector('[name="started_at"]').value = String(Date.now());
+
+    function showErrors(messages) {
+      errorsEl.innerHTML = '';
+      var list = document.createElement('ul');
+      messages.forEach(function (message) {
+        var item = document.createElement('li');
+        item.textContent = message;
+        list.appendChild(item);
+      });
+      errorsEl.appendChild(list);
+      errorsEl.hidden = false;
+      errorsEl.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    }
+
+    form.addEventListener('submit', function (event) {
+      event.preventDefault();
+      errorsEl.hidden = true;
+      if (!endpoint) {
+        showErrors(['This form isn’t connected yet. Please email ' + fallbackEmail + ' for now.']);
+        return;
+      }
+      var label = button.textContent;
+      button.disabled = true;
+      button.textContent = 'Sending…';
+
+      fetch(endpoint, { method: 'POST', body: new URLSearchParams(new FormData(form)) })
+        .then(function (res) { return res.json(); })
+        .then(function (data) {
+          if (data && data.ok) {
+            form.hidden = true;
+            success.hidden = false;
+            success.scrollIntoView({ behavior: 'smooth', block: 'center' });
+          } else {
+            showErrors((data && data.errors && data.errors.length) ? data.errors : ['Something went wrong. Please try again.']);
+          }
+        })
+        .catch(function () {
+          showErrors(['We couldn’t send your request. Please try again, or email ' + fallbackEmail + '.']);
+        })
+        .then(function () {
+          button.disabled = false;
+          button.textContent = label;
+        });
+    });
+  })();
+</script>
+
+{% schema %}
+{
+  "name": "Sponsorship form",
+  "settings": [
+    { "type": "text", "id": "heading", "label": "Heading", "info": "Leave empty to use the page title." },
+    { "type": "textarea", "id": "intro", "label": "Intro text", "default": "Racing on Crew gear? Tell us about yourself and we'll be in touch. Every request is reviewed by the Crew team." },
+    { "type": "text", "id": "about_placeholder", "label": "About you placeholder", "default": "What you ride, classes you race, recent results, your socials…" },
+    { "type": "text", "id": "button_label", "label": "Button label", "default": "Submit request" },
+    { "type": "textarea", "id": "success_message", "label": "Success message", "default": "Thanks! Your sponsorship request was received. The Crew team will reach out by email." },
+    {
+      "type": "text",
+      "id": "endpoint_url",
+      "label": "Form connection URL",
+      "info": "The Google Apps Script web app URL that saves requests to the Sponsorship Request Drive folder."
+    },
+    { "type": "text", "id": "contact_email", "label": "Fallback email", "default": "crewracewear@gmail.com", "info": "Shown if the form can't send." }
+  ],
+  "presets": [
+    { "name": "Sponsorship form" }
+  ]
+}
+{% endschema %}

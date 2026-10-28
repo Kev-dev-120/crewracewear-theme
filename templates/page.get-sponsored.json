@@ -1,0 +1,17 @@
+{
+  "sections": {
+    "main": {
+      "type": "sponsorship-form",
+      "settings": {
+        "heading": "",
+        "intro": "Racing on Crew gear? Tell us about yourself and we'll be in touch. Every request is reviewed by the Crew team.",
+        "about_placeholder": "What you ride, classes you race, recent results, your socials…",
+        "button_label": "Submit request",
+        "success_message": "Thanks! Your sponsorship request was received. The Crew team will reach out by email.",
+        "endpoint_url": "",
+        "contact_email": "crewracewear@gmail.com"
+      }
+    }
+  },
+  "order": ["main"]
+}
