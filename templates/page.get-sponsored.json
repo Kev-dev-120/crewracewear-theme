@@ -8,7 +8,7 @@
         "about_placeholder": "What you ride, classes you race, recent results, your socials…",
         "button_label": "Submit request",
         "success_message": "Thanks! Your sponsorship request was received. The Crew team will reach out by email.",
-        "endpoint_url": "",
+        "endpoint_url": "https://script.google.com/macros/s/AKfycbyynVBtIN9oOwlbyqV2LUxk20bUNvhyliRVfkHH-dj-IoKKE0Zhp6nr9QPfr1FZITR99A/exec",
         "contact_email": "crewracewear@gmail.com"
       }
     }
