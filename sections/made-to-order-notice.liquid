@@ -1,0 +1,88 @@
+{%- if section.settings.enabled and section.settings.message != blank -%}
+  {%- assign notice_version = section.settings.message | md5 | slice: 0, 8 -%}
+  <dialog class="mto-notice" data-mto-notice data-section-id="{{ section.id }}" data-version="{{ notice_version }}" aria-labelledby="MtoNoticeTitle-{{ section.id }}">
+    <div class="mto-notice__panel">
+      <button type="button" class="mto-notice__close" data-mto-close aria-label="Close">&times;</button>
+      <h2 id="MtoNoticeTitle-{{ section.id }}" class="mto-notice__title">{{ section.settings.heading }}</h2>
+      <div class="mto-notice__body">{{ section.settings.message }}</div>
+      <label class="mto-notice__opt-out">
+        <input type="checkbox" data-mto-dont-show>
+        <span>{{ section.settings.dont_show_label | default: "Don't show this again" }}</span>
+      </label>
+      <button type="button" class="btn btn--primary btn--full" data-mto-close autofocus>{{ section.settings.button_label | default: 'Got it' }}</button>
+    </div>
+  </dialog>
+
+  <script>
+    (function () {
+      var dialog = document.currentScript.previousElementSibling;
+      var checkbox = dialog.querySelector('[data-mto-dont-show]');
+      var sectionId = dialog.getAttribute('data-section-id');
+      // Editing the message changes the version, so everyone sees the new text once.
+      var hideKey = 'crew:mto-notice:hidden:' + dialog.getAttribute('data-version');
+      var seenKey = 'crew:mto-notice:seen';
+      var designMode = window.Shopify && window.Shopify.designMode;
+
+      function read(storage, key) {
+        try { return window[storage].getItem(key); } catch (e) { return null; }
+      }
+      function write(storage, key) {
+        try { window[storage].setItem(key, '1'); } catch (e) {}
+      }
+      function open() {
+        if (!dialog.isConnected || dialog.open) return;
+        if (typeof dialog.showModal === 'function') dialog.showModal();
+        else dialog.setAttribute('open', '');
+      }
+      function close() {
+        if (typeof dialog.close === 'function') dialog.close();
+        else { dialog.removeAttribute('open'); onClose(); }
+      }
+      function onClose() {
+        if (designMode) return;
+        write('sessionStorage', seenKey);
+        if (checkbox.checked) write('localStorage', hideKey);
+      }
+
+      dialog.addEventListener('close', onClose);
+      dialog.addEventListener('click', function (event) {
+        // Clicks on the backdrop land on the dialog itself, outside the panel.
+        if (event.target === dialog || event.target.closest('[data-mto-close]')) close();
+      });
+
+      if (designMode) {
+        document.addEventListener('shopify:section:select', function (event) { if (event.detail.sectionId === sectionId) open(); });
+        document.addEventListener('shopify:section:load', function (event) { if (event.detail.sectionId === sectionId) open(); });
+        document.addEventListener('shopify:section:deselect', function (event) { if (event.detail.sectionId === sectionId && dialog.isConnected) close(); });
+      } else if (!read('localStorage', hideKey) && !read('sessionStorage', seenKey)) {
+        open();
+      }
+    })();
+  </script>
+{%- endif -%}
+
+{% schema %}
+{
+  "name": "Made-to-order pop-up",
+  "settings": [
+    {
+      "type": "paragraph",
+      "content": "Shows once per visit. Visitors who tick \"Don't show this again\" won't see it on that device unless the message changes."
+    },
+    { "type": "checkbox", "id": "enabled", "label": "Show pop-up", "default": true },
+    { "type": "text", "id": "heading", "label": "Heading", "default": "Gear is made to order" },
+    {
+      "type": "richtext",
+      "id": "message",
+      "label": "Message",
+      "default": "<p>Each gear set is made to order to ensure the highest level of quality and attention to detail. Please allow approximately 4–6 weeks for manufacturing and processing prior to shipment. In the event of any unforeseen delays, our team will proactively reach out to you via email with updates regarding your order status.</p>",
+      "info": "Changing the message shows it again to visitors who chose not to see it."
+    },
+    { "type": "text", "id": "button_label", "label": "Button label", "default": "Got it" },
+    { "type": "text", "id": "dont_show_label", "label": "Opt-out label", "default": "Don't show this again" }
+  ],
+  "presets": [
+    { "name": "Made-to-order pop-up" }
+  ]
+}
+{% endschema %}

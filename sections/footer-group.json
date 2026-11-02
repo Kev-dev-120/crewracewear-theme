@@ -28,10 +28,21 @@
         "youtube_url": "",
         "discord_url": "https://discord.gg/crewracewear"
       }
+    },
+    "made_to_order_notice": {
+      "type": "made-to-order-notice",
+      "settings": {
+        "enabled": true,
+        "heading": "Gear is made to order",
+        "message": "<p>Each gear set is made to order to ensure the highest level of quality and attention to detail. Please allow approximately 4–6 weeks for manufacturing and processing prior to shipment. In the event of any unforeseen delays, our team will proactively reach out to you via email with updates regarding your order status.</p>",
+        "button_label": "Got it",
+        "dont_show_label": "Don't show this again"
+      }
     }
   },
   "order": [
     "newsletter",
-    "footer"
+    "footer",
+    "made_to_order_notice"
   ]
 }
