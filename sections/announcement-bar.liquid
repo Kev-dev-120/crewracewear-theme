@@ -1,5 +1,14 @@
+{%- liquid
+  assign free_shipping_countries = section.settings.free_shipping_countries | remove: ' ' | upcase | split: ','
+  assign message = section.settings.message
+  if section.settings.message_international != blank
+    unless free_shipping_countries contains localization.country.iso_code
+      assign message = section.settings.message_international
+    endunless
+  endif
+-%}
 <div class="announcement-bar">
-  <p>{{ section.settings.message | escape }}</p>
+  <p>{{ message | escape }}</p>
 </div>
 
 {% schema %}
@@ -11,6 +20,20 @@
       "id": "message",
       "label": "Message",
       "default": "FREE SHIPPING ON ORDERS OVER $150"
+    },
+    {
+      "type": "text",
+      "id": "free_shipping_countries",
+      "label": "Countries that see this message",
+      "default": "US, CA",
+      "info": "Two-letter country codes, separated by commas. Visitors from other countries see the international message."
+    },
+    {
+      "type": "text",
+      "id": "message_international",
+      "label": "International message",
+      "default": "INTERNATIONAL SHIPPING AVAILABLE",
+      "info": "Leave empty to show the main message to everyone."
     }
   ]
 }

@@ -14,7 +14,9 @@
     "announcement-bar": {
       "type": "announcement-bar",
       "settings": {
-        "message": "FREE SHIPPING ON ORDERS OVER $150 — JOIN THE CREW"
+        "message": "FREE SHIPPING ON ORDERS OVER $150 — JOIN THE CREW",
+        "free_shipping_countries": "US, CA",
+        "message_international": "INTERNATIONAL SHIPPING AVAILABLE — JOIN THE CREW"
       }
     },
     "header": {
