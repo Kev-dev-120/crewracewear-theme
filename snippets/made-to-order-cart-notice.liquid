@@ -1,0 +1,22 @@
+{%- comment -%}
+  Made-to-order reminder for the cart drawer and cart page.
+  Visible when the cart holds a product from the made-to-order vendor (theme settings > Made to order).
+  theme.js re-checks it whenever the cart changes.
+{%- endcomment -%}
+{%- liquid
+  assign mto_vendor = settings.mto_vendor | strip
+  assign show_notice = false
+  if mto_vendor != blank
+    for item in cart.items
+      if item.vendor == mto_vendor
+        assign show_notice = true
+        break
+      endif
+    endfor
+  endif
+-%}
+{%- if settings.mto_cart_notice != blank -%}
+  <div class="mto-cart-notice" data-mto-cart-notice data-vendor="{{ mto_vendor | escape }}" role="note"{% unless show_notice %} hidden{% endunless %}>
+    {{ settings.mto_cart_notice }}
+  </div>
+{%- endif -%}

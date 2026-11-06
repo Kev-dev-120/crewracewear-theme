@@ -1139,3 +1139,19 @@ html:has(.mto-notice[open]) { overflow: hidden; }
 @media (prefers-reduced-motion: reduce) {
   .mto-notice[open] { animation: none; }
 }
+
+/* ---------- Made-to-order cart reminder ---------- */
+.mto-cart-notice {
+  border-left: 4px solid var(--color-accent);
+  background: var(--color-off-white);
+  border-radius: var(--radius);
+  padding: 12px 14px;
+  margin-bottom: 16px;
+  font-size: 13px;
+  line-height: 1.5;
+  color: var(--color-gray-900);
+}
+.mto-cart-notice[hidden] { display: none; }
+.mto-cart-notice p { margin: 0; }
+.mto-cart-notice strong { color: var(--color-black); }
+.cart-page .mto-cart-notice { max-width: 480px; margin: 24px 0 8px; font-size: 14px; }

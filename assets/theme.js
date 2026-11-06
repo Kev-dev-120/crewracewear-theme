@@ -115,6 +115,11 @@ document.addEventListener('DOMContentLoaded', function () {
       el.style.display = cart.item_count > 0 ? '' : 'none';
     });
 
+    document.querySelectorAll('[data-mto-cart-notice]').forEach(function (el) {
+      var vendor = el.getAttribute('data-vendor');
+      el.hidden = !(vendor && cart.items.some(function (item) { return item.vendor === vendor; }));
+    });
+
     if (!cartItemsEl) return;
 
     if (cart.item_count === 0) {

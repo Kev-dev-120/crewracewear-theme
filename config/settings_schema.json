@@ -40,5 +40,24 @@
       { "type": "url", "id": "social_youtube_link", "label": "YouTube", "default": "https://youtube.com/@TheCrewRacingmxb" },
       { "type": "url", "id": "social_discord_link", "label": "Discord" }
     ]
+  },
+  {
+    "name": "Made to order",
+    "settings": [
+      { "type": "paragraph", "content": "Shown in the cart drawer and on the cart page whenever the cart contains a product from the vendor below." },
+      {
+        "type": "richtext",
+        "id": "mto_cart_notice",
+        "label": "Cart reminder",
+        "default": "<p><strong>Gear is made to order.</strong> Please allow 4–6 weeks for manufacturing before your order ships. Delivery times shown at checkout start once it ships.</p>"
+      },
+      {
+        "type": "text",
+        "id": "mto_vendor",
+        "label": "Made-to-order vendor",
+        "default": "Crew Racewear",
+        "info": "Gear uses this vendor. Printify merch doesn't, so the reminder stays hidden for merch-only carts."
+      }
+    ]
   }
 ]
