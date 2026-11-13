@@ -39,6 +39,14 @@
     "categories": {
       "type": "category-tiles",
       "blocks": {
+        "tile_tW9ede": {
+          "type": "tile",
+          "settings": {
+            "image": "shopify://shop_images/IMG_5241_fcb15f0f-6364-45ca-a92b-f440d28ca197.jpg",
+            "title": "Youth",
+            "url": ""
+          }
+        },
         "tile_TQkgVC": {
           "type": "tile",
           "settings": {
@@ -58,7 +66,7 @@
         "surge": {
           "type": "tile",
           "settings": {
-            "image": "shopify://shop_images/IMG_5241.jpg",
+            "image": "shopify://shop_images/IMG_7981.jpg",
             "title": "SURGE",
             "url": "shopify://collections/surge"
           }
@@ -73,6 +81,7 @@
         }
       },
       "block_order": [
+        "tile_tW9ede",
         "tile_TQkgVC",
         "strike",
         "surge",
