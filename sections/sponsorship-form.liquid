@@ -38,6 +38,7 @@
         </div>
       </div>
 
+      {%- assign countries = 'Afghanistan|Åland Islands|Albania|Algeria|Andorra|Angola|Anguilla|Antigua & Barbuda|Argentina|Armenia|Aruba|Ascension Island|Australia|Austria|Azerbaijan|Bahamas|Bahrain|Bangladesh|Barbados|Belarus|Belgium|Belize|Benin|Bermuda|Bhutan|Bolivia|Bosnia & Herzegovina|Botswana|Brazil|British Indian Ocean Territory|British Virgin Islands|Brunei|Bulgaria|Burkina Faso|Burundi|Cambodia|Cameroon|Canada|Cape Verde|Caribbean Netherlands|Cayman Islands|Central African Republic|Chad|Chile|China|Christmas Island|Cocos (Keeling) Islands|Colombia|Comoros|Congo - Brazzaville|Congo - Kinshasa|Cook Islands|Costa Rica|Côte d’Ivoire|Croatia|Curaçao|Cyprus|Czechia|Denmark|Djibouti|Dominica|Dominican Republic|Ecuador|Egypt|El Salvador|Equatorial Guinea|Eritrea|Estonia|Eswatini|Ethiopia|Falkland Islands|Faroe Islands|Fiji|Finland|France|French Guiana|French Polynesia|French Southern Territories|Gabon|Gambia|Georgia|Germany|Ghana|Gibraltar|Greece|Greenland|Grenada|Guadeloupe|Guatemala|Guernsey|Guinea|Guinea-Bissau|Guyana|Haiti|Honduras|Hong Kong SAR|Hungary|Iceland|India|Indonesia|Iraq|Ireland|Isle of Man|Israel|Italy|Jamaica|Japan|Jersey|Jordan|Kazakhstan|Kenya|Kiribati|Kosovo|Kuwait|Kyrgyzstan|Laos|Latvia|Lebanon|Lesotho|Liberia|Libya|Liechtenstein|Lithuania|Luxembourg|Macao SAR|Madagascar|Malawi|Malaysia|Maldives|Mali|Malta|Martinique|Mauritania|Mauritius|Mayotte|Mexico|Moldova|Monaco|Mongolia|Montenegro|Montserrat|Morocco|Mozambique|Myanmar (Burma)|Namibia|Nauru|Nepal|Netherlands|New Caledonia|New Zealand|Nicaragua|Niger|Nigeria|Niue|Norfolk Island|North Macedonia|Norway|Oman|Pakistan|Palestinian Territories|Panama|Papua New Guinea|Paraguay|Peru|Philippines|Pitcairn Islands|Poland|Portugal|Qatar|Réunion|Romania|Russia|Rwanda|Samoa|San Marino|São Tomé & Príncipe|Saudi Arabia|Senegal|Serbia|Seychelles|Sierra Leone|Singapore|Sint Maarten|Slovakia|Slovenia|Solomon Islands|Somalia|South Africa|South Georgia & South Sandwich Islands|South Korea|South Sudan|Spain|Sri Lanka|St. Barthélemy|St. Helena|St. Kitts & Nevis|St. Lucia|St. Martin|St. Pierre & Miquelon|St. Vincent & Grenadines|Sudan|Suriname|Svalbard & Jan Mayen|Sweden|Switzerland|Taiwan|Tajikistan|Tanzania|Thailand|Timor-Leste|Togo|Tokelau|Tonga|Trinidad & Tobago|Tristan da Cunha|Tunisia|Türkiye|Turkmenistan|Turks & Caicos Islands|Tuvalu|U.S. Outlying Islands|Uganda|Ukraine|United Arab Emirates|United Kingdom|United States|Uruguay|Uzbekistan|Vanuatu|Vatican City|Venezuela|Vietnam|Wallis & Futuna|Western Sahara|Yemen|Zambia|Zimbabwe' | split: '|' -%}
       {%- assign us_states = 'Alabama,Alaska,Arizona,Arkansas,California,Colorado,Connecticut,Delaware,District of Columbia,Florida,Georgia,Hawaii,Idaho,Illinois,Indiana,Iowa,Kansas,Kentucky,Louisiana,Maine,Maryland,Massachusetts,Michigan,Minnesota,Mississippi,Missouri,Montana,Nebraska,Nevada,New Hampshire,New Jersey,New Mexico,New York,North Carolina,North Dakota,Ohio,Oklahoma,Oregon,Pennsylvania,Rhode Island,South Carolina,South Dakota,Tennessee,Texas,Utah,Vermont,Virginia,Washington,West Virginia,Wisconsin,Wyoming' | split: ',' -%}
       <div class="contact-form-section__row">
         <div class="contact-form-section__field">
@@ -46,7 +47,9 @@
             <option value="">Select your country</option>
             <option value="United States">United States</option>
             <option value="" disabled>──────────</option>
-            {{ all_country_option_tags }}
+            {%- for country in countries %}
+              <option value="{{ country | escape }}">{{ country | escape }}</option>
+            {%- endfor %}
           </select>
         </div>
         <div class="contact-form-section__field" data-sponsorship-state hidden>
