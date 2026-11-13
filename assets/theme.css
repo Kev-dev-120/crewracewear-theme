@@ -1007,6 +1007,24 @@ body.cart-drawer-open { overflow: hidden; }
 .sponsorship-form__name-row { display: grid; grid-template-columns: 1fr 120px 1fr; gap: 16px; }
 .sponsorship-form__optional { font-weight: 400; text-transform: none; letter-spacing: 0; color: var(--color-gray-700); }
 .sponsorship-form__trap { position: absolute; left: -10000px; width: 1px; height: 1px; overflow: hidden; }
+.contact-form-section__field select {
+  display: block;
+  width: 100%;
+  padding: 14px 40px 14px 16px;
+  border: 1.5px solid var(--color-gray-200);
+  border-radius: var(--radius);
+  font-size: 15px;
+  font-family: var(--font-body);
+  color: var(--color-black);
+  background: var(--color-white) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' fill='none' stroke='%236b6b76' stroke-width='1.5'/%3E%3C/svg%3E") no-repeat right 16px center;
+  -webkit-appearance: none;
+  appearance: none;
+  cursor: pointer;
+  transition: border-color .15s ease;
+}
+.contact-form-section__field select:focus { outline: none; border-color: var(--color-black); }
+.contact-form-section__field select:invalid { color: var(--color-gray-700); }
+.contact-form-section__field select option { color: var(--color-black); }
 
 /* ---------- Apps section / Reviews ---------- */
 .apps-section, .review-picker {
