@@ -11,6 +11,7 @@
   "sections": {
     "presale": {
       "type": "presale-banner",
+      "disabled": true,
       "settings": {
         "text": "// ALL GEAR COLLECTIONS // !! PRE-SALE NOW !! //",
         "link_url": "",
